@@ -1,0 +1,94 @@
+@font-face {
+    font-family: "avenir";
+    src: url("../fonts/avenir/AvenirLTStd-Black.otf");
+    src: url("../fonts/avenir/AvenirLTStd-Book.otf");
+    src: url("../fonts/avenir/AvenirLTStd-Roman.otf");
+}
+
+html,
+body {
+    font-family: "avenir", sans-serif;
+    font-style: normal;
+    background-color: #f7f7f7 !important;
+}
+
+.app {
+    @apply min-h-screen relative w-full mx-auto max-w-[444px];
+}
+
+.with-header {
+    @apply top-14 relative;
+    min-height: calc(100vh - 56px);
+}
+
+.with-bottom-navbar {
+    @apply mb-0 pb-[88px];
+    min-height: calc(100vh - 88px);
+}
+
+.with-header.with-bottom-nav {
+    min-height: calc(100vh - 144px);
+}
+
+/**
+  * 
+  * Button Styles
+  *
+  */
+.btn {
+    @apply py-3 px-8 rounded-lg text-sm;
+}
+
+/** Primary Button */
+.btn--primary {
+    @apply bg-primary text-white border border-primary border-solid;
+}
+
+.btn--primary-outline {
+    @apply bg-transparent text-primary transition-all duration-300 border border-primary border-solid;
+}
+
+.btn--primary-outline:hover {
+    @apply bg-primary text-white;
+}
+
+/** Secondary Button */
+.btn--secondary {
+    @apply bg-secondary text-white border border-secondary border-solid;
+}
+
+.btn--secondary-outline {
+    @apply bg-transparent text-secondary transition-all duration-300 border border-secondary border-solid;
+}
+
+.btn--secondary-outline:hover {
+    @apply bg-secondary text-white;
+}
+
+/** Default Button */
+.btn--default {
+    @apply bg-white text-grey-3 border border-grey-1 border-solid;
+}
+
+.btn--default-outline {
+    @apply bg-transparent text-grey-3 transition-all duration-300 border border-grey-1 border-solid;
+}
+
+.btn--white-outline:hover {
+    @apply bg-grey-1 text-white;
+}
+
+/** Variant Button */
+.btn--rounded {
+    @apply rounded-full;
+}
+
+.btn--block {
+    @apply block w-full align-middle text-center;
+}
+
+/** Form */
+/** Checked */
+.form-check-input:checked[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
