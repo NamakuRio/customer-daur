@@ -77,6 +77,7 @@ export default {
         if (response.success) {
           this.$store.commit('authentication/prepareVerification', {
             phone: this.phone,
+            source: 'register',
           })
           this.$router.push('/auth/verification')
         }

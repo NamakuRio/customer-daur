@@ -145,10 +145,18 @@ export default {
         this.isLoading = false
         if (response.success) {
           let data = response.data
+          let urlPush = '/'
+
+          if (
+            this.$store.state.authentication.prepareVerification.source ==
+            'register'
+          ) {
+            urlPush = '/account/completion'
+          }
           this.$store.commit('authentication/login', {
             token: data.token,
           })
-          this.$router.push('/')
+          this.$router.push(urlPush)
         }
       } catch (e) {
         this.isLoading = false
