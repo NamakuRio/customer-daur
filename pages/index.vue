@@ -4,7 +4,7 @@
           <div>
             <div class="relative overflow-hidden h-52">
               <div class="fixed w-full max-w-[444px]">
-                <img src="~/assets/images/home-background.png" alt="home background" class="inset-0 object-cover h-52 w-full -z-10 translate-y-0 object-top">
+                <img src="~/assets/images/home-background.png" alt="home background" class="inset-0 object-cover object-top w-full translate-y-0 h-52 -z-10">
                 <div class="absolute inset-0 px-5 py-4">
                   <div class="flex items-center justify-between">
                     <div>
@@ -14,7 +14,7 @@
                       <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.5051 19.6464L24.1801 17.3084V11.5476C24.211 9.40839 23.4669 7.33021 22.0851 5.6968C20.7034 4.0634 18.7773 2.98508 16.6626 2.66095C15.4352 2.49932 14.1876 2.6013 13.0028 2.96007C11.818 3.31884 10.7233 3.92617 9.79184 4.74152C8.86036 5.55687 8.11348 6.5615 7.60103 7.68837C7.08857 8.81524 6.82233 10.0384 6.82007 11.2764V17.3084L4.49507 19.6464C4.20304 19.9433 4.00499 20.3197 3.92571 20.7285C3.84642 21.1374 3.88941 21.5605 4.04929 21.9451C4.20918 22.3296 4.47886 22.6585 4.82464 22.8906C5.17042 23.1227 5.57695 23.2478 5.99341 23.2501H10.3334V23.6893C10.3937 25.0006 10.9714 26.2345 11.9399 27.1206C12.9083 28.0068 14.1886 28.4729 15.5001 28.4168C16.8116 28.4729 18.0918 28.0068 19.0603 27.1206C20.0287 26.2345 20.6064 25.0006 20.6667 23.6893V23.2501H25.0067C25.4232 23.2478 25.8297 23.1227 26.1755 22.8906C26.5213 22.6585 26.791 22.3296 26.9509 21.9451C27.1107 21.5605 27.1537 21.1374 27.0744 20.7285C26.9952 20.3197 26.7971 19.9433 26.5051 19.6464ZM18.0834 23.6893C18.0118 24.3106 17.7032 24.8803 17.222 25.2797C16.7407 25.6791 16.1239 25.8775 15.5001 25.8335C14.8762 25.8775 14.2594 25.6791 13.7782 25.2797C13.297 24.8803 12.9884 24.3106 12.9167 23.6893V23.2501H18.0834V23.6893ZM7.11716 20.6668L8.64132 19.1426C8.88308 18.9023 9.07489 18.6165 9.20568 18.3017C9.33648 17.9869 9.40368 17.6493 9.40341 17.3084V11.2764C9.40411 10.405 9.59119 9.54389 9.9521 8.75078C10.313 7.95768 10.8394 7.25096 11.4959 6.67803C12.1436 6.09121 12.911 5.65213 13.7451 5.39119C14.5793 5.13025 15.4601 5.05368 16.3267 5.16678C17.8205 5.40933 19.1764 6.18334 20.1448 7.34632C21.1131 8.50929 21.6288 9.98294 21.5967 11.4959V17.3084C21.5948 17.6484 21.6599 17.9855 21.7885 18.3002C21.9171 18.615 22.1065 18.9012 22.3459 19.1426L23.883 20.6668H7.11716Z" fill="white"/><circle cx="8" cy="8" r="5" fill="#F17E60"/></svg>
                     </div>
                   </div>
-                  <div class="flex items-center mt-10 mx-2">
+                  <div class="flex items-center mx-2 mt-10">
                     <img src="https://ui-avatars.com/api/?name=Nancy+Smith" alt="Foto Profil" class="w-10 h-10 rounded-full">
                     <div class="ml-5">
                       <p class="text-sm text-grey-1 font-[Montserrat]">Welcome,</p>
@@ -24,21 +24,21 @@
                 </div>
               </div>
             </div>
-            <div class="bg-white rounded-t-3xl -mt-8 z-10 sticky py-4">
-              <div class="overflow-hidden px-5">
+            <div class="sticky z-10 py-4 -mt-8 bg-white rounded-t-3xl">
+              <div class="px-5 overflow-hidden">
                 <div class="swiper swiper-home w-full h-full !pb-12" style="overflow: initial;">
                   <div class="swiper-wrapper">
                     <div class="swiper-slide !w-[80%] bg-secondary rounded-xl px-5 py-8">
-                      <h1 class="text-xl text-white font-bold uppercase">Banner</h1>
-                      <p class="text-sm text-white font-medium mt-2">Lorem ipsum dolor sit amet adispicing consectuer</p>
+                      <h1 class="text-xl font-bold text-white uppercase">Banner</h1>
+                      <p class="mt-2 text-sm font-medium text-white">Lorem ipsum dolor sit amet adispicing consectuer</p>
                     </div>
                     <div class="swiper-slide !w-[80%] bg-secondary bg-opacity-60 rounded-xl px-5 py-8">
-                      <h1 class="text-xl text-gray-700 font-bold uppercase">Banner</h1>
-                      <p class="text-sm text-gray-700 font-medium mt-2">Lorem ipsum dolor sit amet adispicing consectuer</p>
+                      <h1 class="text-xl font-bold text-gray-700 uppercase">Banner</h1>
+                      <p class="mt-2 text-sm font-medium text-gray-700">Lorem ipsum dolor sit amet adispicing consectuer</p>
                     </div>
                     <div class="swiper-slide !w-[80%] bg-primary rounded-xl px-5 py-8">
-                      <h1 class="text-xl text-white font-bold uppercase">Banner</h1>
-                      <p class="text-sm text-white font-medium mt-2">Lorem ipsum dolor sit amet adispicing consectuer</p>
+                      <h1 class="text-xl font-bold text-white uppercase">Banner</h1>
+                      <p class="mt-2 text-sm font-medium text-white">Lorem ipsum dolor sit amet adispicing consectuer</p>
                     </div>
                   </div>
                   <div class="swiper-pagination"></div>
@@ -46,28 +46,28 @@
               </div>
               <div class="px-5">
                 <div class="flex flex-wrap gap-4">
-                  <div class="w-full flex-grow flex-shrink" style="flex-basis: 45%;">
-                    <div class="border border-grey-1 rounded-lg px-4 pb-5 pt-6 cursor-pointer text-center">
+                  <div class="flex-grow flex-shrink w-full" style="flex-basis: 45%;">
+                    <div class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1">
                       <div class="mx-auto">
                         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto"><circle cx="24" cy="24" r="24" fill="#77DD77"/><path d="M15.5167 18.5832V18.4832H15.4167H13.35V16.5165H17.5833H17.6833V16.4165V15.3332C17.6833 14.7851 17.9011 14.2594 18.2886 13.8718C18.6762 13.4842 19.2019 13.2665 19.75 13.2665H26.25C26.7981 13.2665 27.3238 13.4842 27.7114 13.8718C28.0989 14.2594 28.3167 14.7851 28.3167 15.3332V16.4165V16.5165H28.4167H32.65V18.4832H30.5833H30.4833V18.5832V32.6665C30.4833 33.2146 30.2656 33.7403 29.878 34.1279C29.4904 34.5154 28.9648 34.7332 28.4167 34.7332H17.5833C17.0352 34.7332 16.5096 34.5154 16.122 34.1279C15.7344 33.7403 15.5167 33.2146 15.5167 32.6665V18.5832ZM17.5833 18.4832H17.4833V18.5832V32.6665V32.7665H17.5833H28.4167H28.5167V32.6665V18.5832V18.4832H28.4167H17.5833ZM19.75 15.2332H19.65V15.3332V16.4165V16.5165H19.75H26.25H26.35V16.4165V15.3332V15.2332H26.25H19.75Z" fill="white" stroke="#77DD77" stroke-width="0.2"/><circle cx="28" cy="29" r="7" fill="#77DD77" stroke="#77DD77" stroke-width="2"/><path d="M28 22.9C24.6314 22.9 21.9 25.6314 21.9 29C21.9 32.3686 24.6314 35.1 28 35.1C31.3686 35.1 34.1 32.3686 34.1 29C34.1 25.6314 31.3686 22.9 28 22.9ZM28 33.8821C25.3043 33.8821 23.1179 31.6957 23.1179 29C23.1179 26.3043 25.3043 24.1179 28 24.1179C30.6957 24.1179 32.8821 26.3043 32.8821 29C32.8821 31.6957 30.6957 33.8821 28 33.8821Z" fill="white" stroke="white" stroke-width="0.2"/><g clip-path="url(#clip0_1140_1898)"><path d="M28.0001 31.6668V26.3335M25.6667 28.6668L28.0001 26.3335L30.3334 28.6668" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_1140_1898"><rect width="8" height="8" fill="white" transform="translate(24 25)"/></clipPath></defs></svg>
                       </div>
-                      <h6 class="text-sm text-grey-3 font-medium mt-5">Order Sekarang</h6>
+                      <h6 class="mt-5 text-sm font-medium text-grey-3">Order Sekarang</h6>
                     </div>
                   </div>
-                  <div class="w-full flex-grow flex-shrink" style="flex-basis: 45%;">
-                    <div class="border border-grey-1 rounded-lg px-4 pb-5 pt-6 cursor-pointer text-center">
+                  <div class="flex-grow flex-shrink w-full" style="flex-basis: 45%;">
+                    <div class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1">
                       <div class="mx-auto">
                         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto"><circle cx="24" cy="24" r="24" fill="#77DD77"/><path d="M32.125 28.0625H29.6875V25.625H28.0625V28.0625H25.625V29.6875H28.0625V32.125H29.6875V29.6875H32.125V28.0625Z" fill="white"/><path d="M28.875 35.375C25.3 35.375 22.375 32.45 22.375 28.875C22.375 25.3 25.3 22.375 28.875 22.375C32.45 22.375 35.375 25.3 35.375 28.875C35.375 32.45 32.45 35.375 28.875 35.375ZM28.875 24C26.1938 24 24 26.1938 24 28.875C24 31.5562 26.1938 33.75 28.875 33.75C31.5562 33.75 33.75 31.5562 33.75 28.875C33.75 26.1938 31.5562 24 28.875 24Z" fill="white"/><path d="M33.75 15.875C33.75 14.9813 33.0187 14.25 32.125 14.25H28.875V12.625H27.25V14.25H20.75V12.625H19.125V14.25H15.875C14.9812 14.25 14.25 14.9813 14.25 15.875V32.125C14.25 33.0187 14.9812 33.75 15.875 33.75H20.75V32.125H15.875V15.875H19.125V17.5H20.75V15.875H27.25V17.5H28.875V15.875H32.125V20.75H33.75V15.875Z" fill="white"/></svg>
                       </div>
-                      <h6 class="text-sm text-grey-3 font-medium mt-5">Berlangganan</h6>
+                      <h6 class="mt-5 text-sm font-medium text-grey-3">Berlangganan</h6>
                     </div>
                   </div>
                 </div>
-                <div class="border border-grey-1 rounded-lg flex items-start px-4 pb-4 pt-6 cursor-pointer mt-4">
+                <div class="flex items-start px-4 pt-6 pb-4 mt-4 border rounded-lg cursor-pointer border-grey-1">
                   <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg" class="min-w-[27px] min-h-[27px]"><circle cx="13.5" cy="13.5" r="13.5" fill="#D8ECF1"/><g clip-path="url(#clip0_1140_1920)"><path d="M13.5 20.9375C11.5275 20.9375 9.63569 20.1539 8.24089 18.7591C6.84609 17.3643 6.0625 15.4725 6.0625 13.5C6.0625 11.5275 6.84609 9.63569 8.24089 8.24089C9.63569 6.84609 11.5275 6.0625 13.5 6.0625C15.4725 6.0625 17.3643 6.84609 18.7591 8.24089C20.1539 9.63569 20.9375 11.5275 20.9375 13.5C20.9375 15.4725 20.1539 17.3643 18.7591 18.7591C17.3643 20.1539 15.4725 20.9375 13.5 20.9375ZM13.5 22C15.7543 22 17.9163 21.1045 19.5104 19.5104C21.1045 17.9163 22 15.7543 22 13.5C22 11.2457 21.1045 9.08365 19.5104 7.48959C17.9163 5.89553 15.7543 5 13.5 5C11.2457 5 9.08365 5.89553 7.48959 7.48959C5.89553 9.08365 5 11.2457 5 13.5C5 15.7543 5.89553 17.9163 7.48959 19.5104C9.08365 21.1045 11.2457 22 13.5 22Z" fill="#3E7380"/><path d="M10.5835 11.1476C10.582 11.1819 10.5876 11.2162 10.5999 11.2483C10.6121 11.2803 10.6308 11.3096 10.6548 11.3341C10.6788 11.3587 10.7076 11.3781 10.7393 11.3912C10.7711 11.4043 10.8052 11.4107 10.8395 11.4101H11.7161C11.8627 11.4101 11.9796 11.29 11.9987 11.1444C12.0944 10.4474 12.5725 9.93956 13.4246 9.93956C14.1535 9.93956 14.8207 10.304 14.8207 11.1806C14.8207 11.8552 14.4234 12.1655 13.7954 12.6373C13.0804 13.1568 12.514 13.7635 12.5544 14.7484L12.5576 14.979C12.5587 15.0487 12.5872 15.1152 12.6369 15.1641C12.6866 15.213 12.7535 15.2404 12.8232 15.2404H13.6849C13.7554 15.2404 13.8229 15.2124 13.8727 15.1626C13.9226 15.1128 13.9505 15.0452 13.9505 14.9747V14.8632C13.9505 14.1003 14.2406 13.8783 15.0237 13.2843C15.6707 12.7924 16.3454 12.2463 16.3454 11.0998C16.3454 9.49438 14.9897 8.71875 13.5054 8.71875C12.1592 8.71875 10.6844 9.34562 10.5835 11.1476ZM12.2378 17.2708C12.2378 17.8371 12.6894 18.2557 13.3109 18.2557C13.958 18.2557 14.4032 17.8371 14.4032 17.2708C14.4032 16.6843 13.9569 16.2721 13.3099 16.2721C12.6894 16.2721 12.2378 16.6843 12.2378 17.2708Z" fill="#3E7380"/></g><defs><clipPath id="clip0_1140_1920"><rect width="17" height="17" fill="white" transform="translate(5 5)"/></clipPath></defs></svg>
                   <div class="ml-3">
-                    <h6 class="text-sm text-black font-medium">Bantuan</h6>
-                    <p class="text-sm text-grey-2 font-medium mt-2">Hubungi Kami jika mengalami masalah</p>
+                    <h6 class="text-sm font-medium text-black">Bantuan</h6>
+                    <p class="mt-2 text-sm font-medium text-grey-2">Hubungi Kami jika mengalami masalah</p>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@ import Swiper, { Pagination } from 'swiper'
 import 'swiper/swiper-bundle.min.css'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['authenticated'],
   data() {
     return {
       swiper: null,

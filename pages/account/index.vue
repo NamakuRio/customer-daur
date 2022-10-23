@@ -94,6 +94,7 @@
 </template>
 <script>
 export default {
+  middleware: ['authenticated'],
   data() {
     return {
       confirmationLogout: {
