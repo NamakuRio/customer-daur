@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col py-2 border-t border-black border-opacity-10">
-                        <div class="flex items-center justify-start px-4 py-3 cursor-pointer" >
+                        <div class="flex items-center justify-start px-4 py-3 cursor-pointer" @click="confirmationLogout.popup = true">
                             <div class="flex items-center justify-center min-w-[24px]  min-h-[24px] max-w-[24px] max-h-[24px] w-6 h-6">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5002 22.9167C6.74704 22.9167 2.0835 18.2532 2.0835 12.5C2.0835 6.74692 6.74704 2.08337 12.5002 2.08337C18.2533 2.08337 22.9168 6.74692 22.9168 12.5C22.9168 18.2532 18.2533 22.9167 12.5002 22.9167ZM7.29183 11.4584V8.33337L2.0835 12.5L7.29183 16.6667V13.5417H15.6252V11.4584H7.29183Z" fill="#FF9595"/></svg>
                             </div>
@@ -69,8 +69,8 @@
         <!-- Popup Section -->
         <!-- Start Popup Confirm Logout -->
         <transition name="slide-popup">
-            <div class="fixed bottom-0 flex items-center justify-center w-full h-full" style="max-width: 444px;background-color: rgba(0, 0, 0, 0.5);z-index: 1111;">
-                <div class="absolute z-0 w-full h-full"></div>
+            <div class="fixed bottom-0 flex items-center justify-center w-full h-full" style="max-width: 444px;background-color: rgba(0, 0, 0, 0.5);z-index: 1111;" v-if="confirmationLogout.popup">
+                <div class="absolute z-0 w-full h-full" @click="confirmationLogout.popup = false"></div>
                 <div class="z-10 content-center w-full p-4 transition-all duration-1000 top-14">
                     <div class="w-full overflow-auto bg-white rounded-lg">
                         <!-- content -->
@@ -81,8 +81,8 @@
                                 <p class="mt-2 text-xs text-grey-2">Anda akan keluar dari web app Daur</p>
                             </div>
                             <div class="flex items-center border-t border-black border-opacity-10">
-                                <button class="!py-4 uppercase btn btn--block text-grey-2 font-medium">Batal</button>
-                                <button class="!py-4 font-bold uppercase btn btn--block text-primary">OK</button>
+                                <button class="!py-4 uppercase btn btn--block text-grey-2 font-medium" @click="confirmationLogout.popup = false">Batal</button>
+                                <button class="!py-4 font-bold uppercase btn btn--block text-primary" @click="logout">OK</button>
                             </div>
                         </div>
                     </div>
@@ -92,6 +92,49 @@
         <!-- End Popup Confirm Logout -->
     </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      confirmationLogout: {
+        popup: false,
+      },
+      axiosCancelToken: null,
+    }
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async logout() {
+      try {
+        this.confirmationLogout.popup = false
+
+        var response = await this.$axios.$post(
+          '/api/v1/logout',
+          {},
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+
+        if (response.success) {
+          this.$router.push('/auth')
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+  },
+}
+</script>
 <style>
 .slide-popup-enter-active,
 .slide-popup-leave-active {

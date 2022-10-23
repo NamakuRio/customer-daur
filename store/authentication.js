@@ -19,15 +19,14 @@ export const mutations = {
     setToken(state, token) {
         state.token = token || null
     },
-    login(state, token) {
+    login(state, data) {
         if (process.browser) {
             /**
              * Set Token
              */
             let expires = 30
-            Cookie.set('token', token, { expires })
-
-            state.token = token || null
+            Cookie.set('token', data.token, { expires })
+            state.token = data.token || null
         }
     },
 }
