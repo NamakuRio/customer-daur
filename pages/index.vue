@@ -82,6 +82,7 @@ import Swiper, { Pagination } from 'swiper'
 import 'swiper/swiper-bundle.min.css'
 
 export default {
+  middleware: 'authenticated',
   data() {
     return {
       swiper: null,

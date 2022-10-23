@@ -1,9 +1,39 @@
+import Cookie from 'js-cookie'
+
 export const state = () => ({
-  token: null,
+    token: null,
+    prepareVerification: {
+        phone: null,
+        nextTimeRequestCode: 0,
+    },
 })
 
 export const mutations = {
-  setToken(state, token) {
-    state.token = token || null
-  },
+    prepareVerification(state, data) {
+        state.prepareVerification.phone = data.phone || null
+        state.prepareVerification.nextTimeRequestCode = 60
+    },
+    updateTimeRequestCode(state, data) {
+        state.prepareVerification.nextTimeRequestCode = data || 0
+    },
+    setToken(state, token) {
+        state.token = token || null
+    },
+    login(state, token) {
+        if (process.browser) {
+            /**
+             * Set Token
+             */
+            let expires = 30
+            Cookie.set('token', token, { expires })
+
+            state.token = token || null
+        }
+    },
+}
+
+export const getters = {
+    isLoggedIn(state) {
+        return state.token ? true : false
+    },
 }

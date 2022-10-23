@@ -1,13 +1,13 @@
 @font-face {
-    font-family: "avenir";
-    src: url("../fonts/avenir/AvenirLTStd-Black.otf");
-    src: url("../fonts/avenir/AvenirLTStd-Book.otf");
-    src: url("../fonts/avenir/AvenirLTStd-Roman.otf");
+    font-family: 'avenir';
+    src: url('../fonts/avenir/AvenirLTStd-Black.otf');
+    src: url('../fonts/avenir/AvenirLTStd-Book.otf');
+    src: url('../fonts/avenir/AvenirLTStd-Roman.otf');
 }
 
 html,
 body {
-    font-family: "avenir", sans-serif;
+    font-family: 'avenir', sans-serif;
     font-style: normal;
     background-color: #f7f7f7 !important;
 }
@@ -31,7 +31,7 @@ body {
 }
 
 /**
-  * 
+  *
   * Button Styles
   *
   */
@@ -87,8 +87,14 @@ body {
     @apply block w-full align-middle text-center;
 }
 
+.btn--progress {
+    @apply relative bg-center bg-no-repeat pointer-events-none !text-transparent;
+    background-image: url(../images/spinner_button.svg);
+    background-size: 30px;
+}
+
 /** Form */
 /** Checked */
-.form-check-input:checked[type="checkbox"] {
+.form-check-input:checked[type='checkbox'] {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
 }

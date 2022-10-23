@@ -8,23 +8,25 @@
             <p class="text-xs text-grey-2 max-w-[269px] mx-auto mt-3">Daftar akun baru dengan melengkapi data diri pada form di bawah ini</p>
         </div>
         <div class="mt-11">
-            <div class="flex flex-col gap-4">
-                <div>
-                    <label for="name" class="block text-xs text-grey-3">Nama</label>
-                    <input type="text" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Nama">
+            <form action="javascript:void(0)" method="POST" @submit="register()">
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <label for="name" class="block text-xs text-grey-3">Nama</label>
+                        <input type="text" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Nama" v-model="name" :disabled="isLoading">
+                    </div>
+                    <div>
+                        <label for="name" class="block text-xs text-grey-3">Nomor Telepon</label>
+                        <input type="tel" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Masukkan nomor telepon" v-model="phone" :disabled="isLoading">
+                    </div>
                 </div>
-                <div>
-                    <label for="name" class="block text-xs text-grey-3">Nomor Telepon</label>
-                    <input type="text" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Masukkan nomor telepon">
+                <div class="flex items-start mt-7">
+                    <input type="checkbox" id="accept-term-condition" class="min-w-[1rem] min-h-[1rem] w-4 h-4 transition duration-200 bg-white bg-center bg-no-repeat bg-contain border rounded-sm appearance-none cursor-pointer border-grey-2 form-check-input checked:bg-primary checked:border-primary focus:outline-none" :disabled="isLoading">
+                    <label for="accept-term-condition" class="ml-2 text-xs text-grey-3">Saya menyetujui <a href="" class="underline text-secondary">Syarat & Ketentuan</a> yang ada pada aplikasi ini</label>
                 </div>
-            </div>
-            <div class="flex items-start mt-7">
-                <input type="checkbox" id="accept-term-condition" class="min-w-[1rem] min-h-[1rem] w-4 h-4 transition duration-200 bg-white bg-center bg-no-repeat bg-contain border rounded-sm appearance-none cursor-pointer border-grey-2 form-check-input checked:bg-primary checked:border-primary focus:outline-none">
-                <label for="accept-term-condition" class="ml-2 text-xs text-grey-3">Saya menyetujui <a href="" class="underline text-secondary">Syarat & Ketentuan</a> yang ada pada aplikasi ini</label>
-            </div>
-            <div class="mt-8">
-                <button class="btn btn--block btn--rounded btn--primary">Daftar</button>
-            </div>
+                <div class="mt-8">
+                    <button class="btn btn--block btn--rounded btn--primary" :class="{ 'btn--progress': isLoading }">Daftar</button>
+                </div>
+            </form>
         </div>
         <div class="mt-12 text-center">
             <p class="text-xs text-grey-2">Sudah memiliki Akun?</p>
@@ -39,3 +41,51 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+  middleware: ['guest'],
+  data() {
+    return {
+      name: null,
+      phone: null,
+      isLoading: false,
+      axiosCancelToken: null,
+    }
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async register() {
+      try {
+        this.isLoading = true
+        var response = await this.$axios.$post(
+          '/api/v1/register',
+          {
+            name: this.name,
+            phone: this.phone,
+          },
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+
+        this.isLoading = false
+        if (response.success) {
+          this.$store.commit('authentication/prepareVerification', {
+            phone: this.phone,
+          })
+          this.$router.push('/auth/verification')
+        }
+      } catch (e) {
+        this.isLoading = false
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+  },
+}
+</script>

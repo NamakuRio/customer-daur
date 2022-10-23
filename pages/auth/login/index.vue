@@ -8,13 +8,15 @@
             <p class="text-xs text-grey-2 max-w-[220px] mx-auto mt-3">Login menggunakan akun Anda yang telah terdaftar sebelumnya</p>
         </div>
         <div class="mt-11">
-            <div>
-                <label for="phone" class="block text-xs text-grey-3">Nomor telepon</label>
-                <input type="text" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Masukkan nomor telepon">
-            </div>
-            <div class="mt-8">
-                <button class="btn btn--block btn--rounded btn--primary">Selanjutnya</button>
-            </div>
+            <form action="javascript:void(0)" method="POST" @submit="login()">
+                <div>
+                    <label for="phone" class="block text-xs text-grey-3">Nomor telepon</label>
+                    <input type="tel" class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none" placeholder="Masukkan nomor telepon" v-model="phone" :disabled="isLoading">
+                </div>
+                <div class="mt-8">
+                    <button class="btn btn--block btn--rounded btn--primary" type="submit" :class="{ 'btn--progress': isLoading }">Selanjutnya</button>
+                </div>
+            </form>
         </div>
         <div class="mt-12 text-center">
             <p class="text-xs text-grey-2">Belum memiliki Akun?</p>
@@ -29,3 +31,48 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+  middleware: ['guest'],
+  data() {
+    return {
+      phone: null,
+      isLoading: false,
+      axiosCancelToken: null,
+    }
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async login() {
+      try {
+        this.isLoading = true
+        var response = await this.$axios.$post(
+          '/api/v1/login',
+          {
+            phone: this.phone,
+          },
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+        this.isLoading = false
+        if (response.success) {
+          this.$store.commit('authentication/prepareVerification', {
+            phone: this.phone,
+          })
+          this.$router.push('/auth/verification')
+        }
+      } catch (e) {
+        this.isLoading = false
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+  },
+}
+</script>

@@ -47,6 +47,7 @@ import Swiper, { Pagination } from 'swiper'
 import 'swiper/swiper-bundle.min.css'
 
 export default {
+  middleware: ['guest'],
   data() {
     return {
       swiper: null,

@@ -1,6 +1,8 @@
 <template>
   <div class="app" :class="appBackground">
-      <Nuxt/>
+        <Notification />
+
+        <Nuxt/>
   </div>
 </template>
 <script>
