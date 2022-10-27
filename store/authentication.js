@@ -42,6 +42,13 @@ export const mutations = {
             state.token = data.token || null
         }
     },
+    logout(state) {
+        state.user = null
+        state.token = null
+        if (process.browser) {
+            Cookie.remove('token')
+        }
+    },
 }
 
 export const actions = {

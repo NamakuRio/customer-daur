@@ -28,7 +28,7 @@ export default {
         ],
     },
     css: ['~/assets/css/tailwind.css', '~/assets/css/style.css'],
-    plugins: ['~/plugins/axios'],
+    plugins: ['~/plugins/axios', { src: '~/plugins/helpers', ssr: false }],
     components: true,
     buildModules: [],
     modules: ['@nuxtjs/axios', '@nuxtjs/tailwindcss'],

@@ -4,22 +4,27 @@ export default function ({ store, $axios, $router }) {
         const statusText = error.response && error.response.statusText
         const data = error.response && error.response.data
 
-        if (statusText) {
-            store.commit('notification/showNotification', {
-                type: 'error',
-                message: statusText,
-            })
+        if (code === 401) {
+            store.commit('authentication/logout')
+            window.location = '/login'
         } else {
-            if (data.message) {
+            if (statusText) {
                 store.commit('notification/showNotification', {
                     type: 'error',
-                    message: data.message,
+                    message: statusText,
                 })
             } else {
-                store.commit('notification/showNotification', {
-                    type: 'error',
-                    message: 'Server Error',
-                })
+                if (data.message) {
+                    store.commit('notification/showNotification', {
+                        type: 'error',
+                        message: data.message,
+                    })
+                } else {
+                    store.commit('notification/showNotification', {
+                        type: 'error',
+                        message: 'Server Error',
+                    })
+                }
             }
         }
         // if (code === 401) {
