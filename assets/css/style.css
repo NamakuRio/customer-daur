@@ -67,7 +67,7 @@ body {
 
 /** Default Button */
 .btn--default {
-    @apply bg-white text-grey-3 border border-grey-1 border-solid;
+    @apply bg-grey-1 text-black border border-grey-1 border-solid;
 }
 
 .btn--default-outline {
@@ -94,7 +94,62 @@ body {
 }
 
 /** Form */
+
 /** Checked */
 .form-check-input:checked[type='checkbox'] {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+/** Transition */
+/** Slide Popup */
+.slide-popup-enter-active,
+.slide-popup-leave-active {
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.slide-popup-enter-active .content-popup,
+.slide-popup-leave-active .content-popup {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.slide-popup-enter,
+.slide-popup-leave-to {
+    opacity: 0;
+}
+
+.slide-popup-enter .content-popup,
+.slide-popup-leave-to .content-popup {
+    transform: translate3d(0, -30px, 0);
+}
+
+/** Slide Bottom Popup */
+.slide-bottom-popup-enter-active,
+.slide-bottom-popup-leave-active {
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.slide-bottom-popup-enter-active .content-bottom-popup,
+.slide-bottom-popup-leave-active .content-bottom-popup {
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.slide-bottom-popup-enter,
+.slide-bottom-popup-leave-to {
+    opacity: 0;
+}
+
+.slide-bottom-popup-enter .content-bottom-popup,
+.slide-bottom-popup-leave-to .content-bottom-popup {
+    transform: translate3d(0, 100%, 0);
+}
+
+/** Slide Alert */
+.slide-alert-enter-active,
+.slide-alert-leave-active {
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+.slide-alert-enter,
+.slide-alert-leave-to {
+    opacity: 0;
+    transform: translate3d(0, 15px, 0);
 }

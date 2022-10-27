@@ -10,4 +10,14 @@ export default ({ app }, inject) => {
         }
         return true
     })
+    inject('accountType', (value) => {
+        let accountType = ''
+        if (value == 'b2c') {
+            accountType = 'Pengguna Individu'
+        } else if (value == 'b2b') {
+            accountType = 'Pengguna Bisnis'
+        }
+
+        return accountType
+    })
 }

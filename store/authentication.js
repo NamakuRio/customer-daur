@@ -29,7 +29,6 @@ export const mutations = {
         state.token = token || null
     },
     setUser(state, user) {
-        console.log(user)
         state.user = user || null
     },
     login(state, data) {
@@ -47,6 +46,7 @@ export const mutations = {
         state.token = null
         if (process.browser) {
             Cookie.remove('token')
+            localStorage.removeItem('welcome_popup')
         }
     },
 }

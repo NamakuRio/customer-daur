@@ -29,65 +29,77 @@
         <div class="with-header">
             <div class="p-5">
                 <div>
-                    <div class="flex flex-col gap-5">
-                        <div>
-                            <label for="name" class="block text-xs text-grey-3"
-                                >Nama</label
-                            >
-                            <input
-                                type="text"
-                                class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                                placeholder="Nama"
-                                v-model="user.name"
-                            />
-                        </div>
-                        <div>
-                            <label
-                                for="account_type"
-                                class="block text-xs text-grey-3"
-                                >Jenis Akun</label
-                            >
-                            <select
-                                name=""
-                                class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                            >
-                                <option disabled selected>
-                                    Pilih jenis akun
-                                </option>
-                                <option value="L">Pengguna Individual</option>
-                                <option value="P">Pengguna Bisnis</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label
-                                for="industy_type"
-                                class="block text-xs text-grey-3"
-                                >Jenis Industri</label
-                            >
-                            <select
-                                name=""
-                                class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                            >
-                                <option disabled selected>
-                                    Pilih jenis industri
-                                </option>
-                                <option
-                                    v-for="item in industryTypes"
-                                    :key="item.id"
-                                    :value="item.name"
+                    <form
+                        action="javascript:void(0)"
+                        method="POST"
+                        @submit="changeProfile"
+                    >
+                        <div class="flex flex-col gap-5">
+                            <div>
+                                <label
+                                    for="name"
+                                    class="block text-xs text-grey-3"
+                                    >Nama</label
                                 >
-                                    {{ item.name }}
-                                </option>
-                            </select>
+                                <input
+                                    type="text"
+                                    class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                                    placeholder="Nama"
+                                    v-model="changeUser.name"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="account_type"
+                                    class="block text-xs text-grey-3"
+                                    >Jenis Akun</label
+                                >
+                                <select
+                                    name=""
+                                    class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                                    v-model="changeUser.account_type"
+                                >
+                                    <option disabled selected>
+                                        Pilih jenis akun
+                                    </option>
+                                    <option value="L">
+                                        Pengguna Individual
+                                    </option>
+                                    <option value="P">Pengguna Bisnis</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label
+                                    for="industy_type"
+                                    class="block text-xs text-grey-3"
+                                    >Jenis Industri</label
+                                >
+                                <select
+                                    name=""
+                                    class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                                    v-model="changeUser.industry_type"
+                                >
+                                    <option disabled selected>
+                                        Pilih jenis industri
+                                    </option>
+                                    <option
+                                        v-for="item in industryTypes"
+                                        :key="item.id"
+                                        :value="item.name"
+                                    >
+                                        {{ item.name }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <button
-                            class="btn btn--block btn--rounded btn--primary"
-                        >
-                            Perbarui
-                        </button>
-                    </div>
+                        <div class="mt-5">
+                            <button
+                                class="btn btn--block btn--rounded btn--primary"
+                            >
+                                Perbarui
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -98,6 +110,11 @@ export default {
     middleware: ['authenticated'],
     data() {
         return {
+            changeUser: {
+                name: null,
+                account_type: null,
+                industry_type: null,
+            },
             industryTypeList: {
                 individual: ['Rumah Tangga'],
                 bussiness: [
@@ -112,6 +129,7 @@ export default {
                     'Sekolah',
                 ],
             },
+            axiosCancelToken: null,
         }
     },
     computed: {
@@ -124,6 +142,40 @@ export default {
                     return this.industryTypeList.individual
                 } else if (this.user.account_type == 'Pengguna Business') {
                     return this.industryTypeList.bussiness
+                }
+            }
+        },
+    },
+    created() {
+        this.axiosCancelToken = this.$axios.CancelToken.source()
+    },
+    destroyed() {
+        this.axiosCancelToken.cancel()
+    },
+    methods: {
+        async changeProfile() {
+            try {
+                this.isLoading = true
+
+                var response = await this.$axios.$post(
+                    '/api/v1/profile',
+                    {
+                        name: '',
+                        account_type: '',
+                        industy_type: '',
+                    },
+                    {
+                        CancelToken: this.axiosCancelToken,
+                    }
+                )
+
+                this.isLoading = false
+                if (response.success) {
+                    this.$router.push('/')
+                }
+            } catch (e) {
+                this.isLoading = false
+                if (!this.$axios.isCancel(e)) {
                 }
             }
         },

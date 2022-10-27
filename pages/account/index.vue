@@ -21,7 +21,7 @@
                                 class="mt-2 text-sm text-grey-2"
                                 v-if="user?.account_type"
                             >
-                                {{ user?.account_type || '-' }}
+                                {{ $accountType(user?.account_type) || '-' }}
                             </p>
                             <p
                                 class="mt-2 text-sm text-grey-2"
@@ -225,6 +225,75 @@
         <BottomNavbar />
 
         <!-- Popup Section -->
+        <!-- Start Popup Lengkapi Data -->
+        <transition name="slide-popup">
+            <div
+                class="fixed bottom-0 flex items-center justify-center w-full h-full"
+                style="
+                    max-width: 444px;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 1111;
+                "
+                v-show="false"
+            >
+                <div class="absolute z-0 w-full h-full"></div>
+                <div
+                    class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
+                >
+                    <div class="w-full overflow-auto bg-white rounded-lg">
+                        <!-- content -->
+                        <div>
+                            <div class="px-3 pb-8 text-center pt-7">
+                                <svg
+                                    width="70"
+                                    height="70"
+                                    viewBox="0 0 70 70"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="mx-auto"
+                                >
+                                    <path
+                                        d="M49.5742 38.4167V38.4168H49.5835H55.4105C55.455 38.4184 55.4976 38.4358 55.5305 38.4659C55.5643 38.4967 55.5857 38.5388 55.5907 38.5842L55.5916 38.5924L55.5928 38.6005L56.1469 42.4505L56.1886 42.74L56.4613 42.8455C57.3108 43.1744 58.0598 43.6435 58.8436 44.1661L59.064 44.313L59.3093 44.2133L62.8053 42.7921C62.9533 42.7936 63.0438 42.7995 63.113 42.8195C63.1453 42.8289 63.1576 42.8377 63.1615 42.8408L63.1616 42.8409C63.1641 42.8429 63.1743 42.8512 63.1879 42.8804L63.1975 42.9013L63.2089 42.9211L66.1204 47.958C66.146 48.0086 66.1542 48.0662 66.1437 48.1221C66.1335 48.1768 66.1058 48.2267 66.065 48.2644L62.9859 50.6463L62.7469 50.8311L62.7994 51.1286C62.8806 51.5886 62.9085 52.025 62.9085 52.5001C62.9085 52.9395 62.8594 53.356 62.8034 53.8305L62.7953 53.9L62.762 54.1824L62.9877 54.3553L66.0947 56.7364C66.1352 56.774 66.1627 56.8236 66.1729 56.8781C66.1834 56.9339 66.1751 56.9916 66.1496 57.0422L63.2381 62.079L63.2343 62.0856L63.2308 62.0922C63.2116 62.1278 63.1953 62.1428 63.1853 62.1503C63.1741 62.1588 63.1553 62.1697 63.1194 62.1799C63.0458 62.2007 62.953 62.2066 62.8053 62.208L59.3093 60.7869L59.064 60.6872L58.8436 60.8341C58.0701 61.3497 57.31 61.7991 56.4722 62.1621L56.2159 62.2732L56.1761 62.5497L55.623 66.3925C55.6021 66.5044 55.4874 66.5834 55.4168 66.5834H49.5835C49.4147 66.5834 49.3374 66.4931 49.3191 66.3928L48.7659 62.5497L48.7242 62.2602L48.4515 62.1546C47.5995 61.8248 46.8196 61.3535 46.0764 60.839L45.8548 60.6856L45.6048 60.7864L42.0793 62.208C41.9461 62.2064 41.8632 62.2005 41.7991 62.1815C41.7686 62.1725 41.7565 62.164 41.7522 62.1604C41.7493 62.1581 41.7387 62.1494 41.725 62.1197L41.7154 62.0989L41.7039 62.079L38.7924 57.0422C38.7669 56.9916 38.7586 56.9339 38.7691 56.8781C38.7794 56.8233 38.807 56.7735 38.8479 56.7358L41.9269 54.3539L42.1512 54.1804L42.1174 53.8988C42.0058 52.9697 42.0058 52.0305 42.1174 51.1014L42.1512 50.8198L41.9269 50.6463L38.8394 48.2578C38.7549 48.1887 38.7262 48.0829 38.7909 47.9606L41.7039 42.9211L41.7077 42.9146L41.7112 42.908C41.7305 42.8722 41.7474 42.8563 41.7583 42.8479C41.7702 42.8387 41.7887 42.8282 41.821 42.8187C41.8844 42.7999 41.9618 42.7939 42.0795 42.7923L45.6048 44.2138L45.8548 44.3146L46.0764 44.1612C46.8065 43.6557 47.6234 43.2048 48.4698 42.838L48.7261 42.727L48.7659 42.4505L49.3178 38.6162C49.3309 38.5603 49.3622 38.5102 49.407 38.474C49.4543 38.4358 49.5135 38.4155 49.5742 38.4167ZM53.0002 31.5897V8.75008V8.25008H52.5002H11.6668H11.1668V8.75008V61.2501V61.7501H11.6668H29.1668H29.6668V61.2501V51.5418H31.6071C31.5835 51.8656 31.5835 52.1779 31.5835 52.4828V52.5001C31.5835 57.9284 33.663 62.869 37.0586 66.5834H6.3335V3.41675H57.8335V32.2757C56.2961 31.8817 54.6795 31.6315 53.0002 31.5897ZM57.3752 52.5001C57.3752 49.8031 55.1971 47.6251 52.5002 47.6251C49.8032 47.6251 47.6252 49.8031 47.6252 52.5001C47.6252 55.1949 49.7718 57.3751 52.5002 57.3751C55.1971 57.3751 57.3752 55.1971 57.3752 52.5001ZM29.6668 15.0834H34.5002V19.9167H29.6668V15.0834ZM46.1668 19.9167H41.3335V15.0834H46.1668V19.9167ZM41.3335 26.7501H46.1668V31.5834H41.3335V26.7501ZM29.6668 26.7501H34.5002V31.5834H29.6668V26.7501ZM22.8335 43.2501H18.0002V38.4168H22.8335V43.2501ZM22.8335 31.5834H18.0002V26.7501H22.8335V31.5834ZM22.8335 19.9167H18.0002V15.0834H22.8335V19.9167ZM18.0002 50.0834H22.8335V54.9168H18.0002V50.0834ZM29.6668 38.4168H34.5002V41.8954C34.2484 42.3335 33.997 42.7897 33.7599 43.2501H29.6668V38.4168Z"
+                                        fill="#F17E60"
+                                        stroke="white"
+                                    />
+                                </svg>
+
+                                <h1
+                                    class="mt-4 text-xl font-semibold text-primary max-w-[160px] mx-auto"
+                                >
+                                    Yuk Lengkapi Data Anda!
+                                </h1>
+                                <p
+                                    class="mt-2 text-xs text-grey-2 max-w-[222px] mx-auto"
+                                >
+                                    Anda perlu melengkapi informasi akun bisnis
+                                    Anda
+                                </p>
+                            </div>
+                            <div
+                                class="flex items-center border-t border-black border-opacity-10"
+                            >
+                                <button
+                                    class="!py-4 btn btn--block text-grey-2 font-medium"
+                                    @click="confirmationLogout.popup = false"
+                                >
+                                    Nanti Saja
+                                </button>
+                                <button
+                                    class="!py-4 font-bold btn btn--block text-primary"
+                                    @click="logout"
+                                >
+                                    Lengkapi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!-- End Popup Lengkapi Data -->
+
         <!-- Start Popup Confirm Logout -->
         <transition name="slide-popup">
             <div
@@ -241,7 +310,7 @@
                     @click="confirmationLogout.popup = false"
                 ></div>
                 <div
-                    class="z-10 content-center w-full p-4 transition-all duration-1000 top-14"
+                    class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
                 >
                     <div class="w-full overflow-auto bg-white rounded-lg">
                         <!-- content -->
@@ -280,13 +349,13 @@
                                 class="flex items-center border-t border-black border-opacity-10"
                             >
                                 <button
-                                    class="!py-4 uppercase btn btn--block text-grey-2 font-medium"
+                                    class="!py-4 btn btn--block text-grey-2 font-medium"
                                     @click="confirmationLogout.popup = false"
                                 >
-                                    Batal
+                                    BATAL
                                 </button>
                                 <button
-                                    class="!py-4 font-bold uppercase btn btn--block text-primary"
+                                    class="!py-4 font-bold btn btn--block text-primary"
                                     @click="logout"
                                 >
                                     OK
@@ -353,14 +422,3 @@ export default {
     },
 }
 </script>
-<style>
-.slide-popup-enter-active,
-.slide-popup-leave-active {
-    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
-}
-.slide-popup-enter,
-.slide-popup-leave-to {
-    opacity: 0;
-    transform: translate3d(0, -15px, 0);
-}
-</style>

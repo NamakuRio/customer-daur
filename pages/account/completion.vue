@@ -40,36 +40,53 @@
             </p>
         </div>
         <div class="mt-11">
-            <div class="flex flex-col gap-4">
-                <div>
-                    <label for="name" class="block text-xs text-grey-3"
-                        >Email</label
-                    >
-                    <input
-                        type="text"
-                        class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                        placeholder="Masukkan email aktif"
-                    />
+            <form
+                action="javascript:void(0)"
+                method="POST"
+                @submit="completionProfile"
+            >
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <label for="email" class="block text-xs text-grey-3"
+                            >Email</label
+                        >
+                        <input
+                            type="email"
+                            class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                            placeholder="Masukkan email aktif"
+                            v-model="email"
+                            :disabled="isLoading"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="account_type"
+                            class="block text-xs text-grey-3"
+                            >Jenis Akun</label
+                        >
+                        <select
+                            name="account_type"
+                            class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                            v-model="account_type"
+                            :disabled="isLoading"
+                        >
+                            <option disabled selected>Pilih jenis akun</option>
+                            <option value="b2c">Pengguna Individu</option>
+                            <option value="b2b">Pengguna Bisnis</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label for="name" class="block text-xs text-grey-3"
-                        >Jenis Kelamin</label
+                <div class="mt-8">
+                    <button
+                        type="submit"
+                        class="btn btn--block btn--rounded btn--primary"
+                        :class="{ 'btn--progress': isLoading }"
+                        :disabled="isLoading"
                     >
-                    <select
-                        name=""
-                        class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                    >
-                        <option disabled selected>Pilih jenis kelamin</option>
-                        <option value="L">Laki - laki</option>
-                        <option value="P">Perempuan</option>
-                    </select>
+                        Selesai
+                    </button>
                 </div>
-            </div>
-            <div class="mt-8">
-                <button class="btn btn--block btn--rounded btn--primary">
-                    Selesai
-                </button>
-            </div>
+            </form>
         </div>
         <div
             class="flex flex-col items-center justify-center text-center mt-14"
@@ -110,5 +127,57 @@
 <script>
 export default {
     middleware: ['authenticated'],
+    data() {
+        return {
+            email: this.user?.email || '',
+            account_type: this.user?.account_type || '',
+            isLoading: false,
+            axiosCancelToken: null,
+        }
+    },
+    computed: {
+        user() {
+            return this.$store.state.authentication.user
+        },
+    },
+    mounted() {
+        if (this.user?.email && this.user?.account_type) {
+            this.$router.push('/')
+            return
+        }
+    },
+    created() {
+        this.axiosCancelToken = this.$axios.CancelToken.source()
+    },
+    destroyed() {
+        this.axiosCancelToken.cancel()
+    },
+    methods: {
+        async completionProfile() {
+            try {
+                this.isLoading = true
+
+                var response = await this.$axios.$post(
+                    '/api/v1/profile',
+                    {
+                        email: this.email,
+                        account_type: this.account_type,
+                    },
+                    {
+                        CancelToken: this.axiosCancelToken,
+                    }
+                )
+
+                this.isLoading = false
+                if (response.success) {
+                    this.$router.push('/')
+                }
+            } catch (e) {
+                this.isLoading = false
+                if (!this.$axios.isCancel(e)) {
+                }
+            }
+        },
+    },
 }
 </script>

@@ -79,6 +79,7 @@
                             <div class="flex flex-col">
                                 <div
                                     class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
+                                    @click="ohayou = true"
                                 >
                                     <img
                                         src="https://ui-avatars.com/api/?size=128"
@@ -488,10 +489,92 @@
                 </div>
             </div>
         </div>
+
+        <!-- Start Bottom Popup Detail Sampah -->
+        <transition name="slide-bottom-popup">
+            <div
+                class="fixed bottom-0 flex items-end justify-end w-full h-full"
+                style="
+                    max-width: 444px;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 1111;
+                "
+                v-if="ohayou"
+            >
+                <div
+                    class="absolute z-0 w-full h-full"
+                    @click="ohayou = false"
+                ></div>
+                <div
+                    class="bottom-0 z-10 content-center w-full transition-all duration-1000 content-bottom-popup"
+                >
+                    <div class="w-full overflow-auto bg-white">
+                        <!-- content -->
+                        <div>
+                            <div class="px-5 pt-5 pb-6">
+                                <div>
+                                    <p class="text-xs font-medium text-grey-3">
+                                        Plastik
+                                    </p>
+                                    <h1
+                                        class="mt-1 text-base font-bold text-grey-3"
+                                    >
+                                        Plastik PET
+                                    </h1>
+                                </div>
+                                <div class="mt-4">
+                                    <img
+                                        src="https://ui-avatars.com/api/?size=128"
+                                        alt="Foto Jenis Sampah"
+                                        class="w-full rounded min-h-[124px] max-h-[124px] object-contain"
+                                    />
+                                    <p class="mt-3 text-xs font-bold">
+                                        Deskripsi
+                                    </p>
+                                    <div class="flex flex-col gap-3 mt-[14px]">
+                                        <p
+                                            class="text-xs font-medium text-grey-2"
+                                        >
+                                            Lorem ipsum, or lipsum as it is
+                                            sometimes known, is dummy text used
+                                            in laying out print, graphic or web
+                                            designs. The passage is attributed
+                                            to an unknown.
+                                        </p>
+                                        <p
+                                            class="text-xs font-medium text-grey-2"
+                                        >
+                                            Print, graphic or web designs. The
+                                            passage is attributed to an unknown.
+                                            Or lipsum as it is sometimes known,
+                                            is dummy text used.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-7">
+                                    <button
+                                        class="mr-2 font-medium btn btn--default btn--rounded btn--block"
+                                        @click="ohayou = false"
+                                    >
+                                        Kembali
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!-- End Bottom Popup Detail Sampah -->
     </div>
 </template>
 <script>
 export default {
     middleware: ['authenticated'],
+    data() {
+        return {
+            ohayou: false,
+        }
+    },
 }
 </script>

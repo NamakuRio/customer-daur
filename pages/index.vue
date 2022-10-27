@@ -317,6 +317,90 @@
             </div>
         </div>
         <BottomNavbar />
+
+        <!-- Start Popup Welcome -->
+        <transition name="slide-popup">
+            <div
+                class="fixed bottom-0 flex items-center justify-center w-full h-full"
+                style="
+                    max-width: 444px;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 1111;
+                "
+                v-if="welcomePopup"
+            >
+                <div
+                    class="absolute z-0 w-full h-full"
+                    @click="welcomePopup = false"
+                ></div>
+                <div
+                    class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
+                >
+                    <div class="w-full overflow-auto bg-white rounded-lg">
+                        <!-- content -->
+                        <div>
+                            <div class="px-3 pb-8 text-center pt-7">
+                                <svg
+                                    width="79"
+                                    height="79"
+                                    viewBox="0 0 79 79"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="mx-auto"
+                                >
+                                    <g clip-path="url(#clip0_76_2502)">
+                                        <path
+                                            d="M39.5 37.3056C42.7387 37.3099 45.9059 36.3535 48.6009 34.5573C51.296 32.7611 53.3976 30.2059 54.64 27.215C55.8825 24.224 56.2098 20.9318 55.5806 17.7547C54.9514 14.5777 53.394 11.6587 51.1054 9.36705C48.8168 7.07539 45.8999 5.51407 42.7237 4.88063C39.5476 4.24718 36.2549 4.57009 33.2623 5.80849C30.2697 7.04689 27.7116 9.14513 25.9118 11.8377C24.112 14.5303 23.1514 17.6963 23.1514 20.935C23.1514 25.2729 24.8731 29.4335 27.9384 32.503C31.0038 35.5724 35.162 37.2997 39.5 37.3056V37.3056ZM39.5 8.93139C41.8716 8.92705 44.1911 9.62663 46.1649 10.9415C48.1386 12.2564 49.6777 14.1275 50.5873 16.3177C51.4969 18.508 51.736 20.9189 51.2744 23.2452C50.8128 25.5714 49.6712 27.7084 47.9942 29.3854C46.3172 31.0623 44.1803 32.2039 41.854 32.6655C39.5278 33.1272 37.1168 32.888 34.9266 31.9785C32.7363 31.0689 30.8653 29.5297 29.5504 27.556C28.2355 25.5823 27.5359 23.2627 27.5403 20.8911C27.5461 17.721 28.808 14.6823 31.0496 12.4407C33.2912 10.1991 36.3298 8.93719 39.5 8.93139V8.93139Z"
+                                            fill="#F17E60"
+                                        />
+                                        <path
+                                            d="M13.1666 69.9808V56.5508C16.5546 52.9951 20.6454 50.1833 25.179 48.2943C29.7125 46.4053 34.5896 45.4805 39.5 45.5786C46.2207 45.4881 52.8357 47.2576 58.6136 50.6916L61.5761 47.378C54.9703 43.2173 47.3065 41.0462 39.5 41.1239C33.7883 40.9783 28.1148 42.0947 22.8841 44.3934C17.6533 46.692 12.9941 50.1163 9.23858 54.4222C8.94585 54.7993 8.78406 55.2615 8.77775 55.7389V69.9808C8.74823 71.1761 9.19348 72.3345 10.016 73.2023C10.8386 74.0701 11.9714 74.5766 13.1666 74.6111H40.3558L36.1864 70.2222L13.1666 69.9808Z"
+                                            fill="#F17E60"
+                                        />
+                                        <path
+                                            d="M65.8334 69.9808V70.2222H58.9209L54.9709 74.6111H65.8334C67.0132 74.5768 68.1328 74.0823 68.9529 73.2335C69.773 72.3847 70.2286 71.2489 70.2223 70.0686V57.4944L65.8334 62.3881V69.9808Z"
+                                            fill="#F17E60"
+                                        />
+                                        <path
+                                            d="M76.2788 40.8606C75.8448 40.4743 75.2754 40.2759 74.6954 40.3088C74.1154 40.3417 73.5721 40.6032 73.1846 41.0361L47.6852 69.5639L36.2741 57.297C36.0867 57.0779 35.8581 56.8979 35.6013 56.7673C35.3444 56.6366 35.0643 56.5578 34.777 56.5354C34.4896 56.513 34.2007 56.5474 33.9267 56.6366C33.6527 56.7259 33.3989 56.8682 33.1799 57.0556C32.9654 57.2507 32.7916 57.4865 32.6688 57.7492C32.5459 58.0119 32.4764 58.2964 32.4641 58.5862C32.4519 58.8759 32.4972 59.1652 32.5974 59.4374C32.6977 59.7095 32.8509 59.9591 33.0482 60.1717L47.729 75.9717L76.4543 43.8889C76.8206 43.4586 77.0067 42.9036 76.974 42.3395C76.9413 41.7754 76.6923 41.2456 76.2788 40.8606V40.8606Z"
+                                            fill="#F17E60"
+                                        />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_76_2502">
+                                            <rect
+                                                width="79"
+                                                height="79"
+                                                fill="white"
+                                            />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <h1
+                                    class="mt-4 text-xl font-semibold text-primary"
+                                >
+                                    Selamat datang
+                                </h1>
+                                <p class="mt-2 text-xs text-grey-2">
+                                    Anda berhasil masuk ke akun Daur.id Anda
+                                </p>
+                            </div>
+                            <div
+                                class="flex items-center border-t border-black border-opacity-10"
+                            >
+                                <button
+                                    class="!py-4 font-bold btn btn--block text-primary"
+                                    @click="welcomePopup = false"
+                                >
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <!-- End Popup Welcome -->
     </div>
 </template>
 <script>
@@ -327,10 +411,12 @@ export default {
     middleware: ['authenticated'],
     data() {
         return {
+            welcomePopup: false,
             swiper: null,
         }
     },
     mounted() {
+        this.checkWelcomePopup()
         this.initSwiper()
     },
     computed: {
@@ -339,6 +425,13 @@ export default {
         },
     },
     methods: {
+        checkWelcomePopup() {
+            let welcomePopup = localStorage.getItem('welcome_popup')
+            if (!welcomePopup) {
+                this.welcomePopup = true
+                localStorage.setItem('welcome_popup', true)
+            }
+        },
         initSwiper() {
             this.swiper = new Swiper('.swiper-home', {
                 modules: [Pagination],
