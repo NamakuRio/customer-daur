@@ -1,33 +1,33 @@
 @font-face {
-    font-family: 'avenir';
-    src: url('../fonts/avenir/AvenirLTStd-Black.otf');
-    src: url('../fonts/avenir/AvenirLTStd-Book.otf');
-    src: url('../fonts/avenir/AvenirLTStd-Roman.otf');
+  font-family: 'avenir';
+  src: url('../fonts/avenir/AvenirLTStd-Black.otf');
+  src: url('../fonts/avenir/AvenirLTStd-Book.otf');
+  src: url('../fonts/avenir/AvenirLTStd-Roman.otf');
 }
 
 html,
 body {
-    font-family: 'avenir', sans-serif;
-    font-style: normal;
-    background-color: #f7f7f7 !important;
+  font-family: 'avenir', sans-serif;
+  font-style: normal;
+  background-color: #f7f7f7 !important;
 }
 
 .app {
-    @apply min-h-screen relative w-full mx-auto max-w-[444px];
+  @apply min-h-screen relative w-full mx-auto max-w-[444px];
 }
 
 .with-header {
-    @apply top-14 relative;
-    min-height: calc(100vh - 56px);
+  @apply top-14 relative;
+  min-height: calc(100vh - 56px);
 }
 
 .with-bottom-navbar {
-    @apply mb-0 pb-[88px];
-    min-height: calc(100vh - 88px);
+  @apply mb-0 pb-[88px];
+  min-height: calc(100vh - 88px);
 }
 
 .with-header.with-bottom-nav {
-    min-height: calc(100vh - 144px);
+  min-height: calc(100vh - 144px);
 }
 
 /**
@@ -36,120 +36,120 @@ body {
   *
   */
 .btn {
-    @apply py-3 px-8 rounded-lg text-sm;
+  @apply py-3 px-8 rounded-lg text-sm;
 }
 
 /** Primary Button */
 .btn--primary {
-    @apply bg-primary text-white border border-primary border-solid;
+  @apply bg-primary text-white border border-primary border-solid;
 }
 
 .btn--primary-outline {
-    @apply bg-transparent text-primary transition-all duration-300 border border-primary border-solid;
+  @apply bg-transparent text-primary transition-all duration-300 border border-primary border-solid;
 }
 
 .btn--primary-outline:hover {
-    @apply bg-primary text-white;
+  @apply bg-primary text-white;
 }
 
 /** Secondary Button */
 .btn--secondary {
-    @apply bg-secondary text-white border border-secondary border-solid;
+  @apply bg-secondary text-white border border-secondary border-solid;
 }
 
 .btn--secondary-outline {
-    @apply bg-transparent text-secondary transition-all duration-300 border border-secondary border-solid;
+  @apply bg-transparent text-secondary transition-all duration-300 border border-secondary border-solid;
 }
 
 .btn--secondary-outline:hover {
-    @apply bg-secondary text-white;
+  @apply bg-secondary text-white;
 }
 
 /** Default Button */
 .btn--default {
-    @apply bg-grey-1 text-black border border-grey-1 border-solid;
+  @apply bg-grey-1 text-black border border-grey-1 border-solid;
 }
 
 .btn--default-outline {
-    @apply bg-transparent text-grey-3 transition-all duration-300 border border-grey-1 border-solid;
+  @apply bg-transparent text-grey-3 transition-all duration-300 border border-grey-1 border-solid;
 }
 
 .btn--white-outline:hover {
-    @apply bg-grey-1 text-white;
+  @apply bg-grey-1 text-white;
 }
 
 /** Variant Button */
 .btn--rounded {
-    @apply rounded-full;
+  @apply rounded-full;
 }
 
 .btn--block {
-    @apply block w-full align-middle text-center;
+  @apply block w-full align-middle text-center;
 }
 
 .btn--progress {
-    @apply relative bg-center bg-no-repeat pointer-events-none !text-transparent;
-    background-image: url(../images/spinner_button.svg);
-    background-size: 30px;
+  @apply relative bg-center bg-no-repeat pointer-events-none !text-transparent;
+  background-image: url(../images/spinner_button.svg);
+  background-size: 30px;
 }
 
 /** Form */
 
 /** Checked */
 .form-check-input:checked[type='checkbox'] {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
 }
 
 /** Transition */
 /** Slide Popup */
 .slide-popup-enter-active,
 .slide-popup-leave-active {
-    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
 .slide-popup-enter-active .content-popup,
 .slide-popup-leave-active .content-popup {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .slide-popup-enter,
 .slide-popup-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .slide-popup-enter .content-popup,
 .slide-popup-leave-to .content-popup {
-    transform: translate3d(0, -30px, 0);
+  transform: translate3d(0, -30px, 0);
 }
 
 /** Slide Bottom Popup */
 .slide-bottom-popup-enter-active,
 .slide-bottom-popup-leave-active {
-    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
 .slide-bottom-popup-enter-active .content-bottom-popup,
 .slide-bottom-popup-leave-active .content-bottom-popup {
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
 .slide-bottom-popup-enter,
 .slide-bottom-popup-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .slide-bottom-popup-enter .content-bottom-popup,
 .slide-bottom-popup-leave-to .content-bottom-popup {
-    transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
 }
 
 /** Slide Alert */
 .slide-alert-enter-active,
 .slide-alert-leave-active {
-    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 .slide-alert-enter,
 .slide-alert-leave-to {
-    opacity: 0;
-    transform: translate3d(0, 15px, 0);
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
 }

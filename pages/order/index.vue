@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <Header title="Order"> </Header>
-        <BottomNavbar />
-    </div>
+  <div>
+    <Header title="Order"> </Header>
+    <BottomNavbar />
+  </div>
 </template>
 <script>
 export default {
-    middleware: ['authenticated'],
+  middleware: ['authenticated'],
 }
 </script>
