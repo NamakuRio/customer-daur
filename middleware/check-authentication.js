@@ -13,5 +13,8 @@ export default function ({ store, req }) {
       token,
       callback,
     })
+    if (process.client) {
+      store.dispatch('notification/requestPermission', token)
+    }
   }
 }

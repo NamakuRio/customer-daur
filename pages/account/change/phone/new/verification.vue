@@ -2,7 +2,7 @@
   <div>
     <Header title="Verifikasi" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/auth/login">
+        <NuxtLink to="/account/change/phone/new">
           <svg
             width="37"
             height="40"

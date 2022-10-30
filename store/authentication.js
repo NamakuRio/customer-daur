@@ -46,7 +46,7 @@ export const mutations = {
     state.token = null
     if (process.browser) {
       Cookie.remove('token')
-      localStorage.removeItem('welcome_popup')
+      localStorage.clear()
     }
   },
 }

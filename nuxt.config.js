@@ -31,12 +31,30 @@ export default {
   plugins: ['~/plugins/axios', { src: '~/plugins/helpers', ssr: false }],
   components: true,
   buildModules: [],
-  modules: ['@nuxtjs/axios', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/firebase', '@nuxtjs/tailwindcss'],
   build: {},
   router: {
     middleware: ['check-authentication'],
   },
   axios: {
     baseUrl: process.env.API_URL || 'https://daur.oxxiv.com',
+  },
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyDxC4pAw6doaTPn78lTxpkLyLu1RZROey8',
+      authDomain: 'personal-waste-management.firebaseapp.com',
+      projectId: 'personal-waste-management',
+      storageBucket: 'personal-waste-management.appspot.com',
+      messagingSenderId: '41443225848',
+      appId: '1:41443225848:web:0f6eb71a62323666180b0d',
+      measurementId: 'G-XT6PVC1D4X',
+    },
+    services: {
+      messaging: {
+        createServiceWorker: true,
+        fcmPublicVapidKey:
+          'BNxru2g85AHtqLcXZ2pcCWBuHpj7mgXzZBJD6Y1lDfgGXYCu9EK1npDcJQ204Ku27Z9dzedt5DKiapRH99aToTc',
+      },
+    },
   },
 }
