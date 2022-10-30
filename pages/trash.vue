@@ -59,345 +59,29 @@
               type="text"
               class="block w-full py-4 pl-4 pr-12 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
               placeholder="Cari Jenis Sampah"
+              v-model="trash.search.key"
             />
           </div>
         </div>
         <div>
           <div class="flex flex-col">
-            <div>
+            <div v-for="item in trashes" :key="item.id">
               <div class="px-5 py-4 border-b border-black border-opacity-10">
-                <h1 class="text-xs font-bold text-black">Plastik</h1>
+                <h1 class="text-xs font-bold text-black">{{ item.name }}</h1>
               </div>
               <div class="flex flex-col">
                 <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                  @click="ohayou = true"
+                v-for="item2 in item.list" :key="item2.id"
+                  class="flex items-center px-5 py-3 border-b border-black cursor-pointer border-opacity-10"
+                  @click="openTrashDetail(item.id, item2.id)"
                 >
                   <img
-                    src="https://ui-avatars.com/api/?size=128"
+                    :src="item2.image"
                     alt="Foto Jenis Sampah"
                     class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
                   />
                   <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="px-5 py-4 border-b border-black border-opacity-10">
-                <h1 class="text-xs font-bold text-black">Plastik</h1>
-              </div>
-              <div class="flex flex-col">
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="px-5 py-4 border-b border-black border-opacity-10">
-                <h1 class="text-xs font-bold text-black">Plastik</h1>
-              </div>
-              <div class="flex flex-col">
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="px-5 py-4 border-b border-black border-opacity-10">
-                <h1 class="text-xs font-bold text-black">Plastik</h1>
-              </div>
-              <div class="flex flex-col">
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
-                    <svg
-                      width="19"
-                      height="19"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.3335 3.1665L12.6668 9.49984L6.3335 15.8332"
-                        stroke="#F17E60"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="flex items-center px-5 py-3 border-b border-black border-opacity-10"
-                >
-                  <img
-                    src="https://ui-avatars.com/api/?size=128"
-                    alt="Foto Jenis Sampah"
-                    class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
-                  />
-                  <div class="flex items-center justify-between w-full ml-3">
-                    <p class="text-xs text-grey-3">Plastik PET</p>
+                    <p class="text-xs text-grey-3">{{ item2.name }}</p>
                     <svg
                       width="19"
                       height="19"
@@ -431,9 +115,9 @@
           background-color: rgba(0, 0, 0, 0.5);
           z-index: 1111;
         "
-        v-if="ohayou"
+        v-if="trash.detail.popup"
       >
-        <div class="absolute z-0 w-full h-full" @click="ohayou = false"></div>
+        <div class="absolute z-0 w-full h-full" @click="trash.detail.popup = false"></div>
         <div
           class="bottom-0 z-10 content-center w-full transition-all duration-1000 content-bottom-popup"
         >
@@ -442,35 +126,25 @@
             <div>
               <div class="px-5 pt-5 pb-6">
                 <div>
-                  <p class="text-xs font-medium text-grey-3">Plastik</p>
+                  <p class="text-xs font-medium text-grey-3">{{ trash.detail?.content?.parent?.name }}</p>
                   <h1 class="mt-1 text-base font-bold text-grey-3">
-                    Plastik PET
+                    {{ trash.detail?.content?.children?.name }}
                   </h1>
                 </div>
                 <div class="mt-4">
                   <img
-                    src="https://ui-avatars.com/api/?size=128"
+                    :src="trash.detail?.content?.children?.image"
                     alt="Foto Jenis Sampah"
                     class="w-full rounded min-h-[124px] max-h-[124px] object-contain"
                   />
                   <p class="mt-3 text-xs font-bold">Deskripsi</p>
-                  <div class="flex flex-col gap-3 mt-[14px]">
-                    <p class="text-xs font-medium text-grey-2">
-                      Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                      text used in laying out print, graphic or web designs. The
-                      passage is attributed to an unknown.
-                    </p>
-                    <p class="text-xs font-medium text-grey-2">
-                      Print, graphic or web designs. The passage is attributed
-                      to an unknown. Or lipsum as it is sometimes known, is
-                      dummy text used.
-                    </p>
+                  <div class="flex flex-col gap-3 mt-[14px]" v-html="trash.detail?.content?.parent?.description">
                   </div>
                 </div>
                 <div class="mt-7">
                   <button
                     class="mr-2 font-medium btn btn--default btn--rounded btn--block"
-                    @click="ohayou = false"
+                    @click="trash.detail.popup = false"
                   >
                     Kembali
                   </button>
@@ -489,8 +163,258 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
-      ohayou: false,
+      trash: {
+        list: [
+          {
+            id: 1,
+            name: 'Kertas',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 10,
+                name: 'Kardus',
+                image: '/assets/images/trashes/1_kertas/1_kardus.png',
+              },
+              {
+                id: 11,
+                name: 'Putihan',
+                image: '/assets/images/trashes/1_kertas/2_putihan.png',
+              },
+              {
+                id: 12,
+                name: 'Kertas Campur',
+                image: '/assets/images/trashes/1_kertas/3_kertas-campur.png',
+              },
+            ],
+          },
+          {
+            id: 2,
+            name: 'Plastik',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 13,
+                name: 'Botol Plastik',
+                image: '/assets/images/trashes/2_plastik/1_botol-plastik.png',
+              },
+              {
+                id: 14,
+                name: 'Emberan',
+                image: '/assets/images/trashes/2_plastik/2_emberan.png',
+              },
+              {
+                id: 15,
+                name: 'Kemasan',
+                image: '/assets/images/trashes/2_plastik/3_kemasan.png',
+              },
+              {
+                id: 16,
+                name: 'Kresek',
+                image: '/assets/images/trashes/2_plastik/4_kresek.png',
+              },
+              {
+                id: 17,
+                name: 'CD',
+                image: '/assets/images/trashes/2_plastik/5_cd.png',
+              },
+              {
+                id: 18,
+                name: 'Styrofoam',
+                image: '/assets/images/trashes/2_plastik/6_styrofoam.png',
+              },
+            ],
+          },
+          {
+            id: 3,
+            name: 'Kaca/Beling',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 19,
+                name: 'Botol Beling',
+                image:
+                  '/assets/images/trashes/3_kaca-beling/1_botol-beling.png',
+              },
+              {
+                id: 20,
+                name: 'Kaca',
+                image: '/assets/images/trashes/3_kaca-beling/2_kaca.png',
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: 'Logam',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 21,
+                name: 'Besi',
+                image: '/assets/images/trashes/4_logam/1_besi.png',
+              },
+              {
+                id: 22,
+                name: 'Tembaga',
+                image: '/assets/images/trashes/4_logam/2_tembaga.png',
+              },
+              {
+                id: 23,
+                name: 'Alumunium',
+                image: '/assets/images/trashes/4_logam/3_alumunium.png',
+              },
+            ],
+          },
+          {
+            id: 5,
+            name: 'Elektronik',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 24,
+                name: 'TV',
+                image: '/assets/images/trashes/5_elektronik/1_tv.png',
+              },
+              {
+                id: 25,
+                name: 'Kabel',
+                image: '/assets/images/trashes/5_elektronik/2_kabel.png',
+              },
+              {
+                id: 26,
+                name: 'Mesin Cuci',
+                image: '/assets/images/trashes/5_elektronik/3_mesin-cuci.png',
+              },
+              {
+                id: 27,
+                name: 'Komputer',
+                image: '/assets/images/trashes/5_elektronik/4_komputer.png',
+              },
+              {
+                id: 28,
+                name: 'Handphone',
+                image: '/assets/images/trashes/5_elektronik/5_handphone.png',
+              },
+            ],
+          },
+          {
+            id: 6,
+            name: 'Minyak',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 29,
+                name: 'Minyak Goreng',
+                image: '/assets/images/trashes/6_minyak/1_minyak-goreng.png',
+              },
+              {
+                id: 30,
+                name: 'Oli',
+                image: '/assets/images/trashes/6_minyak/2_oli.png',
+              },
+            ],
+          },
+          {
+            id: 7,
+            name: 'B3',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 31,
+                name: 'Medis',
+                image: '/assets/images/trashes/7_b3/1_medis.png',
+              },
+            ],
+          },
+          {
+            id: 8,
+            name: 'Kain',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 32,
+                name: 'Baju',
+                image: '/assets/images/trashes/8_kain/1_baju.png',
+              },
+              {
+                id: 33,
+                name: 'Celana',
+                image: '/assets/images/trashes/8_kain/2_celana.png',
+              },
+              {
+                id: 34,
+                name: 'Bahan Kain',
+                image: '/assets/images/trashes/8_kain/3_bahan-kain.png',
+              },
+            ],
+          },
+          {
+            id: 9,
+            name: 'Karet',
+            description:
+              '<p class="text-xs font-medium text-grey-2">Kami menerima semua jenis sampah plastik<ul class="text-xs font-medium list-disc list-inside text-grey-2"><li>Semua sampah diharapkan dalam keadaan bersih dan tidak ada isinya</li><li>Sampah juga perlu dipisahkan berdasarkan kategori plastik, kertas, kaca dan kaleng</li></ul></p>',
+            list: [
+              {
+                id: 35,
+                name: 'Ban Bekas',
+                image: '/assets/images/trashes/9_karet/1_ban.png',
+              },
+            ],
+          },
+        ],
+        detail: {
+          content: {
+            parent: null,
+            children: null,
+          },
+          popup: false,
+        },
+        search: {
+          key: '',
+          list: [],
+        },
+      },
     }
+  },
+  computed: {
+    trashes() {
+      if (this.trash.search.key !== '') {
+        return this.searchTrash(this.trash.search.key)
+      } else {
+        return this.trash.list
+      }
+    },
+  },
+  methods: {
+    searchTrash(value) {
+      let trashes = []
+
+      trashes = this.trash.list
+      trashes = trashes.filter(
+        (item) =>
+          item.list.filter((item2) => item2.name.toLowerCase().includes(value))
+            .length > 0 || item.name.toLocaleLowerCase().includes(value)
+      )
+
+      return trashes
+    },
+    openTrashDetail(parentId, childId) {
+      let parent = this.trashes.find((item) => item.id === parentId)
+      let children = parent.list.find((item) => item.id === childId)
+
+      this.trash.detail.content = {
+        parent,
+        children,
+      }
+      this.trash.detail.popup = true
+    },
   },
 }
 </script>

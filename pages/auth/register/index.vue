@@ -58,7 +58,7 @@
             >
             <input
               type="tel"
-              class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+              class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none phone-number"
               placeholder="Masukkan nomor telepon"
               v-model="phone"
               @keypress="$onlyNumber($event)"
@@ -132,6 +132,9 @@
   </div>
 </template>
 <script>
+import Cleave from 'cleave.js'
+require('cleave.js/dist/addons/cleave-phone.id')
+
 export default {
   middleware: ['guest'],
   data() {
@@ -141,6 +144,16 @@ export default {
       isLoading: false,
       axiosCancelToken: null,
     }
+  },
+  mounted() {
+    Array.from(document.getElementsByClassName('phone-number')).forEach(
+      (el) => {
+        var cleavePN = new Cleave(el, {
+          phone: true,
+          phoneRegionCode: 'id',
+        })
+      }
+    )
   },
   created() {
     this.axiosCancelToken = this.$axios.CancelToken.source()
