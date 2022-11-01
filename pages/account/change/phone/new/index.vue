@@ -36,7 +36,7 @@
                   >Masukkan Nomor Telepon Baru</label
                 >
                 <input
-                  type="text"
+                  type="tel"
                   class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded phone-number focus:outline-none"
                   placeholder="Masukkan Nomor Handphone"
                   v-model="phone"
