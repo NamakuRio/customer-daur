@@ -28,7 +28,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setChangeOld(state, data) {
+  setChange(state, data) {
     let type = data.type
     let stage = data.stage
     state.change[type][stage].value = data.value || null
