@@ -122,55 +122,11 @@
                   class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1"
                 >
                   <div class="mx-auto">
-                    <svg
-                      width="48"
-                      height="48"
-                      viewBox="0 0 48 48"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="mx-auto"
-                    >
-                      <circle cx="24" cy="24" r="24" fill="#77DD77" />
-                      <path
-                        d="M15.5167 18.5832V18.4832H15.4167H13.35V16.5165H17.5833H17.6833V16.4165V15.3332C17.6833 14.7851 17.9011 14.2594 18.2886 13.8718C18.6762 13.4842 19.2019 13.2665 19.75 13.2665H26.25C26.7981 13.2665 27.3238 13.4842 27.7114 13.8718C28.0989 14.2594 28.3167 14.7851 28.3167 15.3332V16.4165V16.5165H28.4167H32.65V18.4832H30.5833H30.4833V18.5832V32.6665C30.4833 33.2146 30.2656 33.7403 29.878 34.1279C29.4904 34.5154 28.9648 34.7332 28.4167 34.7332H17.5833C17.0352 34.7332 16.5096 34.5154 16.122 34.1279C15.7344 33.7403 15.5167 33.2146 15.5167 32.6665V18.5832ZM17.5833 18.4832H17.4833V18.5832V32.6665V32.7665H17.5833H28.4167H28.5167V32.6665V18.5832V18.4832H28.4167H17.5833ZM19.75 15.2332H19.65V15.3332V16.4165V16.5165H19.75H26.25H26.35V16.4165V15.3332V15.2332H26.25H19.75Z"
-                        fill="white"
-                        stroke="#77DD77"
-                        stroke-width="0.2"
-                      />
-                      <circle
-                        cx="28"
-                        cy="29"
-                        r="7"
-                        fill="#77DD77"
-                        stroke="#77DD77"
-                        stroke-width="2"
-                      />
-                      <path
-                        d="M28 22.9C24.6314 22.9 21.9 25.6314 21.9 29C21.9 32.3686 24.6314 35.1 28 35.1C31.3686 35.1 34.1 32.3686 34.1 29C34.1 25.6314 31.3686 22.9 28 22.9ZM28 33.8821C25.3043 33.8821 23.1179 31.6957 23.1179 29C23.1179 26.3043 25.3043 24.1179 28 24.1179C30.6957 24.1179 32.8821 26.3043 32.8821 29C32.8821 31.6957 30.6957 33.8821 28 33.8821Z"
-                        fill="white"
-                        stroke="white"
-                        stroke-width="0.2"
-                      />
-                      <g clip-path="url(#clip0_1140_1898)">
-                        <path
-                          d="M28.0001 31.6668V26.3335M25.6667 28.6668L28.0001 26.3335L30.3334 28.6668"
-                          stroke="white"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_1140_1898">
-                          <rect
-                            width="8"
-                            height="8"
-                            fill="white"
-                            transform="translate(24 25)"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
+                    <img
+                      src="~/assets/images/home/order-icon.png"
+                      alt="Icon Order Sekarang"
+                      class="mx-auto max-w-[70px]"
+                    />
                   </div>
                   <h6 class="mt-5 text-sm font-medium text-grey-3">
                     Order Sekarang
@@ -182,28 +138,11 @@
                   class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1"
                 >
                   <div class="mx-auto">
-                    <svg
-                      width="48"
-                      height="48"
-                      viewBox="0 0 48 48"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="mx-auto"
-                    >
-                      <circle cx="24" cy="24" r="24" fill="#77DD77" />
-                      <path
-                        d="M32.125 28.0625H29.6875V25.625H28.0625V28.0625H25.625V29.6875H28.0625V32.125H29.6875V29.6875H32.125V28.0625Z"
-                        fill="white"
-                      />
-                      <path
-                        d="M28.875 35.375C25.3 35.375 22.375 32.45 22.375 28.875C22.375 25.3 25.3 22.375 28.875 22.375C32.45 22.375 35.375 25.3 35.375 28.875C35.375 32.45 32.45 35.375 28.875 35.375ZM28.875 24C26.1938 24 24 26.1938 24 28.875C24 31.5562 26.1938 33.75 28.875 33.75C31.5562 33.75 33.75 31.5562 33.75 28.875C33.75 26.1938 31.5562 24 28.875 24Z"
-                        fill="white"
-                      />
-                      <path
-                        d="M33.75 15.875C33.75 14.9813 33.0187 14.25 32.125 14.25H28.875V12.625H27.25V14.25H20.75V12.625H19.125V14.25H15.875C14.9812 14.25 14.25 14.9813 14.25 15.875V32.125C14.25 33.0187 14.9812 33.75 15.875 33.75H20.75V32.125H15.875V15.875H19.125V17.5H20.75V15.875H27.25V17.5H28.875V15.875H32.125V20.75H33.75V15.875Z"
-                        fill="white"
-                      />
-                    </svg>
+                    <img
+                      src="~/assets/images/home/berlangganan-icon.png"
+                      alt="Icon Berlangganan"
+                      class="mx-auto max-w-[70px]"
+                    />
                   </div>
                   <h6 class="mt-5 text-sm font-medium text-grey-3">
                     Berlangganan

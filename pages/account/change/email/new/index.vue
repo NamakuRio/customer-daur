@@ -45,8 +45,12 @@
               </div>
             </div>
             <div class="mt-5">
-              <button type="submit" class="btn btn--block btn--rounded btn--primary" :class="{ 'btn--progress': isLoading }"
-                :disabled="isLoading">
+              <button
+                type="submit"
+                class="btn btn--block btn--rounded btn--primary"
+                :class="{ 'btn--progress': isLoading }"
+                :disabled="isLoading"
+              >
                 Selanjutnya
               </button>
             </div>

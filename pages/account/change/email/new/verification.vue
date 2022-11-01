@@ -171,10 +171,27 @@
             <!-- content -->
             <div>
               <div class="px-3 pb-8 text-center pt-7">
-                <svg width="78" height="78" viewBox="0 0 78 78" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto">
-<path d="M24.3335 40.8333L35.3335 51.8333L53.6668 29.8333" stroke="#2AC769" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M39.0002 75.6666C59.2506 75.6666 75.6668 59.2504 75.6668 38.9999C75.6668 18.7495 59.2506 2.33325 39.0002 2.33325C18.7497 2.33325 2.3335 18.7495 2.3335 38.9999C2.3335 59.2504 18.7497 75.6666 39.0002 75.6666Z" stroke="#2AC769" stroke-width="4"/>
-</svg>
+                <svg
+                  width="78"
+                  height="78"
+                  viewBox="0 0 78 78"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mx-auto"
+                >
+                  <path
+                    d="M24.3335 40.8333L35.3335 51.8333L53.6668 29.8333"
+                    stroke="#2AC769"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M39.0002 75.6666C59.2506 75.6666 75.6668 59.2504 75.6668 38.9999C75.6668 18.7495 59.2506 2.33325 39.0002 2.33325C18.7497 2.33325 2.3335 18.7495 2.3335 38.9999C2.3335 59.2504 18.7497 75.6666 39.0002 75.6666Z"
+                    stroke="#2AC769"
+                    stroke-width="4"
+                  />
+                </svg>
                 <h1 class="mt-4 text-xl font-semibold text-primary">
                   Berhasil
                 </h1>
