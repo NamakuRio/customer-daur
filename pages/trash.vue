@@ -71,7 +71,8 @@
               </div>
               <div class="flex flex-col">
                 <div
-                v-for="item2 in item.list" :key="item2.id"
+                  v-for="item2 in item.list"
+                  :key="item2.id"
                   class="flex items-center px-5 py-3 border-b border-black cursor-pointer border-opacity-10"
                   @click="openTrashDetail(item.id, item2.id)"
                 >
@@ -117,7 +118,10 @@
         "
         v-if="trash.detail.popup"
       >
-        <div class="absolute z-0 w-full h-full" @click="trash.detail.popup = false"></div>
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="trash.detail.popup = false"
+        ></div>
         <div
           class="bottom-0 z-10 content-center w-full transition-all duration-1000 content-bottom-popup"
         >
@@ -126,7 +130,9 @@
             <div>
               <div class="px-5 pt-5 pb-6">
                 <div>
-                  <p class="text-xs font-medium text-grey-3">{{ trash.detail?.content?.parent?.name }}</p>
+                  <p class="text-xs font-medium text-grey-3">
+                    {{ trash.detail?.content?.parent?.name }}
+                  </p>
                   <h1 class="mt-1 text-base font-bold text-grey-3">
                     {{ trash.detail?.content?.children?.name }}
                   </h1>
@@ -138,8 +144,10 @@
                     class="w-full rounded min-h-[124px] max-h-[124px] object-contain"
                   />
                   <p class="mt-3 text-xs font-bold">Deskripsi</p>
-                  <div class="flex flex-col gap-3 mt-[14px]" v-html="trash.detail?.content?.parent?.description">
-                  </div>
+                  <div
+                    class="flex flex-col gap-3 mt-[14px]"
+                    v-html="trash.detail?.content?.parent?.description"
+                  ></div>
                 </div>
                 <div class="mt-7">
                   <button

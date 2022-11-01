@@ -2,7 +2,7 @@
   <div>
     <Header title="Ubah Nomor Telepon" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/account">
+        <NuxtLink to="/account/change/phone">
           <svg
             width="37"
             height="40"
@@ -29,30 +29,102 @@
     <div class="with-header">
       <div class="p-5">
         <div>
-          <div class="flex flex-col gap-5">
-            <div>
-              <label for="name" class="block text-xs text-grey-3"
-                >Masukkan Nomor Telepon Baru</label
-              >
-              <input
-                type="text"
-                class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                placeholder="Nama"
-              />
+          <form action="javascript:void(0)" method="POST" @submit="change()">
+            <div class="flex flex-col gap-5">
+              <div>
+                <label for="name" class="block text-xs text-grey-3"
+                  >Masukkan Nomor Telepon Baru</label
+                >
+                <input
+                  type="text"
+                  class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded phone-number focus:outline-none"
+                  placeholder="Masukkan Nomor Handphone"
+                  v-model="phone"
+                  :disabled="isLoading"
+                />
+              </div>
             </div>
-          </div>
-          <div class="mt-5">
-            <button class="btn btn--block btn--rounded btn--primary">
-              Selanjutnya
-            </button>
-          </div>
+            <div class="mt-5">
+              <button type="submit" class="btn btn--block btn--rounded btn--primary" :class="{ 'btn--progress': isLoading }"
+                :disabled="isLoading">
+                Selanjutnya
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Cleave from 'cleave.js'
+require('cleave.js/dist/addons/cleave-phone.id')
+
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      phone: '',
+      isLoading: false,
+      axiosCancelToken: null,
+    }
+  },
+  mounted() {
+    if (!this.$store.state.account.change.phone.old.verified) {
+      this.$router.push('/account/change/phone')
+      return
+    }
+
+    Array.from(document.getElementsByClassName('phone-number')).forEach(
+      (el) => {
+        var cleavePN = new Cleave(el, {
+          phone: true,
+          phoneRegionCode: 'id',
+        })
+      }
+    )
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async change() {
+      try {
+        this.isLoading = true
+        var response = await this.$axios.$post(
+          '/api/v1/profile/update',
+          {
+            phone: this.phone,
+          },
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+
+        this.isLoading = false
+        if (response.success) {
+          this.$store.commit('account/setChange', {
+            type: 'phone',
+            stage: 'new',
+            value: this.phone,
+          })
+          this.$store.commit('account/prepareVerification', {
+            type: 'phone',
+            stage: 'new',
+            value: this.phone,
+          })
+
+          this.$router.push('/account/change/phone/new/verification')
+        }
+      } catch (e) {
+        this.isLoading = false
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+  },
 }
 </script>

@@ -2,7 +2,7 @@
   <div>
     <Header title="Ubah Email" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/account">
+        <NuxtLink to="/account/change/email">
           <svg
             width="37"
             height="40"
@@ -29,23 +29,28 @@
     <div class="with-header">
       <div class="p-5">
         <div>
-          <div class="flex flex-col gap-5">
-            <div>
-              <label for="name" class="block text-xs text-grey-3"
-                >Masukkan Email Baru</label
-              >
-              <input
-                type="text"
-                class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
-                placeholder="Nama"
-              />
+          <form action="javascript:void(0)" method="POST" @submit="change()">
+            <div class="flex flex-col gap-5">
+              <div>
+                <label for="name" class="block text-xs text-grey-3"
+                  >Masukkan Email Baru</label
+                >
+                <input
+                  type="email"
+                  class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
+                  placeholder="Masukkan Email"
+                  v-model="email"
+                  :disabled="isLoading"
+                />
+              </div>
             </div>
-          </div>
-          <div class="mt-5">
-            <button class="btn btn--block btn--rounded btn--primary">
-              Selanjutnya
-            </button>
-          </div>
+            <div class="mt-5">
+              <button type="submit" class="btn btn--block btn--rounded btn--primary" :class="{ 'btn--progress': isLoading }"
+                :disabled="isLoading">
+                Selanjutnya
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -54,5 +59,60 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      email: '',
+      isLoading: false,
+      axiosCancelToken: null,
+    }
+  },
+  mounted() {
+    if (!this.$store.state.account.change.email.old.verified) {
+      this.$router.push('/account/change/email')
+      return
+    }
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async change() {
+      try {
+        this.isLoading = true
+        var response = await this.$axios.$post(
+          '/api/v1/profile/update',
+          {
+            email: this.email,
+          },
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+
+        this.isLoading = false
+        if (response.success) {
+          this.$store.commit('account/setChange', {
+            type: 'email',
+            stage: 'new',
+            value: this.email,
+          })
+          this.$store.commit('account/prepareVerification', {
+            type: 'email',
+            stage: 'new',
+            value: this.email,
+          })
+
+          this.$router.push('/account/change/email/new/verification')
+        }
+      } catch (e) {
+        this.isLoading = false
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+  },
 }
 </script>
