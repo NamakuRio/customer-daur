@@ -2,8 +2,8 @@ export default {
   ssr: false,
   target: 'static',
   generate: {
-    fallback: true
-  }
+    fallback: true,
+  },
   head: {
     title: 'Customer - Daur.id',
     htmlAttrs: {
