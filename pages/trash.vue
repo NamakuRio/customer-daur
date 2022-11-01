@@ -80,6 +80,7 @@
                     :src="item2.image"
                     alt="Foto Jenis Sampah"
                     class="rounded min-w-[47px] min-h-[41px] max-w-[47px] max-h-[41px]"
+                    @error="errorLoadImage($event)"
                   />
                   <div class="flex items-center justify-between w-full ml-3">
                     <p class="text-xs text-grey-3">{{ item2.name }}</p>
@@ -142,6 +143,7 @@
                     :src="trash.detail?.content?.children?.image"
                     alt="Foto Jenis Sampah"
                     class="w-full rounded min-h-[124px] max-h-[124px] object-contain"
+                    @error="errorLoadImage($event)"
                   />
                   <p class="mt-3 text-xs font-bold">Deskripsi</p>
                   <div
@@ -422,6 +424,10 @@ export default {
         children,
       }
       this.trash.detail.popup = true
+    },
+    errorLoadImage(event) {
+      event.target.src = '/assets/images/trashes/no-image.svg'
+      event.onerror = ''
     },
   },
 }
