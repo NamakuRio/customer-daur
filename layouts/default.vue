@@ -16,7 +16,8 @@
     </div>
     <Notification />
 
-    <Nuxt />
+    <Nuxt v-if="isAppLoaded" />
+    <Welcome v-else />
   </div>
 </template>
 <script>
@@ -27,6 +28,12 @@ export default {
     },
     isLoader() {
       return this.$store.state.app.loader
+    },
+    user() {
+      return this.$store.state.authentication.user
+    },
+    isAppLoaded() {
+      return this.$store.state.app.isAppLoaded
     },
   },
 }

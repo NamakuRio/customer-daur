@@ -27,7 +27,8 @@
       </template>
     </Header>
     <div class="with-header">
-      <div class="p-5">
+      <Loader v-if="!loadedData" />
+      <div class="p-5" v-else-if="loadedData">
         <div>
           <form
             action="javascript:void(0)"
@@ -56,7 +57,7 @@
                   :disabled="isLoading"
                   @change="changeAccountType($event.target.value)"
                 >
-                  <option disabled selected>Pilih jenis akun</option>
+                  <option value="" disabled selected>Pilih jenis akun</option>
                   <option value="b2c">Pengguna Individual</option>
                   <option value="b2b">Pengguna Bisnis</option>
                 </select>
@@ -71,7 +72,9 @@
                   v-model="changeUser.industry_type"
                   :disabled="isLoading"
                 >
-                  <option disabled selected>Pilih jenis industri</option>
+                  <option value="" disabled selected>
+                    Pilih jenis industri
+                  </option>
                   <option
                     v-for="item in industryTypes"
                     :key="item.id"
@@ -87,6 +90,7 @@
                 type="submit"
                 class="btn btn--block btn--rounded btn--primary"
                 :class="{ 'btn--progress': isLoading }"
+                :disabled="isLoading"
               >
                 Perbarui
               </button>
@@ -104,8 +108,8 @@ export default {
     return {
       changeUser: {
         name: null,
-        account_type: null,
-        industry_type: null,
+        account_type: '',
+        industry_type: '',
       },
       industryTypeList: {
         individual: [
@@ -153,6 +157,7 @@ export default {
           },
         ],
       },
+      loadedData: false,
       isLoading: false,
       axiosCancelToken: null,
     }
@@ -167,6 +172,15 @@ export default {
     },
   },
   mounted() {
+    if (this.$store.state.authentication.user) {
+      this.changeUser = {
+        name: this.$store.state.authentication.user.name,
+        account_type: this.$store.state.authentication.user.account_type ?? '',
+        industry_type:
+          this.$store.state.authentication.user.industry_type ?? '',
+      }
+      this.loadedData = true
+    }
     this.checkUser()
   },
   created() {
@@ -182,15 +196,16 @@ export default {
         this.$store.commit('authentication/setUser', response)
         this.changeUser = {
           name: response.name,
-          account_type: response.account_type,
-          industry_type: response.industry_type,
+          account_type: response.account_type ?? '',
+          industry_type: response.industry_type ?? '',
         }
+        this.loadedData = true
       }
 
       this.$store.dispatch('authentication/user', { token, callback })
     },
     changeAccountType(value) {
-      this.changeUser.industry_type = null
+      this.changeUser.industry_type = ''
     },
     async changeProfile() {
       try {

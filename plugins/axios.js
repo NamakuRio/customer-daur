@@ -27,24 +27,5 @@ export default function ({ store, $axios, $router }) {
         }
       }
     }
-    // if (code === 401) {
-    //   store.dispatch('auth/logout')
-    //   location.reload()
-    // }
-    // if (code === 500) {
-    //   if (response) {
-    //     store.dispatch('notification/createAlert', {
-    //       text: response,
-    //       status: 'error',
-    //     })
-    //   } else if (data) {
-    //     if (data.message) {
-    //       store.dispatch('notification/createAlert', {
-    //         text: data.message,
-    //         status: 'error',
-    //       })
-    //     }
-    //   }
-    // }
   })
 }

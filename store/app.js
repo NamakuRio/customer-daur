@@ -1,4 +1,5 @@
 export const state = () => ({
+  isAppLoaded: false,
   background: 'bg-white',
   loader: false,
 })
@@ -12,5 +13,8 @@ export const mutations = {
   },
   setLoader(state, value) {
     state.loader = value
+  },
+  setIsAppLoaded(state, value) {
+    state.isAppLoaded = value
   },
 }

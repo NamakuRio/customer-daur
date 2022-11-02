@@ -59,6 +59,7 @@
             class="btn btn--block btn--rounded btn--primary"
             type="submit"
             :class="{ 'btn--progress': isLoading }"
+            :disabled="isLoading"
           >
             Selanjutnya
           </button>

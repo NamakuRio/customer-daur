@@ -92,13 +92,19 @@
                   }}</span>
                   detik untuk mendapatkan kode
                 </p>
-                <a
-                  href="javascript:void(0)"
-                  v-else
-                  class="text-xs text-primary underline max-w-[269px] mx-auto font-medium mt-8 block"
-                  @click="resendCode"
-                  >Kirim ulang kode?</a
-                >
+                <div v-else class="mt-8">
+                  <p
+                    class="text-xs text-grey-2 max-w-[269px] mx-auto font-medium"
+                  >
+                    Belum menerima kode verifikasi?
+                  </p>
+                  <a
+                    href="javascript:void(0)"
+                    class="text-xs text-secondary underline max-w-[269px] mx-auto font-medium mt-3 block"
+                    @click="resendCode"
+                    >Ulangi Kirim Kode</a
+                  >
+                </div>
               </div>
             </div>
             <div class="mt-48">

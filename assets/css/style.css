@@ -36,12 +36,12 @@ body {
   *
   */
 .btn {
-  @apply py-3 px-8 rounded-lg text-sm;
+  @apply py-3 px-8 rounded-lg text-sm transition-colors duration-300;
 }
 
 /** Primary Button */
 .btn--primary {
-  @apply bg-primary text-white border border-primary border-solid;
+  @apply bg-primary text-white border border-primary border-solid disabled:cursor-not-allowed disabled:bg-opacity-40 disabled:border-opacity-0;
 }
 
 .btn--primary-outline {

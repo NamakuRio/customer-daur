@@ -6,7 +6,7 @@
         <div class="px-6 pt-3 pb-5">
           <div class="text-center">
             <img
-              src="https://ui-avatars.com/api/?name=John+Doe"
+              :src="user?.photo || '/assets/images/default-profile-photo.png'"
               alt="Foto Profil"
               class="w-24 h-24 mx-auto rounded-full"
             />

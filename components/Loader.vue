@@ -7,6 +7,7 @@
     >
       <div
         class="relative p-0 m-auto rounded-full loader-app-data"
+        :class="classLoaderList"
         :style="styleLoaderList"
       ></div>
     </div>
@@ -20,6 +21,10 @@ export default {
       default: 'absolute',
     },
     styleList: {
+      type: String,
+      default: '',
+    },
+    classLoaderList: {
       type: String,
       default: '',
     },

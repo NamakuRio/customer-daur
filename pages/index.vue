@@ -62,7 +62,9 @@
               </div>
               <div class="flex items-center mx-2 mt-10">
                 <img
-                  src="https://ui-avatars.com/api/?name=Nancy+Smith"
+                  :src="
+                    user?.photo || '/assets/images/default-profile-photo.png'
+                  "
                   alt="Foto Profil"
                   class="w-10 h-10 rounded-full"
                 />

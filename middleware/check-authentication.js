@@ -6,6 +6,7 @@ export default function ({ store, req }) {
   if (token) {
     let callback = (response) => {
       store.commit('authentication/setUser', response)
+      store.commit('app/setIsAppLoaded', true)
     }
 
     store.commit('authentication/setToken', token)
@@ -16,5 +17,7 @@ export default function ({ store, req }) {
     if (process.client) {
       store.dispatch('notification/requestPermission', token)
     }
+  } else {
+    store.commit('app/setIsAppLoaded', true)
   }
 }
