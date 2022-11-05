@@ -34,7 +34,12 @@ export default {
   plugins: ['~/plugins/axios', { src: '~/plugins/helpers', ssr: false }],
   components: true,
   buildModules: [],
-  modules: ['@nuxtjs/axios', '@nuxtjs/firebase', '@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/firebase',
+    '@nuxtjs/pwa',
+    '@nuxtjs/tailwindcss',
+  ],
   build: {},
   router: {
     middleware: ['check-authentication'],
@@ -58,6 +63,19 @@ export default {
         fcmPublicVapidKey:
           'BNxru2g85AHtqLcXZ2pcCWBuHpj7mgXzZBJD6Y1lDfgGXYCu9EK1npDcJQ204Ku27Z9dzedt5DKiapRH99aToTc',
       },
+    },
+  },
+  pwa: {
+    icon: false,
+    meta: {
+      theme_color: '#3E7380',
+    },
+    manifest: {
+      name: 'Customer - Daur.id',
+      short_name: 'Customer Daur',
+      description: 'Customer - Daur.id',
+      lang: 'id',
+      start_url: '/',
     },
   },
 }
