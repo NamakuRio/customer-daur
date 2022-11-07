@@ -78,11 +78,11 @@
                     >pending</span
                   >
                 </div>
-                <p class="text-xs text-grey-2">
+                <p class="text-xs text-grey-3">
                   Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
                   50129
                 </p>
-                <p class="text-xs text-grey-2">On-demand</p>
+                <p class="text-xs text-grey-3">On-demand</p>
               </div>
             </div>
             <div class="p-4 border rounded-lg cursor-pointer border-grey-1">

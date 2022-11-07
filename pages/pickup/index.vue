@@ -70,7 +70,10 @@
               <p class="ml-1 text-sm font-extrabold text-black">On-demand</p>
             </div>
             <div class="flex flex-col gap-3 pt-3 pb-4">
-              <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+              <NuxtLink
+                to="/pickup/1"
+                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
@@ -87,7 +90,7 @@
                     Barat 50129
                   </p>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
           <div class="p-5">
@@ -107,7 +110,10 @@
               <p class="ml-1 text-sm font-extrabold text-black">Terjadwal</p>
             </div>
             <div class="flex flex-col gap-3 pt-3 pb-4">
-              <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+              <NuxtLink
+                to="/pickup/1"
+                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
@@ -162,8 +168,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+              </NuxtLink>
+              <NuxtLink
+                to="/pickup/1"
+                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
@@ -218,8 +227,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+              </NuxtLink>
+              <NuxtLink
+                to="/pickup/1"
+                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
@@ -274,8 +286,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+              </NuxtLink>
+              <NuxtLink
+                to="/pickup/1"
+                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
@@ -330,7 +345,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
         </div>

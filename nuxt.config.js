@@ -49,19 +49,19 @@ export default {
   },
   firebase: {
     config: {
-      apiKey: 'AIzaSyDxC4pAw6doaTPn78lTxpkLyLu1RZROey8',
-      authDomain: 'personal-waste-management.firebaseapp.com',
-      projectId: 'personal-waste-management',
-      storageBucket: 'personal-waste-management.appspot.com',
-      messagingSenderId: '41443225848',
-      appId: '1:41443225848:web:0f6eb71a62323666180b0d',
-      measurementId: 'G-XT6PVC1D4X',
+      apiKey: 'AIzaSyC8xC87DnG26NBmKtrh-r_cCWAguAhpkNI',
+      authDomain: 'pushnotification-c8c20.firebaseapp.com',
+      projectId: 'pushnotification-c8c20',
+      storageBucket: 'pushnotification-c8c20.appspot.com',
+      messagingSenderId: '1069110692188',
+      appId: '1:1069110692188:web:f7d887b8cfab9e5aced999',
+      measurementId: 'G-HC69BQGPVQ',
     },
     services: {
       messaging: {
         createServiceWorker: true,
         fcmPublicVapidKey:
-          'BNxru2g85AHtqLcXZ2pcCWBuHpj7mgXzZBJD6Y1lDfgGXYCu9EK1npDcJQ204Ku27Z9dzedt5DKiapRH99aToTc',
+          'BHchk6Pn4tmekIk1rHk8FfQHG2GABbsM4eDec4trPdgM9i4huzaTT7q6p_GlzfZAJ4UmkuxHSDEZG70Ws3pb5ao',
       },
     },
   },
