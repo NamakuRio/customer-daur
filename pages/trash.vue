@@ -63,7 +63,7 @@
             />
           </div>
         </div>
-        <div>
+        <div class="bg-white">
           <div class="flex flex-col">
             <div v-for="item in trashes" :key="item.id">
               <div class="px-5 py-4 border-b border-black border-opacity-10">

@@ -90,7 +90,7 @@
                 type="submit"
                 class="btn btn--block btn--rounded btn--primary"
                 :class="{ 'btn--progress': isLoading }"
-                :disabled="isLoading"
+                :disabled="isLoading || isFilledAllField"
               >
                 Perbarui
               </button>
@@ -163,6 +163,13 @@ export default {
     }
   },
   computed: {
+    isFilledAllField() {
+      return this.changeUser.name &&
+        this.changeUser.account_type &&
+        this.changeUser.industry_type
+        ? true
+        : false
+    },
     industryTypes() {
       if (this.changeUser.account_type == 'b2c') {
         return this.industryTypeList.individual

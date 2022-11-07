@@ -79,7 +79,7 @@
               type="submit"
               class="btn btn--block btn--rounded btn--primary"
               :class="{ 'btn--progress': isLoading }"
-              :disabled="isLoading || inputNotCompleted"
+              :disabled="isLoading || isFilledAllField"
             >
               Selesai
             </button>
@@ -134,8 +134,8 @@ export default {
     }
   },
   computed: {
-    inputNotCompleted() {
-      return !this.email || !this.account_type
+    isFilledAllField() {
+      return this.email && this.account_type ? true : false
     },
   },
   mounted() {

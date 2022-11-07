@@ -8,22 +8,24 @@ export default function ({ store, $axios, $router }) {
       store.commit('authentication/logout')
       window.location = '/auth/login'
     } else {
-      if (statusText) {
-        store.commit('notification/showNotification', {
-          type: 'error',
-          message: statusText,
-        })
-      } else {
-        if (data.message) {
+      if (code !== 422) {
+        if (statusText) {
           store.commit('notification/showNotification', {
             type: 'error',
-            message: data.message,
+            message: statusText,
           })
         } else {
-          store.commit('notification/showNotification', {
-            type: 'error',
-            message: 'Server Error',
-          })
+          if (data.message) {
+            store.commit('notification/showNotification', {
+              type: 'error',
+              message: data.message,
+            })
+          } else {
+            store.commit('notification/showNotification', {
+              type: 'error',
+              message: 'Server Error',
+            })
+          }
         }
       }
     }

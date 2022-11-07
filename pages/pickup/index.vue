@@ -82,7 +82,7 @@
                       >request</span
                     >
                   </div>
-                  <p class="text-xs text-grey-2">
+                  <p class="text-xs tetext-grey-3">
                     Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
                     Barat 50129
                   </p>
@@ -120,7 +120,7 @@
                     >
                   </div>
                   <div>
-                    <p class="text-xs text-grey-2">
+                    <p class="text-xs text-grey-3">
                       Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
                       Barat 50129
                     </p>
@@ -154,7 +154,7 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-2">
+                      <p class="ml-3 text-xs font-normal text-grey-3">
                         Jadwal&nbsp;<span class="font-extrabold">
                           20 Juni 2022, 09:15 WIB</span
                         >
@@ -176,7 +176,7 @@
                     >
                   </div>
                   <div>
-                    <p class="text-xs text-grey-2">
+                    <p class="text-xs text-grey-3">
                       Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
                       Barat 50129
                     </p>
@@ -210,7 +210,7 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-2">
+                      <p class="ml-3 text-xs font-normal text-grey-3">
                         Jadwal&nbsp;<span class="font-extrabold">
                           20 Juni 2022, 09:15 WIB</span
                         >
@@ -232,7 +232,7 @@
                     >
                   </div>
                   <div>
-                    <p class="text-xs text-grey-2">
+                    <p class="text-xs text-grey-3">
                       Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
                       Barat 50129
                     </p>
@@ -266,7 +266,7 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-2">
+                      <p class="ml-3 text-xs font-normal text-grey-3">
                         Jadwal&nbsp;<span class="font-extrabold">
                           20 Juni 2022, 09:15 WIB</span
                         >
@@ -288,7 +288,7 @@
                     >
                   </div>
                   <div>
-                    <p class="text-xs text-grey-2">
+                    <p class="text-xs text-grey-3">
                       Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
                       Barat 50129
                     </p>
@@ -322,7 +322,7 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-2">
+                      <p class="ml-3 text-xs font-normal text-grey-3">
                         Jadwal&nbsp;<span class="font-extrabold">
                           20 Juni 2022, 09:15 WIB</span
                         >

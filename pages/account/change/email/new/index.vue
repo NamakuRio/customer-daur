@@ -49,7 +49,7 @@
                 type="submit"
                 class="btn btn--block btn--rounded btn--primary"
                 :class="{ 'btn--progress': isLoading }"
-                :disabled="isLoading"
+                :disabled="isLoading || !isFilledAllField"
               >
                 Selanjutnya
               </button>
@@ -69,6 +69,11 @@ export default {
       isLoading: false,
       axiosCancelToken: null,
     }
+  },
+  computed: {
+    isFilledAllField() {
+      return this.email ? true : false
+    },
   },
   mounted() {
     if (!this.$store.state.account.change.email.old.verified) {

@@ -52,36 +52,57 @@
                   <input
                     type="tel"
                     class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    :class="{ 'border border-danger': errorsField?.code }"
                     @keypress="$onlyNumber($event)"
-                    @keyup="insertCode($event.target)"
+                    @keyup="
+                      insertCode($event.target)
+                      handlingKeyup('code')
+                    "
                     v-model="code.input1"
                     :disabled="isLoading"
                   />
                   <input
                     type="tel"
                     class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    :class="{ 'border border-danger': errorsField?.code }"
                     @keypress="$onlyNumber($event)"
-                    @keyup="insertCode($event.target)"
+                    @keyup="
+                      insertCode($event.target)
+                      handlingKeyup('code')
+                    "
                     v-model="code.input2"
                     :disabled="isLoading"
                   />
                   <input
                     type="tel"
                     class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    :class="{ 'border border-danger': errorsField?.code }"
                     @keypress="$onlyNumber($event)"
-                    @keyup="insertCode($event.target)"
+                    @keyup="
+                      insertCode($event.target)
+                      handlingKeyup('code')
+                    "
                     v-model="code.input3"
                     :disabled="isLoading"
                   />
                   <input
                     type="tel"
                     class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    :class="{ 'border border-danger': errorsField?.code }"
                     @keypress="$onlyNumber($event)"
-                    @keyup="insertCode($event.target)"
+                    @keyup="
+                      insertCode($event.target)
+                      handlingKeyup('code')
+                    "
                     v-model="code.input4"
                     :disabled="isLoading"
                   />
                 </div>
+                <span
+                  class="text-danger text-xs font-medium mt-3 block"
+                  v-if="errorsField?.code"
+                  >{{ errorsField?.code[0] }}</span
+                >
                 <p
                   v-if="nextTimeRequestCode > 0"
                   class="text-xs text-grey-2 max-w-[269px] mx-auto font-medium mt-8"
@@ -228,6 +249,7 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
+      validationErrors: null,
       code: {
         input1: null,
         input2: null,
@@ -246,6 +268,9 @@ export default {
     nextTimeRequestCode() {
       return this.$store.state.account.change.email.new.nextTimeRequestCode
     },
+    errorsField() {
+      return this.validationErrors
+    },
   },
   mounted() {
     if (!this.$store.state.account.change.email.new.value) {
@@ -261,6 +286,20 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
+    countTimeRequestCode() {
+      if (this.nextTimeRequestCode < 1) {
+        return false
+      }
+      setTimeout(() => {
+        let time = this.nextTimeRequestCode - 1
+        this.$store.commit('account/updateTimeRequestCode', {
+          type: 'email',
+          stage: 'new',
+          time,
+        })
+        this.countTimeRequestCode()
+      }, 1000)
+    },
     insertCode(el) {
       document.addEventListener('keyup', function (e) {
         if (e.keyCode != 13) {
@@ -277,7 +316,9 @@ export default {
             this.focusOnInput(el.previousElementSibling)
           }
         } else {
-          if (el.nextElementSibling != null) {
+          if (el.nextElementSibling === null) {
+            this.verification()
+          } else {
             this.focusOnInput(el.nextElementSibling)
           }
         }
@@ -293,49 +334,11 @@ export default {
         el.value = val
       })
     },
-    async resendCode() {
-      try {
-        this.isLoading = true
-        this.$store.commit('app/setLoader', true)
-
-        var response = await this.$axios.$post(
-          '/api/v1/profile/update',
-          {
-            email: this.emailNew,
-          },
-          {
-            CancelToken: this.axiosCancelToken,
-          }
-        )
-
-        this.isLoading = false
-        if (response.success) {
-          this.$store.commit('account/prepareVerification', {
-            type: 'email',
-            stage: 'new',
-            value: this.emailNew,
-          })
-          this.countTimeRequestCode()
-        }
-      } catch (e) {
-        this.isLoading = false
-        if (!this.$axios.isCancel(e)) {
-        }
+    handlingKeyup(pressedName) {
+      // remove error
+      if (this.validationErrors && this.validationErrors[pressedName]) {
+        this.validationErrors[pressedName] = null
       }
-    },
-    countTimeRequestCode() {
-      if (this.nextTimeRequestCode < 1) {
-        return false
-      }
-      setTimeout(() => {
-        let time = this.nextTimeRequestCode - 1
-        this.$store.commit('account/updateTimeRequestCode', {
-          type: 'email',
-          stage: 'new',
-          time,
-        })
-        this.countTimeRequestCode()
-      }, 1000)
     },
     async verification() {
       try {
@@ -369,6 +372,43 @@ export default {
             type: 'email',
           })
           this.successChangePopup = true
+        }
+      } catch (e) {
+        this.isLoading = false
+        if (!this.$axios.isCancel(e)) {
+          const code = parseInt(e.response && e.response.status)
+          const statusText = e.response && e.response.statusText
+          const data = e.response && e.response.data
+
+          if (code === 422) {
+            if (data.errors) this.validationErrors = data.errors
+          }
+        }
+      }
+    },
+    async resendCode() {
+      try {
+        this.isLoading = true
+        this.$store.commit('app/setLoader', true)
+
+        var response = await this.$axios.$post(
+          '/api/v1/profile/update',
+          {
+            email: this.emailNew,
+          },
+          {
+            CancelToken: this.axiosCancelToken,
+          }
+        )
+
+        this.isLoading = false
+        if (response.success) {
+          this.$store.commit('account/prepareVerification', {
+            type: 'email',
+            stage: 'new',
+            value: this.emailNew,
+          })
+          this.countTimeRequestCode()
         }
       } catch (e) {
         this.isLoading = false
