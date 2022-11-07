@@ -30,9 +30,17 @@
       <p
         class="text-sm font-medium max-w-[200px] text-grey-2 text-center mx-auto mt-7"
       >
-      Error : <span class="text-secondary">{{ error.message }} ({{ error.statusCode }})</span>
+        Error :
+        <span class="text-secondary"
+          >{{ error.message }} ({{ error.statusCode }})</span
+        >
       </p>
-      <button class="mt-5 text-sm font-medium underline text-primary" onclick="window.location.reload()">Refresh</button>
+      <button
+        class="mt-5 text-sm font-medium underline text-primary"
+        onclick="window.location.reload()"
+      >
+        Refresh
+      </button>
     </div>
   </div>
 </template>
