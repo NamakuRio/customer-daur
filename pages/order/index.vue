@@ -37,7 +37,10 @@
         </div>
         <div>
           <div class="flex flex-col gap-3 p-5">
-            <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+            <NuxtLink
+              to="/order/1"
+              class="p-4 border rounded-lg cursor-pointer border-grey-1"
+            >
               <div
                 class="flex flex-row items-center p-3 mb-4 border rounded border-warning text-warning bg-warning bg-opacity-10"
               >
@@ -84,8 +87,11 @@
                 </p>
                 <p class="text-xs text-grey-3">On-demand</p>
               </div>
-            </div>
-            <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+            </NuxtLink>
+            <NuxtLink
+              to="/order/1"
+              class="p-4 border rounded-lg cursor-pointer border-grey-1"
+            >
               <div class="flex flex-col gap-3">
                 <div class="flex items-start justify-between">
                   <div>
@@ -103,8 +109,11 @@
                 </p>
                 <p class="text-xs text-grey-3">On-demand</p>
               </div>
-            </div>
-            <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+            </NuxtLink>
+            <NuxtLink
+              to="/order/1"
+              class="p-4 border rounded-lg cursor-pointer border-grey-1"
+            >
               <div class="flex flex-col gap-3">
                 <div class="flex items-start justify-between">
                   <div>
@@ -122,8 +131,11 @@
                 </p>
                 <p class="text-xs text-grey-3">On-demand</p>
               </div>
-            </div>
-            <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+            </NuxtLink>
+            <NuxtLink
+              to="/order/1"
+              class="p-4 border rounded-lg cursor-pointer border-grey-1"
+            >
               <div class="flex flex-col gap-3">
                 <div class="flex items-start justify-between">
                   <div>
@@ -141,8 +153,11 @@
                 </p>
                 <p class="text-xs text-grey-3">On-demand</p>
               </div>
-            </div>
-            <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+            </NuxtLink>
+            <NuxtLink
+              to="/order/1"
+              class="p-4 border rounded-lg cursor-pointer border-grey-1"
+            >
               <div class="flex flex-col gap-3">
                 <div class="flex items-start justify-between">
                   <div>
@@ -160,7 +175,7 @@
                 </p>
                 <p class="text-xs text-grey-3">On-demand</p>
               </div>
-            </div>
+            </NuxtLink>
           </div>
         </div>
       </div>

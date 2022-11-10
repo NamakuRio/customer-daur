@@ -119,7 +119,11 @@
           </div>
           <div class="px-5">
             <div class="flex flex-wrap gap-4">
-              <div class="flex-grow flex-shrink w-full" style="flex-basis: 45%">
+              <NuxtLink
+                to="/order/create/trash"
+                class="flex-grow flex-shrink w-full"
+                style="flex-basis: 45%"
+              >
                 <div
                   class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1"
                 >
@@ -134,7 +138,7 @@
                     Order Sekarang
                   </h6>
                 </div>
-              </div>
+              </NuxtLink>
               <div class="flex-grow flex-shrink w-full" style="flex-basis: 45%">
                 <div
                   class="px-4 pt-6 pb-5 text-center border rounded-lg cursor-pointer border-grey-1"
