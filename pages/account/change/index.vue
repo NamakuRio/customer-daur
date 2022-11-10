@@ -164,9 +164,9 @@ export default {
   },
   computed: {
     isFilledAllField() {
-      return this.changeUser.name &&
-        this.changeUser.account_type &&
-        this.changeUser.industry_type
+      return !this.changeUser.name ||
+        !this.changeUser.account_type ||
+        !this.changeUser.industry_type
         ? true
         : false
     },

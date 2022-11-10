@@ -27,7 +27,131 @@
       </template>
     </Header>
     <div class="with-header">
-      <div></div>
+      <div>
+        <div class="bg-white">
+          <div class="p-5">
+            <p class="text-sm font-extrabold text-black">Alamat Penjemputan</p>
+            <div class="flex items-start justify-between mt-3">
+              <div class="flex items-start justify-start">
+                <svg
+                  width="12"
+                  height="16"
+                  viewBox="0 0 12 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="min-w-[12px] min-h-[16px] max-w-[12px] max-h-[16px]"
+                >
+                  <g clip-path="url(#clip0_1847_6615)">
+                    <path
+                      d="M6.74062 15.6C8.34375 13.5938 12 8.73125 12 6C12 2.6875 9.3125 0 6 0C2.6875 0 0 2.6875 0 6C0 8.73125 3.65625 13.5938 5.25938 15.6C5.64375 16.0781 6.35625 16.0781 6.74062 15.6ZM6 8C4.89687 8 4 7.10312 4 6C4 4.89687 4.89687 4 6 4C7.10313 4 8 4.89687 8 6C8 7.10312 7.10313 8 6 8Z"
+                      fill="#F17E60"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1847_6615">
+                      <rect width="12" height="16" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <p class="ml-3 text-sm text-grey-2">
+                  Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
+                  50129
+                </p>
+              </div>
+              <div class="ml-3 cursor-pointer">
+                <svg
+                  width="19"
+                  height="19"
+                  viewBox="0 0 19 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+                >
+                  <path
+                    d="M6.33337 3.1665L12.6667 9.49984L6.33337 15.8332"
+                    stroke="#F17E60"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-4">
+              <input
+                type="text"
+                class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                placeholder="Alamat detail"
+              />
+            </div>
+          </div>
+          <div class="p-5 border-t border-black border-opacity-10">
+            <p class="text-sm font-extrabold text-black">
+              Pilihan Waktu Pengangkutan
+            </p>
+            <div class="mt-4">
+              <div class="flex items-center gap-x-3 gap-y-4">
+                <div class="flex items-center w-full">
+                  <input
+                    id="radio-pickup-ondemand"
+                    type="radio"
+                    name="radio-pickup"
+                    class="hidden custom-selected-radio"
+                  />
+                  <label
+                    for="radio-pickup-ondemand"
+                    class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
+                  >
+                    <span
+                      class="inline-block w-4 h-4 border-2 rounded-full border-grey-1"
+                    ></span>
+                    <p class="ml-3">Sekarang</p>
+                  </label>
+                </div>
+                <div class="flex items-center w-full">
+                  <input
+                    id="radio-pickup-scheduled"
+                    type="radio"
+                    name="radio-pickup"
+                    class="hidden custom-selected-radio"
+                  />
+                  <label
+                    for="radio-pickup-scheduled"
+                    class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
+                  >
+                    <span
+                      class="inline-block w-4 h-4 border-2 rounded-full border-grey-1"
+                    ></span>
+                    <p class="ml-3">Atur Jadwal</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-center gap-4">
+                <input
+                  type="text"
+                  class="block w-2/3 p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                  placeholder="hari / bulan / tahun"
+                />
+                <input
+                  type="text"
+                  class="block w-1/3 p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                  placeholder="00:00"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="p-5 border-t border-black border-opacity-10">
+            <p class="text-sm font-extrabold text-black">Sampah</p>
+          </div>
+          <div class="p-5 border-t border-black border-opacity-10">
+            <button class="btn btn--primary btn--rounded btn--block">
+              Selanjutnya
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -36,3 +160,19 @@ export default {
   middleware: ['authenticated'],
 }
 </script>
+<style>
+input[type='radio'].custom-selected-radio + label {
+  @apply transition duration-200 border border-grey-1 rounded-lg p-4 text-sm text-black;
+}
+
+input[type='radio'].custom-selected-radio:checked + label {
+  @apply border-secondary bg-secondary bg-opacity-25 text-secondary;
+}
+
+input[type='radio'].custom-selected-radio + label span {
+  @apply transition-all duration-200;
+}
+input[type='radio'].custom-selected-radio:checked + label span {
+  @apply bg-secondary border-white;
+}
+</style>

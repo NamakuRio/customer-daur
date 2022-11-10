@@ -396,7 +396,7 @@
                       />
                     </svg>
                     <p class="ml-2 text-sm font-medium text-grey-2">
-                      Jadwal Pengangkutan
+                      Jenis Sampah
                     </p>
                   </div>
                   <p
