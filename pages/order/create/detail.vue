@@ -142,13 +142,140 @@
               </div>
             </div>
           </div>
-          <div class="p-5 border-t border-black border-opacity-10">
+          <div
+            class="flex flex-col gap-5 p-5 border-t border-black border-opacity-10"
+          >
             <p class="text-sm font-extrabold text-black">Sampah</p>
+            <div class="flex flex-col gap-3">
+              <div class="flex items-start justify-between">
+                <div class="flex items-center justify-start">
+                  <img
+                    src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                    alt=""
+                    class="object-cover w-12 h-12 border rounded border-grey-1"
+                  />
+                  <div class="ml-4">
+                    <p class="text-sm text-grey-3">Plastik</p>
+                    <div class="flex items-center mt-2 cursor-pointer">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
+                      >
+                        <path
+                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
+                          fill="#F17E60"
+                        />
+                      </svg>
+                      <p class="ml-1 text-sm text-secondary">Edit</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm font-extrabold text-black">1,5 kg</p>
+              </div>
+              <div class="flex items-start justify-between">
+                <div class="flex items-center justify-start">
+                  <img
+                    src="/assets/images/trashes/2_plastik/6_styrofoam.png"
+                    alt=""
+                    class="object-cover w-12 h-12 border rounded border-grey-1"
+                  />
+                  <div class="ml-4">
+                    <p class="text-sm text-grey-3">Plastik</p>
+                    <div class="flex items-center mt-2 cursor-pointer">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
+                      >
+                        <path
+                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
+                          fill="#F17E60"
+                        />
+                      </svg>
+                      <p class="ml-1 text-sm text-secondary">Edit</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm font-extrabold text-black">1,5 kg</p>
+              </div>
+              <div class="flex items-start justify-between">
+                <div class="flex items-center justify-start">
+                  <img
+                    src="/assets/images/trashes/2_plastik/5_cd.png"
+                    alt=""
+                    class="object-cover w-12 h-12 border rounded border-grey-1"
+                  />
+                  <div class="ml-4">
+                    <p class="text-sm text-grey-3">Plastik</p>
+                    <div class="flex items-center mt-2 cursor-pointer">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
+                      >
+                        <path
+                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
+                          fill="#F17E60"
+                        />
+                      </svg>
+                      <p class="ml-1 text-sm text-secondary">Edit</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm font-extrabold text-black">1,5 kg</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-extrabold text-black">Total</p>
+              <p class="text-sm font-extrabold text-black">2,5kg</p>
+            </div>
+            <div
+              class="flex items-center justify-between px-4 py-3 border cursor-pointer border-success"
+            >
+              <p class="text-sm font-medium text-success">
+                Tambah Jenis Sampah
+              </p>
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="min-w-[22px] min-h-[22px] max-w-[22px] max-h-[22px]"
+              >
+                <g clip-path="url(#clip0_1847_6623)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M11 0.916504C5.43121 0.916504 0.916626 5.43109 0.916626 10.9998C0.916626 16.5686 5.43121 21.0832 11 21.0832C16.5687 21.0832 21.0833 16.5686 21.0833 10.9998C21.0833 5.43109 16.5687 0.916504 11 0.916504ZM11.9166 14.6665C11.9166 14.9096 11.82 15.1428 11.6481 15.3147C11.4762 15.4866 11.2431 15.5832 11 15.5832C10.7568 15.5832 10.5237 15.4866 10.3518 15.3147C10.1799 15.1428 10.0833 14.9096 10.0833 14.6665V11.9165H7.33329C7.09018 11.9165 6.85702 11.8199 6.68511 11.648C6.5132 11.4761 6.41663 11.243 6.41663 10.9998C6.41663 10.7567 6.5132 10.5236 6.68511 10.3517C6.85702 10.1797 7.09018 10.0832 7.33329 10.0832H10.0833V7.33317C10.0833 7.09005 10.1799 6.8569 10.3518 6.68499C10.5237 6.51308 10.7568 6.4165 11 6.4165C11.2431 6.4165 11.4762 6.51308 11.6481 6.68499C11.82 6.8569 11.9166 7.09005 11.9166 7.33317V10.0832H14.6666C14.9097 10.0832 15.1429 10.1797 15.3148 10.3517C15.4867 10.5236 15.5833 10.7567 15.5833 10.9998C15.5833 11.243 15.4867 11.4761 15.3148 11.648C15.1429 11.8199 14.9097 11.9165 14.6666 11.9165H11.9166V14.6665Z"
+                    fill="#2AC769"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1847_6623">
+                    <rect width="22" height="22" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
           </div>
           <div class="p-5 border-t border-black border-opacity-10">
-            <button class="btn btn--primary btn--rounded btn--block">
+            <NuxtLink
+              to="/order/create/overview"
+              class="btn btn--primary btn--rounded btn--block"
+            >
               Selanjutnya
-            </button>
+            </NuxtLink>
           </div>
         </div>
       </div>
