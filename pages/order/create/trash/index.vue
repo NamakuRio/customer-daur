@@ -29,7 +29,7 @@
     <div class="with-header">
       <div>
         <div
-          class="sticky z-50 w-full p-4 bg-white border-b border-black top-14 border-opacity-10"
+          class="w-full p-4 bg-white border-b border-black border-opacity-10"
         >
           <div class="relative">
             <div class="absolute top-0 p-4 right-1">
@@ -60,6 +60,120 @@
               class="block w-full py-4 pl-4 pr-12 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
               placeholder="Cari Jenis Sampah"
             />
+          </div>
+        </div>
+        <div class="bg-white">
+          <div class="flex flex-col">
+            <div
+              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
+            >
+              <div class="flex items-center">
+                <img
+                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                  alt=""
+                  class="object-cover w-12 h-12 border rounded border-grey-1"
+                />
+                <div class="ml-4">
+                  <p class="text-sm text-grey-3">Plastik</p>
+                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
+                </div>
+              </div>
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 19 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+              >
+                <path
+                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
+                  stroke="#F17E60"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div
+              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
+            >
+              <div class="flex items-center">
+                <img
+                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                  alt=""
+                  class="object-cover w-12 h-12 border rounded border-grey-1"
+                />
+                <div class="ml-4">
+                  <p class="text-sm text-grey-3">Plastik</p>
+                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
+                </div>
+              </div>
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 19 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+              >
+                <path
+                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
+                  stroke="#F17E60"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div
+              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
+            >
+              <div class="flex items-center">
+                <img
+                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                  alt=""
+                  class="object-cover w-12 h-12 border rounded border-grey-1"
+                />
+                <div class="ml-4">
+                  <p class="text-sm text-grey-3">Plastik</p>
+                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
+                </div>
+              </div>
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 19 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+              >
+                <path
+                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
+                  stroke="#F17E60"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="fixed bottom-0 w-full p-5 mx-auto bg-white max-w-[444px]"
+          style="box-shadow: rgb(0 0 0 / 2%) 0px -6px 6px"
+        >
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-medium text-grey-3">Total</p>
+            <p class="text-base font-extrabold text-black">0</p>
+          </div>
+          <div class="flex items-center gap-3 mt-3">
+            <button class="btn btn--default btn--block btn--rounded">
+              Batal
+            </button>
+            <button class="btn btn--primary btn--block btn--rounded">
+              Selanjutnya
+            </button>
           </div>
         </div>
       </div>

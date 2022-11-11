@@ -27,12 +27,188 @@
       </template>
     </Header>
     <div class="with-header">
-      <div></div>
+      <div>
+        <div>
+          <div class="py-5">
+            <p class="mx-5 text-base font-bold text-black">Plastik</p>
+            <p class="mx-5 mt-2 text-sm font-medium text-grey-2">
+              Kami menerima semua jenis plastik
+            </p>
+            <div class="mt-5 overflow-hidden">
+              <div class="swiper swiper-material" style="overflow: initial">
+                <div class="swiper-wrapper">
+                  <div
+                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                  >
+                    <img
+                      src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                      alt=""
+                      class="min-w-[70px] max-w-[70px] aspect-square"
+                    />
+                    <p class="text-sm text-center text-grey-3">Botol Plastik</p>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                  >
+                    <img
+                      src="/assets/images/trashes/2_plastik/2_emberan.png"
+                      alt=""
+                      class="min-w-[70px] max-w-[70px] aspect-square"
+                    />
+                    <p class="text-sm text-center text-grey-3">Emberan</p>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                  >
+                    <img
+                      src="/assets/images/trashes/2_plastik/4_kresek.png"
+                      alt=""
+                      class="min-w-[70px] max-w-[70px] aspect-square"
+                    />
+                    <p class="text-sm text-center text-grey-3">Kresek</p>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                  >
+                    <img
+                      src="/assets/images/trashes/2_plastik/5_cd.png"
+                      alt=""
+                      class="min-w-[70px] max-w-[70px] aspect-square"
+                    />
+                    <p class="text-sm text-center text-grey-3">CD</p>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                  >
+                    <img
+                      src="/assets/images/trashes/2_plastik/6_styrofoam.png"
+                      alt=""
+                      class="min-w-[70px] max-w-[70px] aspect-square"
+                    />
+                    <p class="text-sm text-center text-grey-3">Styrofoam</p>
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="mx-5 mt-7">
+              <p class="text-sm text-grey-2">
+                Sampah Anda tidak ada dalam contoh? Tulis disini
+              </p>
+              <input
+                type="text"
+                class="block w-full p-4 mt-2 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                placeholder="Jenis plastik lain"
+              />
+            </div>
+          </div>
+          <div class="p-5 border-t border-black border-opacity-10">
+            <p class="text-sm font-extrabold text-grey-3">Deskripsi</p>
+            <div></div>
+          </div>
+        </div>
+        <div
+          class="fixed bottom-0 w-full p-5 mx-auto bg-white max-w-[444px]"
+          style="box-shadow: rgb(0 0 0 / 2%) 0px -6px 6px"
+        >
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-medium text-grey-3">Total</p>
+            <p class="text-base font-extrabold text-black">0</p>
+          </div>
+          <div class="flex items-center gap-3 mt-3">
+            <div class="flex items-center w-1/2">
+              <div class="flex items-center gap-4">
+                <div class="text-black cursor-pointer">
+                  <svg
+                    width="29"
+                    height="29"
+                    viewBox="0 0 29 29"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="min-w-[29px] min-h-[29px] max-w-[29px] max-h-[29px]"
+                  >
+                    <path
+                      d="M19.3333 14.5H9.66667"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M14.5 26.5832C21.1734 26.5832 26.5833 21.1733 26.5833 14.4998C26.5833 7.8264 21.1734 2.4165 14.5 2.4165C7.82656 2.4165 2.41667 7.8264 2.41667 14.4998C2.41667 21.1733 7.82656 26.5832 14.5 26.5832Z"
+                      stroke="currentColor"
+                    />
+                  </svg>
+                </div>
+                <p class="text-base font-medium text-grey-3">0</p>
+                <div class="text-black cursor-pointer">
+                  <svg
+                    width="29"
+                    height="29"
+                    viewBox="0 0 29 29"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="min-w-[29px] min-h-[29px] max-w-[29px] max-h-[29px]"
+                  >
+                    <path
+                      d="M14.5 9.6665V14.4998M14.5 14.4998V19.3332M14.5 14.4998H19.3333M14.5 14.4998H9.66667"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M14.5 26.5832C21.1734 26.5832 26.5833 21.1733 26.5833 14.4998C26.5833 7.8264 21.1734 2.4165 14.5 2.4165C7.82656 2.4165 2.41667 7.8264 2.41667 14.4998C2.41667 21.1733 7.82656 26.5832 14.5 26.5832Z"
+                      stroke="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p class="ml-3 text-sm font-medium text-grey-3">Pcs</p>
+            </div>
+            <button class="btn btn--secondary btn--block btn--rounded !w-1/2">
+              Tambahkan
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import Swiper, { Pagination } from 'swiper'
+import 'swiper/swiper-bundle.min.css'
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      swiper: null,
+    }
+  },
+  mounted() {
+    this.initSwiper()
+  },
+  methods: {
+    initSwiper() {
+      this.swiper = new Swiper('.swiper-material', {
+        modules: [Pagination],
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        pagination: {
+          el: '.swiper-pagination',
+          bulletActiveClass: '!bg-secondary !opacity-100',
+        },
+      })
+    },
+  },
 }
 </script>
+<style>
+.swiper-material {
+  @apply w-full h-full pb-12;
+}
+
+.swiper-slide {
+  @apply text-center text-lg bg-white flex justify-center items-center;
+}
+
+.swiper-slide img {
+  @apply block w-full h-full object-cover;
+}
+</style>

@@ -61,6 +61,14 @@ export const actions = {
       })
       .catch((error) => {
         console.log(error)
+        this.$nuxt.context.error({
+          status: 500,
+          message: error?.response?.statusText
+            ? error?.response?.statusText
+            : error?.response?.data
+            ? error?.response?.data
+            : 'Server Error',
+        })
       })
   },
 }

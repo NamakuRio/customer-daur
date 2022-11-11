@@ -29,7 +29,7 @@
     <div class="with-header">
       <div>
         <div
-          class="sticky z-50 w-full p-4 bg-white border-b border-black top-14 border-opacity-10"
+          class="w-full p-4 bg-white border-b border-black border-opacity-10"
         >
           <div class="relative">
             <div class="absolute top-0 p-4 right-1">

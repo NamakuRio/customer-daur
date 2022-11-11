@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Alamat" :left-action="true">
+    <Header title="Alamat" :left-action="true" :right-action="true">
       <template #left-action>
         <NuxtLink to="/order/create/trash">
           <svg
@@ -25,14 +25,255 @@
           </svg>
         </NuxtLink>
       </template>
+      <template #right-action>
+        <NuxtLink to="/order/create/address/search">
+          <svg
+            width="23"
+            height="23"
+            viewBox="0 0 23 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20.125 20.1248L15.8259 15.8181M18.2084 10.0623C18.2084 12.2227 17.3501 14.2947 15.8225 15.8223C14.2949 17.35 12.2229 18.2082 10.0625 18.2082C7.90211 18.2082 5.83019 17.35 4.30255 15.8223C2.77491 14.2947 1.91669 12.2227 1.91669 10.0623C1.91669 7.90193 2.77491 5.83 4.30255 4.30236C5.83019 2.77472 7.90211 1.9165 10.0625 1.9165C12.2229 1.9165 14.2949 2.77472 15.8225 4.30236C17.3501 5.83 18.2084 7.90193 18.2084 10.0623V10.0623Z"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </NuxtLink>
+      </template>
     </Header>
     <div class="with-header">
-      <div></div>
+      <div>
+        <div ref="maps" class="w-full" style="height: calc(100vh - 56px)"></div>
+        <div class="fixed bottom-0 mx-auto w-full max-w-[444px] p-5 bg-white">
+          <div>
+            <div
+              class="flex items-center justify-start cursor-pointer"
+              @click="getUserLocation"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px]"
+              >
+                <path
+                  d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z"
+                  fill="#F17E60"
+                />
+                <path
+                  d="M9.75 3.05175V1.5H8.25V3.05175C6.93022 3.22026 5.70373 3.82213 4.76293 4.76293C3.82213 5.70373 3.22026 6.93022 3.05175 8.25H1.5V9.75H3.05175C3.22001 11.0699 3.8218 12.2965 4.76265 13.2374C5.70349 14.1782 6.93013 14.78 8.25 14.9482V16.5H9.75V14.9482C11.0699 14.7801 12.2966 14.1784 13.2375 13.2375C14.1784 12.2966 14.7801 11.0699 14.9482 9.75H16.5V8.25H14.9482C14.78 6.93013 14.1782 5.70349 13.2374 4.76265C12.2965 3.8218 11.0699 3.22001 9.75 3.05175ZM9 13.5C6.51825 13.5 4.5 11.4818 4.5 9C4.5 6.51825 6.51825 4.5 9 4.5C11.4818 4.5 13.5 6.51825 13.5 9C13.5 11.4818 11.4818 13.5 9 13.5Z"
+                  fill="#F17E60"
+                />
+              </svg>
+              <p class="ml-3 text-sm select-none text-secondary">
+                Gunakan lokasi saat ini
+              </p>
+            </div>
+            <div class="mt-6">
+              <p class="text-sm font-extrabold text-black">
+                Alamat yang Anda pilih
+              </p>
+              <div class="flex items-start justify-start mt-3">
+                <svg
+                  width="12"
+                  height="16"
+                  viewBox="0 0 12 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px]"
+                >
+                  <g clip-path="url(#clip0_158_2497)">
+                    <path
+                      d="M6.74062 15.6C8.34375 13.5938 12 8.73125 12 6C12 2.6875 9.3125 0 6 0C2.6875 0 0 2.6875 0 6C0 8.73125 3.65625 13.5938 5.25938 15.6C5.64375 16.0781 6.35625 16.0781 6.74062 15.6ZM6 8C4.89687 8 4 7.10312 4 6C4 4.89687 4.89687 4 6 4C7.10313 4 8 4.89687 8 6C8 7.10312 7.10313 8 6 8Z"
+                      fill="#F17E60"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_158_2497">
+                      <rect width="12" height="16" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <p class="ml-3 text-sm text-grey-2">
+                  Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
+                  50129
+                </p>
+              </div>
+              <input
+                type="text"
+                class="block w-full p-4 mt-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                placeholder="Alamat detail"
+              />
+            </div>
+          </div>
+          <button class="mt-4 btn btn--primary btn--block btn--rounded">
+            Selanjutnya
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   middleware: ['authenticated'],
+  head() {
+    return !window.google
+      ? {
+          script: [
+            {
+              hid: 'maps-googleapis',
+              src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${this.maps.apiKey}`,
+              defer: true,
+              callback: this.initMap,
+            },
+          ],
+        }
+      : {}
+  },
+  data() {
+    return {
+      maps: {
+        apiKey: 'AIzaSyAqjbpAlmQZlxCpnm6kc_KRfxFvyL6owgI',
+        map: null,
+        target: null,
+        defaultLocation: {
+          lat: -6.176279,
+          lng: 106.8250734,
+        },
+        marker: {
+          base: null,
+          target: null,
+          targetIcon:
+            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAzMSA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE1OF8yNDk5KSI+CjxwYXRoIGQ9Ik0yNC45MDQ3IDI4LjU0NUMyMi4wNTY3IDMzLjIzOTUgMTguNjg4OSAzNy43MSAxNi42Mjg0IDQwLjMzMDRDMTYuMDM1OCA0MS4wNzgzIDE0Ljk2NCA0MS4wNzgzIDE0LjM3MTUgNDAuMzMwMkMxMi4zMTA5IDM3LjcwOTggOC45NDMyOCAzMy4yMzk0IDYuMDk1MjkgMjguNTQ1QzQuNjcwODMgMjYuMTk3IDMuMzg4MDIgMjMuODEyIDIuNDY0MDEgMjEuNTg3OUMxLjUzMzI5IDE5LjM0NzcgMSAxNy4zNDg3IDEgMTUuNzVDMSA3LjU5MTgzIDcuNTEwMDIgMSAxNS41IDFDMjMuNDkgMSAzMCA3LjU5MTgzIDMwIDE1Ljc1QzMwIDE3LjM0ODcgMjkuNDY2NyAxOS4zNDc3IDI4LjUzNiAyMS41ODc5QzI3LjYxMiAyMy44MTIgMjYuMzI5MiAyNi4xOTcgMjQuOTA0NyAyOC41NDVaTTkuMzMzMzMgMTUuNzVDOS4zMzMzMyAxOS4xODI4IDEyLjA4MyAyMiAxNS41IDIyQzE4LjkxNyAyMiAyMS42NjY3IDE5LjE4MjggMjEuNjY2NyAxNS43NUMyMS42NjY3IDEyLjMxNzIgMTguOTE3IDkuNSAxNS41IDkuNUMxMi4wODMgOS41IDkuMzMzMzMgMTIuMzE3MiA5LjMzMzMzIDE1Ljc1WiIgZmlsbD0iI0YxN0U2MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDBfMTU4XzI0OTkiPgo8cmVjdCB3aWR0aD0iMzEiIGhlaWdodD0iNDIiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==',
+        },
+      },
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.maps.map === null && window.google) {
+        this.initMap()
+      }
+    }, 1000)
+  },
+  methods: {
+    initMap() {
+      let maps = this.maps
+
+      maps.target = this.$refs.maps
+      let indonesian = new google.maps.LatLng(
+        maps.defaultLocation.lat,
+        maps.defaultLocation.lng
+      )
+      maps.map = new google.maps.Map(maps.target, {
+        center: indonesian,
+        zoom: 16,
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        gestureHandling: 'greedy',
+      })
+
+      maps.marker.target = new google.maps.Marker({
+        position: indonesian,
+        map: maps.map,
+        icon: maps.marker.targetIcon,
+        animation: google.maps.Animation.DROP,
+        draggable: false,
+      })
+
+      this.getUserLocation()
+
+      // handle event marker target
+      maps.marker.target.addListener('click', function () {
+        if (maps.marker.target.getAnimation() !== null) {
+          maps.marker.target.setAnimation(null)
+        } else {
+          maps.marker.target.setAnimation(google.maps.Animation.BOUNCE)
+        }
+      })
+
+      //handle event maps
+      google.maps.event.addListener(maps.map, 'drag', function (e) {
+        var center = maps.map.getCenter()
+        maps.marker.target.setPosition(center)
+      })
+
+      google.maps.event.addListener(maps.map, 'dragend', function (e) {
+        var center = maps.map.getCenter()
+        maps.marker.target.setPosition(center)
+      })
+
+      google.maps.event.addListener(maps.map, 'zoom_changed', function (e) {
+        var center = maps.map.getCenter()
+        maps.marker.target.setPosition(center)
+      })
+
+      google.maps.event.addListener(maps.map, 'tilesloaded', function (e) {
+        var center = maps.map.getCenter()
+        maps.marker.target.setPosition(center)
+      })
+    },
+    getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          this.setLocationFromGPS,
+          this.handleErrorGPS
+        )
+      } else {
+        this.$store.commit('notification/showNotification', {
+          type: 'error',
+          message: 'Geolokasi tidak didukung oleh browser ini.',
+        })
+      }
+    },
+    setLocationFromGPS(location) {
+      let pos = {
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      }
+
+      this.maps.map.setCenter(pos)
+      this.maps.marker.target.setPosition(pos)
+      this.maps.map.getCenter()
+    },
+    handleErrorGPS(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          this.$store.commit('notification/showNotification', {
+            type: 'error',
+            message: 'Pengguna menolak permintaan Geolokasi.',
+          })
+          break
+        case error.POSITION_UNAVAILABLE:
+          this.$store.commit('notification/showNotification', {
+            type: 'error',
+            message: 'Informasi lokasi tidak tersedia.',
+          })
+          break
+        case error.TIMEOUT:
+          this.$store.commit('notification/showNotification', {
+            type: 'error',
+            message: 'Permintaan untuk mendapatkan lokasi pengguna habis.',
+          })
+          break
+        case error.UNKNOWN_ERROR:
+          this.$store.commit('notification/showNotification', {
+            type: 'error',
+            message: 'Terjadi kesalahan yang tidak diketahui.',
+          })
+          break
+      }
+    },
+  },
 }
 </script>
