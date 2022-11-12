@@ -171,9 +171,12 @@
             <button class="btn btn--default btn--block btn--rounded">
               Batal
             </button>
-            <button class="btn btn--primary btn--block btn--rounded">
+            <NuxtLink
+              to="/order/create/address"
+              class="btn btn--primary btn--block btn--rounded"
+            >
               Selanjutnya
-            </button>
+            </NuxtLink>
           </div>
         </div>
       </div>

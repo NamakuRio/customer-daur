@@ -47,8 +47,14 @@
     <div class="with-header">
       <div>
         <div ref="maps" class="w-full" style="height: calc(100vh - 56px)"></div>
-        <div class="fixed bottom-0 mx-auto w-full max-w-[444px] p-5 bg-white">
-          <div>
+        <div
+          class="fixed bottom-0 mx-auto w-full max-w-[444px] p-5 bg-white"
+          ref="mapsDetail"
+        >
+          <div v-if="maps.dragged" class="min-h-[246px]">
+            <Loader />
+          </div>
+          <div v-else>
             <div
               class="flex items-center justify-start cursor-pointer"
               @click="getUserLocation"
@@ -100,8 +106,7 @@
                   </defs>
                 </svg>
                 <p class="ml-3 text-sm text-grey-2">
-                  Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
-                  50129
+                  {{ addresses?.address }}
                 </p>
               </div>
               <input
@@ -110,10 +115,10 @@
                 placeholder="Alamat detail"
               />
             </div>
+            <button class="mt-4 btn btn--primary btn--block btn--rounded">
+              Selanjutnya
+            </button>
           </div>
-          <button class="mt-4 btn btn--primary btn--block btn--rounded">
-            Selanjutnya
-          </button>
         </div>
       </div>
     </div>
@@ -129,6 +134,7 @@ export default {
             {
               hid: 'maps-googleapis',
               src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${this.maps.apiKey}`,
+              async: true,
               defer: true,
               callback: this.initMap,
             },
@@ -139,7 +145,8 @@ export default {
   data() {
     return {
       maps: {
-        apiKey: 'AIzaSyAqjbpAlmQZlxCpnm6kc_KRfxFvyL6owgI',
+        dragged: false,
+        apiKey: 'AIzaSyCu0oFwKQBCYI3LVHH7i1ueuYoPYKPX75E',
         map: null,
         target: null,
         defaultLocation: {
@@ -153,6 +160,13 @@ export default {
             'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAzMSA0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE1OF8yNDk5KSI+CjxwYXRoIGQ9Ik0yNC45MDQ3IDI4LjU0NUMyMi4wNTY3IDMzLjIzOTUgMTguNjg4OSAzNy43MSAxNi42Mjg0IDQwLjMzMDRDMTYuMDM1OCA0MS4wNzgzIDE0Ljk2NCA0MS4wNzgzIDE0LjM3MTUgNDAuMzMwMkMxMi4zMTA5IDM3LjcwOTggOC45NDMyOCAzMy4yMzk0IDYuMDk1MjkgMjguNTQ1QzQuNjcwODMgMjYuMTk3IDMuMzg4MDIgMjMuODEyIDIuNDY0MDEgMjEuNTg3OUMxLjUzMzI5IDE5LjM0NzcgMSAxNy4zNDg3IDEgMTUuNzVDMSA3LjU5MTgzIDcuNTEwMDIgMSAxNS41IDFDMjMuNDkgMSAzMCA3LjU5MTgzIDMwIDE1Ljc1QzMwIDE3LjM0ODcgMjkuNDY2NyAxOS4zNDc3IDI4LjUzNiAyMS41ODc5QzI3LjYxMiAyMy44MTIgMjYuMzI5MiAyNi4xOTcgMjQuOTA0NyAyOC41NDVaTTkuMzMzMzMgMTUuNzVDOS4zMzMzMyAxOS4xODI4IDEyLjA4MyAyMiAxNS41IDIyQzE4LjkxNyAyMiAyMS42NjY3IDE5LjE4MjggMjEuNjY2NyAxNS43NUMyMS42NjY3IDEyLjMxNzIgMTguOTE3IDkuNSAxNS41IDkuNUMxMi4wODMgOS41IDkuMzMzMzMgMTIuMzE3MiA5LjMzMzMzIDE1Ljc1WiIgZmlsbD0iI0YxN0U2MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDBfMTU4XzI0OTkiPgo8cmVjdCB3aWR0aD0iMzEiIGhlaWdodD0iNDIiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==',
         },
       },
+      addresses: {
+        coordinate: {
+          lat: null,
+          lng: null,
+        },
+        address: null,
+      },
     }
   },
   mounted() {
@@ -161,10 +175,16 @@ export default {
         this.initMap()
       }
     }, 1000)
+
+    this.$refs.maps.style.setProperty(
+      `height`,
+      `calc(100vh - (56px + ${this.$refs.mapsDetail.offsetHeight}px))`
+    )
   },
   methods: {
     initMap() {
       let maps = this.maps
+      let _self = this
 
       maps.target = this.$refs.maps
       let indonesian = new google.maps.LatLng(
@@ -174,12 +194,7 @@ export default {
       maps.map = new google.maps.Map(maps.target, {
         center: indonesian,
         zoom: 16,
-        zoomControl: false,
-        mapTypeControl: false,
-        scaleControl: false,
-        streetViewControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
+        disableDefaultUI: true,
         gestureHandling: 'greedy',
       })
 
@@ -204,22 +219,54 @@ export default {
 
       //handle event maps
       google.maps.event.addListener(maps.map, 'drag', function (e) {
-        var center = maps.map.getCenter()
+        let center = maps.map.getCenter()
         maps.marker.target.setPosition(center)
+
+        maps.dragged = true
       })
 
       google.maps.event.addListener(maps.map, 'dragend', function (e) {
-        var center = maps.map.getCenter()
+        let center = maps.map.getCenter()
         maps.marker.target.setPosition(center)
+
+        let pos = {
+          lat: maps.marker.target.getPosition().lat(),
+          lng: maps.marker.target.getPosition().lng(),
+        }
+
+        setTimeout(() => {
+          _self.addresses.coordinate = pos
+          const callback = (response) => {
+            let data = response[0]
+            _self.addresses.address = data.formatted_address
+
+            maps.dragged = false
+          }
+          _self.geocodeLatLng(pos, callback)
+        }, 300)
       })
 
       google.maps.event.addListener(maps.map, 'zoom_changed', function (e) {
-        var center = maps.map.getCenter()
+        let center = maps.map.getCenter()
         maps.marker.target.setPosition(center)
+
+        let pos = {
+          lat: maps.marker.target.getPosition().lat(),
+          lng: maps.marker.target.getPosition().lng(),
+        }
+
+        setTimeout(() => {
+          _self.addresses.coordinate = pos
+          const callback = (response) => {
+            let data = response[0]
+            _self.addresses.address = data.formatted_address
+          }
+          _self.geocodeLatLng(pos, callback)
+        }, 300)
       })
 
       google.maps.event.addListener(maps.map, 'tilesloaded', function (e) {
-        var center = maps.map.getCenter()
+        let center = maps.map.getCenter()
         maps.marker.target.setPosition(center)
       })
     },
@@ -242,9 +289,16 @@ export default {
         lng: location.coords.longitude,
       }
 
-      this.maps.map.setCenter(pos)
+      this.maps.map.setZoom(16)
       this.maps.marker.target.setPosition(pos)
-      this.maps.map.getCenter()
+      this.maps.map.panTo(pos)
+
+      this.addresses.coordinate = pos
+      const callback = (response) => {
+        let data = response[0]
+        this.addresses.address = data.formatted_address
+      }
+      this.geocodeLatLng(pos, callback)
     },
     handleErrorGPS(error) {
       switch (error.code) {
@@ -273,6 +327,22 @@ export default {
           })
           break
       }
+    },
+    geocodeLatLng(location, callback) {
+      new google.maps.Geocoder().geocode(
+        {
+          location,
+        },
+        function (results, status) {
+          if (status === 'OK') {
+            if (typeof callback == 'function') {
+              callback(results)
+            }
+          } else {
+            console.log('Geocoder failed due to: ' + status)
+          }
+        }
+      )
     },
   },
 }
