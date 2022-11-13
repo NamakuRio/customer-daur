@@ -146,7 +146,7 @@ export default {
     return {
       maps: {
         dragged: false,
-        apiKey: 'AIzaSyCu0oFwKQBCYI3LVHH7i1ueuYoPYKPX75E',
+        apiKey: 'AIzaSyDsBa1b021I8aR_VSRt6cDKeGG2vcSBWao',
         map: null,
         target: null,
         defaultLocation: {
@@ -339,7 +339,10 @@ export default {
               callback(results)
             }
           } else {
-            console.log('Geocoder failed due to: ' + status)
+            this.$store.commit('notification/showNotification', {
+              type: 'error',
+              message: `Geocoder failed due to: ${status}`,
+            })
           }
         }
       )

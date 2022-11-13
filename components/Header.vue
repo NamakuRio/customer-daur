@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="text-white transition duration-300 fixed inset-x-0 top-0 z-50 flex flex-wrap justify-between items-center py-2 min-h-[56px] bg-primary"
+    class="text-white transition duration-300 fixed inset-x-0 top-0 z-50 flex flex-wrap justify-between items-center py-2 min-h-[56px] max-h-[56px] bg-primary"
     :class="{ 'shadow-lg': !view.atTopOfPage }"
   >
     <div
