@@ -1,4 +1,4 @@
-export default function ({ store, $axios, $router }) {
+export default function ({ store, $axios, app }) {
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
     const statusText = error.response && error.response.statusText

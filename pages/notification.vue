@@ -27,9 +27,14 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="notification.loading" />
+      <div v-else>
         <div class="flex flex-col gap-3 p-5">
-          <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
+          <div
+            v-for="item in notification.list"
+            :key="item.id"
+            class="p-4 border rounded-lg cursor-pointer border-grey-1"
+          >
             <div class="flex items-center justify-between">
               <div class="flex items-center justify-start">
                 <svg
@@ -64,41 +69,13 @@
               </p>
             </div>
           </div>
-          <div class="p-4 border rounded-lg cursor-pointer border-grey-1">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center justify-start">
-                <svg
-                  width="13"
-                  height="14"
-                  viewBox="0 0 13 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="max-w-[13px] max-h-[13px]"
-                >
-                  <g clip-path="url(#clip0_1846_5198)">
-                    <path
-                      d="M6.49993 0C5.98632 0 5.57136 0.391016 5.57136 0.875V1.4C3.45306 1.80469 1.85708 3.57109 1.85708 5.6875V6.20156C1.85708 7.48672 1.35507 8.72812 0.44971 9.69063L0.234977 9.91758C-0.00877252 10.1746 -0.0668083 10.5437 0.0811828 10.8582C0.229174 11.1727 0.562879 11.375 0.928504 11.375H12.0714C12.437 11.375 12.7678 11.1727 12.9187 10.8582C13.0696 10.5437 13.0086 10.1746 12.7649 9.91758L12.5502 9.69063C11.6448 8.72812 11.1428 7.48945 11.1428 6.20156V5.6875C11.1428 3.57109 9.54681 1.80469 7.4285 1.4V0.875C7.4285 0.391016 7.01355 0 6.49993 0ZM7.81444 13.4887C8.16266 13.1605 8.35708 12.7148 8.35708 12.25H4.64279C4.64279 12.7148 4.83721 13.1605 5.18542 13.4887C5.53364 13.8168 6.00663 14 6.49993 14C6.99324 14 7.46623 13.8168 7.81444 13.4887Z"
-                      fill="#F17E60"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1846_5198">
-                      <rect width="13" height="14" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                <h4 class="text-sm font-extrabold text-black ml-3">
-                  Pembayaran Sukses
-                </h4>
-              </div>
-              <p class="text-xs text-grey-2">2 jam lalu</p>
-            </div>
-            <div class="mt-4">
-              <p class="text-xs text-grey-3">
-                Selamat! Pembayaran untuk transaksi #01292 telah Kami terima
-              </p>
-            </div>
-          </div>
+          <infinite-loading
+            @infinite="getNotificationListInfinite"
+            spinner="spiral"
+          >
+            <div slot="no-more"></div>
+            <div slot="no-results"></div>
+          </infinite-loading>
         </div>
       </div>
     </div>
@@ -107,5 +84,81 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      notification: {
+        loading: true,
+        list: [],
+        params: {
+          limit: 5,
+          page: 1,
+          orderBy: 'desc',
+          sortBy: 'created_at',
+        },
+      },
+      axiosCancelToken: null,
+    }
+  },
+  computed: {
+    urlGetNotificationList() {
+      return `/api/v1/order?limit=${this.notification.params.limit}&page=${this.notification.params.page}&order_by=${this.notification.params.orderBy}&sort_by=${this.notification.params.sortBy}`
+    },
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getNotificationList()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async getNotificationList() {
+      try {
+        this.notification.loading = true
+        var response = await this.$axios.$get(this.urlGetNotificationList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.notification.loading = false
+        if (response.success) {
+          this.notification.params.page++
+          this.notification.list = response.data
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+          this.notification.loading = false
+        }
+      }
+    },
+    async getNotificationListInfinite($state) {
+      try {
+        var response = await this.$axios.$get(this.urlGetNotificationList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.notification.params.page++
+            this.notification.list.push(...response.data)
+
+            if (response.current_page < response.last_page) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+          $state.error()
+        }
+      }
+    },
+  },
 }
 </script>

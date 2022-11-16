@@ -37,19 +37,28 @@
               />
             </div>
           </div>
-          <Loader v-if="order.loading" classList="" styleList="height:calc(100vh - (144px + 96px));"/>
+          <Loader
+            v-if="order.loading"
+            classList=""
+            styleList="height:calc(100vh - (144px + 96px));"
+          />
           <template v-else>
             <div class="flex flex-col gap-3 mt-4">
               <NuxtLink
-                v-for="item in order.list" :key="item.id"
+                v-for="item in order.list"
+                :key="item.id"
                 :to="`/order/${item.id}`"
                 class="p-4 border rounded-lg cursor-pointer border-grey-1"
               >
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
-                      <p class="text-sm font-extrabold text-black">{{ item.order_number }}</p>
-                      <p class="mt-1 text-xs text-grey-2">{{ $dateDiffForHumans(item.created_at) }}</p>
+                      <p class="text-sm font-extrabold text-black">
+                        {{ item.order_number }}
+                      </p>
+                      <p class="mt-1 text-xs text-grey-2">
+                        {{ $dateDiffForHumans(item.created_at) }}
+                      </p>
                     </div>
                     <span
                       class="rounded-full py-1 px-2 bg-success text-success bg-opacity-20 text-[10px] font-medium"
@@ -62,7 +71,10 @@
                   <p class="text-xs text-grey-3">{{ item.type }}</p>
                 </div>
               </NuxtLink>
-              <infinite-loading @infinite="getOrderListInfinite" spinner="spiral">
+              <infinite-loading
+                @infinite="getOrderListInfinite"
+                spinner="spiral"
+              >
                 <div slot="no-more"></div>
                 <div slot="no-results"></div>
               </infinite-loading>
@@ -195,16 +207,12 @@ export default {
 
         this.order.loading = false
         if (response.success) {
-          if (response.data.length > 0) {
-            this.order.params.page++
-            this.order.list.push(...response.data)
-          } else {
-            $state.complete()
-          }
+          this.order.params.page++
+          this.order.list = response.data
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
+          this.order.loading = false
         }
       }
     },
@@ -229,8 +237,8 @@ export default {
           }
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
+          $state.error()
         }
       }
     },

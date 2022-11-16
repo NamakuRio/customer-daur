@@ -58,7 +58,8 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="order.loading" />
+      <div v-else>
         <div class="bg-white border-b-[16px] border-black border-opacity-5">
           <div>
             <div
@@ -498,5 +499,56 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      order: {
+        loading: true,
+        data: null,
+      },
+      axiosCancelToken: null,
+    }
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getOrderDetail()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async getOrderDetail() {
+      try {
+        this.order.loading = true
+
+        let id = this.$route.params.id
+        var response = await this.$axios.$get(`/api/v1/order/${id}`, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.order.loading = false
+        if (response.success) {
+          this.order.data = response.data
+        }
+      } catch (error) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(error)) {
+          const code = parseInt(error.response && error.response.status)
+          const statusText = error.response && error.response.statusText
+          const data = error.response && error.response.data
+
+          if (code === 404) {
+            this.$nuxt.context.error({
+              statusCode: 404,
+              message: data.message,
+            })
+            return Promise.resolve(false)
+          }
+        }
+      }
+    },
+  },
 }
 </script>

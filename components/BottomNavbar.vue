@@ -50,18 +50,18 @@
           </span>
         </NuxtLink>
         <NuxtLink
-          to="/pickup"
+          to="/collect"
           class="justify-center inline-block w-full py-3 text-center transition duration-300 text-grey-2 focus:text-primary hover:text-primary"
         >
           <img
-            src="~/assets/images/bottomnavbar-icon/pickup-default.png"
+            src="~/assets/images/bottomnavbar-icon/collect-default.png"
             class="default-img"
-            alt="icon pickup default"
+            alt="icon collect default"
           />
           <img
-            src="~/assets/images/bottomnavbar-icon/pickup-filled.png"
+            src="~/assets/images/bottomnavbar-icon/collect-filled.png"
             class="filled-img"
-            alt="icon pickup filled"
+            alt="icon collect filled"
           />
           <span
             style="margin-top: 2px"

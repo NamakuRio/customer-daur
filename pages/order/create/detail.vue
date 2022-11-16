@@ -93,13 +93,13 @@
               <div class="flex items-center gap-x-3 gap-y-4">
                 <div class="flex items-center w-full">
                   <input
-                    id="radio-pickup-ondemand"
+                    id="radio-collect-ondemand"
                     type="radio"
-                    name="radio-pickup"
+                    name="radio-collect"
                     class="hidden custom-selected-radio"
                   />
                   <label
-                    for="radio-pickup-ondemand"
+                    for="radio-collect-ondemand"
                     class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
                   >
                     <span
@@ -110,13 +110,13 @@
                 </div>
                 <div class="flex items-center w-full">
                   <input
-                    id="radio-pickup-scheduled"
+                    id="radio-collect-scheduled"
                     type="radio"
-                    name="radio-pickup"
+                    name="radio-collect"
                     class="hidden custom-selected-radio"
                   />
                   <label
-                    for="radio-pickup-scheduled"
+                    for="radio-collect-scheduled"
                     class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
                   >
                     <span

@@ -1,8 +1,12 @@
 <template>
   <div>
-    <Header title="Detail Pickup" :left-action="true" :right-action="true">
+    <Header
+      title="Detail Pengangkutan"
+      :left-action="true"
+      :right-action="true"
+    >
       <template #left-action>
-        <NuxtLink to="/pickup">
+        <NuxtLink to="/collect">
           <svg
             width="37"
             height="40"
@@ -26,7 +30,7 @@
         </NuxtLink>
       </template>
       <template #right-action>
-        <NuxtLink to="/pickup">
+        <NuxtLink to="/collect">
           <svg
             width="23"
             height="23"
@@ -58,7 +62,8 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="collect.loading" />
+      <div v-else>
         <div class="bg-white border-b-[16px] border-black border-opacity-5">
           <div @click="selectAccordion(1)">
             <div
@@ -800,7 +805,7 @@
                         </p>
                       </div>
                       <img
-                        src="~/assets/images/examples/trash_pickup_example.png"
+                        src="~/assets/images/examples/trash_collect_example.png"
                         alt=""
                         class="object-cover w-full mt-3 rounded-lg max-h-36"
                       />
@@ -1155,7 +1160,22 @@ export default {
   data() {
     return {
       selectedAccordion: null,
+      collect: {
+        loading: true,
+        data: null,
+      },
+      axiosCancelToken: null,
     }
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getCollectDetail()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
   },
   methods: {
     selectAccordion(val) {
@@ -1163,6 +1183,36 @@ export default {
         this.selectedAccordion = val
       } else {
         this.selectedAccordion = null
+      }
+    },
+    async getCollectDetail() {
+      try {
+        this.collect.loading = true
+
+        let id = this.$route.params.id
+        var response = await this.$axios.$get(`/api/v1/collect/${id}`, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.collect.loading = false
+        if (response.success) {
+          this.collect.data = response.data
+        }
+      } catch (error) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(error)) {
+          const code = parseInt(error.response && error.response.status)
+          const statusText = error.response && error.response.statusText
+          const data = error.response && error.response.data
+
+          if (code === 404) {
+            this.$nuxt.context.error({
+              statusCode: 404,
+              message: data.message,
+            })
+            return Promise.resolve(false)
+          }
+        }
       }
     },
   },

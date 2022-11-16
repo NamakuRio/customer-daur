@@ -2,7 +2,7 @@
   <div>
     <Header title="Pengangkutan" :right-action="true">
       <template #right-action>
-        <NuxtLink to="/pickup">
+        <NuxtLink to="/collect/history">
           <svg
             width="29"
             height="29"
@@ -69,19 +69,26 @@
               </svg>
               <p class="ml-1 text-sm font-extrabold text-black">On-demand</p>
             </div>
-            <Loader v-if="collect.onDemand.loading" classList="" styleList="height:250px;"/>
+            <Loader
+              v-if="collect.onDemand.loading"
+              classList=""
+              styleList="height:250px;"
+            />
             <template v-else>
               <div class="flex flex-col gap-3 pt-3 pb-4">
                 <NuxtLink
-                v-for="item in collect.onDemand.list" :key="item.id"
-                :to="`/pickup/${item.id}`"
+                  v-for="item in collect.onDemand.list"
+                  :key="item.id"
+                  :to="`/collect/${item.id}`"
                   class="p-4 border rounded-lg cursor-pointer border-grey-1"
                 >
                   <div class="flex flex-col gap-3">
                     <div class="flex items-start justify-between">
                       <div>
                         <p class="text-sm font-extrabold text-black">#01292</p>
-                        <p class="mt-1 text-xs text-grey-2">{{ $dateDiffForHumans(item.created_at) }}</p>
+                        <p class="mt-1 text-xs text-grey-2">
+                          {{ $dateDiffForHumans(item.created_at) }}
+                        </p>
                       </div>
                       <span
                         class="rounded-full py-1 px-2 bg-warning text-warning bg-opacity-30 text-[10px] font-medium"
@@ -93,7 +100,10 @@
                     </p>
                   </div>
                 </NuxtLink>
-                <infinite-loading @infinite="getCollectOnDemandListInfinite" spinner="spiral">
+                <infinite-loading
+                  @infinite="getCollectOnDemandListInfinite"
+                  spinner="spiral"
+                >
                   <div slot="no-more"></div>
                   <div slot="no-results"></div>
                 </infinite-loading>
@@ -116,19 +126,26 @@
               </svg>
               <p class="ml-1 text-sm font-extrabold text-black">Terjadwal</p>
             </div>
-            <Loader v-if="collect.scheduled.loading" classList="" styleList="height:250px;"/>
+            <Loader
+              v-if="collect.scheduled.loading"
+              classList=""
+              styleList="height:250px;"
+            />
             <template v-else>
               <div class="flex flex-col gap-3 pt-3 pb-4">
                 <NuxtLink
-                v-for="item in collect.onDemand.list" :key="item.id"
-                :to="`/pickup/${item.id}`"
+                  v-for="item in collect.onDemand.list"
+                  :key="item.id"
+                  :to="`/collect/${item.id}`"
                   class="p-4 border rounded-lg cursor-pointer border-grey-1"
                 >
                   <div class="flex flex-col gap-3">
                     <div class="flex items-start justify-between">
                       <div>
                         <p class="text-sm font-extrabold text-black">#01292</p>
-                        <p class="mt-1 text-xs text-grey-2">{{ $dateDiffForHumans(item.created_at) }}</p>
+                        <p class="mt-1 text-xs text-grey-2">
+                          {{ $dateDiffForHumans(item.created_at) }}
+                        </p>
                       </div>
                       <span
                         class="rounded-full py-1 px-2 bg-info text-info bg-opacity-20 text-[10px] font-medium"
@@ -178,7 +195,10 @@
                     </div>
                   </div>
                 </NuxtLink>
-                <infinite-loading @infinite="getCollectScheduledListInfinite" spinner="spiral">
+                <infinite-loading
+                  @infinite="getCollectScheduledListInfinite"
+                  spinner="spiral"
+                >
                   <div slot="no-more"></div>
                   <div slot="no-results"></div>
                 </infinite-loading>
@@ -262,16 +282,12 @@ export default {
 
         this.collect.onDemand.loading = false
         if (response.success) {
-          if (response.data.length > 0) {
-            this.collect.onDemand.params.page++
-            this.collect.onDemand.list.push(...response.data)
-          } else {
-            $state.complete()
-          }
+          this.collect.onDemand.params.page++
+          this.collect.onDemand.list = response.data
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
+          this.collect.onDemand.loading = false
         }
       }
     },
@@ -296,7 +312,6 @@ export default {
           }
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
           $state.error()
         }
@@ -311,16 +326,12 @@ export default {
 
         this.collect.scheduled.loading = false
         if (response.success) {
-          if (response.data.length > 0) {
-            this.collect.scheduled.params.page++
-            this.collect.scheduled.list.push(...response.data)
-          } else {
-            $state.complete()
-          }
+          this.collect.scheduled.params.page++
+          this.collect.scheduled.list = response.data
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
+          this.collect.scheduled.loading = false
         }
       }
     },
@@ -345,7 +356,6 @@ export default {
           }
         }
       } catch (e) {
-        this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(e)) {
           $state.error()
         }
