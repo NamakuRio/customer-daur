@@ -31,12 +31,17 @@ export default {
     ],
   },
   css: ['~/assets/css/tailwind.css', '~/assets/css/style.css'],
-  plugins: ['~/plugins/axios', { src: '~/plugins/helpers', ssr: false }],
+  plugins: [
+    '~/plugins/axios',
+    { src: '~/plugins/helpers', ssr: false },
+    { src: '~/plugins/infiniteloading', ssr: false },
+  ],
   components: true,
   buildModules: [],
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/firebase',
+    '@nuxtjs/moment',
     '@nuxtjs/pwa',
     '@nuxtjs/tailwindcss',
   ],
@@ -64,6 +69,10 @@ export default {
           'BHchk6Pn4tmekIk1rHk8FfQHG2GABbsM4eDec4trPdgM9i4huzaTT7q6p_GlzfZAJ4UmkuxHSDEZG70Ws3pb5ao',
       },
     },
+  },
+  moment: {
+    defaultLocale: 'id',
+    locales: ['id'],
   },
   pwa: {
     icon: false,

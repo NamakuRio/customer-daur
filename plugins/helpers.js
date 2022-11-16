@@ -1,4 +1,4 @@
-export default ({ app }, inject) => {
+export default ({ app, $moment }, inject) => {
   inject('onlyNumber', (event) => {
     var ASCIICode = event.which ? event.which : event.keyCode
     if (
@@ -19,5 +19,12 @@ export default ({ app }, inject) => {
     }
 
     return accountType
+  })
+  inject('dateDiffForHumans', (value) => {
+    var date
+
+    date = $moment(value).fromNow()
+
+    return date
   })
 }

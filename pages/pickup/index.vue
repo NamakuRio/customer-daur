@@ -69,29 +69,36 @@
               </svg>
               <p class="ml-1 text-sm font-extrabold text-black">On-demand</p>
             </div>
-            <div class="flex flex-col gap-3 pt-3 pb-4">
-              <NuxtLink
-                to="/pickup/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
+            <Loader v-if="collect.onDemand.loading" classList="" styleList="height:250px;"/>
+            <template v-else>
+              <div class="flex flex-col gap-3 pt-3 pb-4">
+                <NuxtLink
+                v-for="item in collect.onDemand.list" :key="item.id"
+                :to="`/pickup/${item.id}`"
+                  class="p-4 border rounded-lg cursor-pointer border-grey-1"
+                >
+                  <div class="flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <p class="text-sm font-extrabold text-black">#01292</p>
+                        <p class="mt-1 text-xs text-grey-2">{{ $dateDiffForHumans(item.created_at) }}</p>
+                      </div>
+                      <span
+                        class="rounded-full py-1 px-2 bg-warning text-warning bg-opacity-30 text-[10px] font-medium"
+                        >request</span
+                      >
                     </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-warning text-warning bg-opacity-30 text-[10px] font-medium"
-                      >request</span
-                    >
+                    <p class="text-xs tetext-grey-3">
+                      {{ item.address }}
+                    </p>
                   </div>
-                  <p class="text-xs tetext-grey-3">
-                    Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                    Barat 50129
-                  </p>
-                </div>
-              </NuxtLink>
-            </div>
+                </NuxtLink>
+                <infinite-loading @infinite="getCollectOnDemandListInfinite" spinner="spiral">
+                  <div slot="no-more"></div>
+                  <div slot="no-results"></div>
+                </infinite-loading>
+              </div>
+            </template>
           </div>
           <div class="p-5">
             <div class="flex flex-row items-center">
@@ -109,244 +116,74 @@
               </svg>
               <p class="ml-1 text-sm font-extrabold text-black">Terjadwal</p>
             </div>
-            <div class="flex flex-col gap-3 pt-3 pb-4">
-              <NuxtLink
-                to="/pickup/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-info text-info bg-opacity-20 text-[10px] font-medium"
-                      >pickup</span
-                    >
-                  </div>
-                  <div>
-                    <p class="text-xs text-grey-3">
-                      Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                      Barat 50129
-                    </p>
-                    <div class="flex flex-row items-center mt-3">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+            <Loader v-if="collect.scheduled.loading" classList="" styleList="height:250px;"/>
+            <template v-else>
+              <div class="flex flex-col gap-3 pt-3 pb-4">
+                <NuxtLink
+                v-for="item in collect.onDemand.list" :key="item.id"
+                :to="`/pickup/${item.id}`"
+                  class="p-4 border rounded-lg cursor-pointer border-grey-1"
+                >
+                  <div class="flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <p class="text-sm font-extrabold text-black">#01292</p>
+                        <p class="mt-1 text-xs text-grey-2">{{ $dateDiffForHumans(item.created_at) }}</p>
+                      </div>
+                      <span
+                        class="rounded-full py-1 px-2 bg-info text-info bg-opacity-20 text-[10px] font-medium"
+                        >pickup</span
                       >
-                        <g clip-path="url(#clip0_508_13248)">
-                          <path
-                            d="M10.5001 2.3335H3.50008C2.21142 2.3335 1.16675 3.37816 1.16675 4.66683V10.5002C1.16675 11.7888 2.21142 12.8335 3.50008 12.8335H10.5001C11.7887 12.8335 12.8334 11.7888 12.8334 10.5002V4.66683C12.8334 3.37816 11.7887 2.3335 10.5001 2.3335Z"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M4.66675 1.16675V3.50008M9.33342 1.16675V3.50008M1.16675 5.83341H12.8334"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_508_13248">
-                            <rect width="14" height="14" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-3">
-                        Jadwal&nbsp;<span class="font-extrabold">
-                          20 Juni 2022, 09:15 WIB</span
-                        >
-                      </p>
                     </div>
-                  </div>
-                </div>
-              </NuxtLink>
-              <NuxtLink
-                to="/pickup/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
                     <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-grey-2 text-grey-2 bg-opacity-20 text-[10px] font-medium"
-                      >waiting</span
-                    >
-                  </div>
-                  <div>
-                    <p class="text-xs text-grey-3">
-                      Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                      Barat 50129
-                    </p>
-                    <div class="flex flex-row items-center mt-3">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g clip-path="url(#clip0_508_13248)">
-                          <path
-                            d="M10.5001 2.3335H3.50008C2.21142 2.3335 1.16675 3.37816 1.16675 4.66683V10.5002C1.16675 11.7888 2.21142 12.8335 3.50008 12.8335H10.5001C11.7887 12.8335 12.8334 11.7888 12.8334 10.5002V4.66683C12.8334 3.37816 11.7887 2.3335 10.5001 2.3335Z"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M4.66675 1.16675V3.50008M9.33342 1.16675V3.50008M1.16675 5.83341H12.8334"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_508_13248">
-                            <rect width="14" height="14" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-3">
-                        Jadwal&nbsp;<span class="font-extrabold">
-                          20 Juni 2022, 09:15 WIB</span
-                        >
+                      <p class="text-xs text-grey-3">
+                        {{ item.address }}
                       </p>
-                    </div>
-                  </div>
-                </div>
-              </NuxtLink>
-              <NuxtLink
-                to="/pickup/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-grey-2 text-grey-2 bg-opacity-20 text-[10px] font-medium"
-                      >waiting</span
-                    >
-                  </div>
-                  <div>
-                    <p class="text-xs text-grey-3">
-                      Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                      Barat 50129
-                    </p>
-                    <div class="flex flex-row items-center mt-3">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g clip-path="url(#clip0_508_13248)">
-                          <path
-                            d="M10.5001 2.3335H3.50008C2.21142 2.3335 1.16675 3.37816 1.16675 4.66683V10.5002C1.16675 11.7888 2.21142 12.8335 3.50008 12.8335H10.5001C11.7887 12.8335 12.8334 11.7888 12.8334 10.5002V4.66683C12.8334 3.37816 11.7887 2.3335 10.5001 2.3335Z"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M4.66675 1.16675V3.50008M9.33342 1.16675V3.50008M1.16675 5.83341H12.8334"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_508_13248">
-                            <rect width="14" height="14" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-3">
-                        Jadwal&nbsp;<span class="font-extrabold">
-                          20 Juni 2022, 09:15 WIB</span
+                      <div class="flex flex-row items-center mt-3">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                      </p>
+                          <g clip-path="url(#clip0_508_13248)">
+                            <path
+                              d="M10.5001 2.3335H3.50008C2.21142 2.3335 1.16675 3.37816 1.16675 4.66683V10.5002C1.16675 11.7888 2.21142 12.8335 3.50008 12.8335H10.5001C11.7887 12.8335 12.8334 11.7888 12.8334 10.5002V4.66683C12.8334 3.37816 11.7887 2.3335 10.5001 2.3335Z"
+                              stroke="#A5A5A5"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M4.66675 1.16675V3.50008M9.33342 1.16675V3.50008M1.16675 5.83341H12.8334"
+                              stroke="#A5A5A5"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_508_13248">
+                              <rect width="14" height="14" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        <p class="ml-3 text-xs font-normal text-grey-3">
+                          Jadwal&nbsp;<span class="font-extrabold">
+                            20 Juni 2022, 09:15 WIB</span
+                          >
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </NuxtLink>
-              <NuxtLink
-                to="/pickup/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-grey-2 text-grey-2 bg-opacity-20 text-[10px] font-medium"
-                      >waiting</span
-                    >
-                  </div>
-                  <div>
-                    <p class="text-xs text-grey-3">
-                      Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                      Barat 50129
-                    </p>
-                    <div class="flex flex-row items-center mt-3">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g clip-path="url(#clip0_508_13248)">
-                          <path
-                            d="M10.5001 2.3335H3.50008C2.21142 2.3335 1.16675 3.37816 1.16675 4.66683V10.5002C1.16675 11.7888 2.21142 12.8335 3.50008 12.8335H10.5001C11.7887 12.8335 12.8334 11.7888 12.8334 10.5002V4.66683C12.8334 3.37816 11.7887 2.3335 10.5001 2.3335Z"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M4.66675 1.16675V3.50008M9.33342 1.16675V3.50008M1.16675 5.83341H12.8334"
-                            stroke="#A5A5A5"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_508_13248">
-                            <rect width="14" height="14" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      <p class="ml-3 text-xs font-normal text-grey-3">
-                        Jadwal&nbsp;<span class="font-extrabold">
-                          20 Juni 2022, 09:15 WIB</span
-                        >
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </NuxtLink>
-            </div>
+                </NuxtLink>
+                <infinite-loading @infinite="getCollectScheduledListInfinite" spinner="spiral">
+                  <div slot="no-more"></div>
+                  <div slot="no-results"></div>
+                </infinite-loading>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -357,5 +194,163 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      collect: {
+        onDemand: {
+          loading: true,
+          list: [],
+          params: {
+            limit: 5,
+            page: 1,
+            orderBy: 'desc',
+            sortBy: 'created_at',
+            search: 'order_number',
+            value: '',
+            type: 'On-demand',
+          },
+          search: {
+            timer: null,
+          },
+        },
+        scheduled: {
+          loading: true,
+          list: [],
+          params: {
+            limit: 5,
+            page: 1,
+            orderBy: 'desc',
+            sortBy: 'created_at',
+            search: 'order_number',
+            value: '',
+            type: 'Scheduled',
+          },
+          search: {
+            timer: null,
+          },
+        },
+      },
+      axiosCancelToken: null,
+    }
+  },
+  computed: {
+    urlGetCollectOnDemandList() {
+      return `/api/v1/collect?limit=${this.collect.onDemand.params.limit}&page=${this.collect.onDemand.params.page}&order_by=${this.collect.onDemand.params.orderBy}&sort_by=${this.collect.onDemand.params.sortBy}&search=${this.collect.onDemand.params.search}&value=${this.collect.onDemand.params.value}&type=${this.collect.onDemand.params.type}`
+    },
+    urlGetCollectScheduledList() {
+      return `/api/v1/collect?limit=${this.collect.scheduled.params.limit}&page=${this.collect.scheduled.params.page}&order_by=${this.collect.scheduled.params.orderBy}&sort_by=${this.collect.scheduled.params.sortBy}&search=${this.collect.scheduled.params.search}&value=${this.collect.scheduled.params.value}&type=${this.collect.scheduled.params.type}`
+    },
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getCollectOnDemandList()
+    this.getCollectScheduledList()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async getCollectOnDemandList() {
+      try {
+        this.collect.onDemand.loading = true
+        var response = await this.$axios.$get(this.urlGetCollectOnDemandList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.collect.onDemand.loading = false
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.collect.onDemand.params.page++
+            this.collect.onDemand.list.push(...response.data)
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+    async getCollectOnDemandListInfinite($state) {
+      try {
+        var response = await this.$axios.$get(this.urlGetCollectOnDemandList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.collect.onDemand.params.page++
+            this.collect.onDemand.list.push(...response.data)
+
+            if (response.current_page < response.last_page) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(e)) {
+          $state.error()
+        }
+      }
+    },
+    async getCollectScheduledList() {
+      try {
+        this.collect.scheduled.loading = true
+        var response = await this.$axios.$get(this.urlGetCollectScheduledList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.collect.scheduled.loading = false
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.collect.scheduled.params.page++
+            this.collect.scheduled.list.push(...response.data)
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
+    },
+    async getCollectScheduledListInfinite($state) {
+      try {
+        var response = await this.$axios.$get(this.urlGetCollectScheduledList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.collect.scheduled.params.page++
+            this.collect.scheduled.list.push(...response.data)
+
+            if (response.current_page < response.last_page) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        this.$store.commit('app/setLoader', false)
+        if (!this.$axios.isCancel(e)) {
+          $state.error()
+        }
+      }
+    },
+  },
 }
 </script>

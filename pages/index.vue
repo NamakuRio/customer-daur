@@ -293,14 +293,14 @@ export default {
       swiper: null,
     }
   },
-  mounted() {
-    this.checkWelcomePopup()
-    this.initSwiper()
-  },
   computed: {
     user() {
       return this.$store.state.authentication.user
     },
+  },
+  mounted() {
+    this.checkWelcomePopup()
+    this.initSwiper()
   },
   methods: {
     checkWelcomePopup() {

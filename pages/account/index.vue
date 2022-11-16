@@ -429,6 +429,11 @@ export default {
       axiosCancelToken: null,
     }
   },
+  computed: {
+    user() {
+      return this.$store.state.authentication.user
+    },
+  },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
     this.checkUser()
@@ -438,11 +443,6 @@ export default {
   },
   destroyed() {
     this.axiosCancelToken.cancel()
-  },
-  computed: {
-    user() {
-      return this.$store.state.authentication.user
-    },
   },
   methods: {
     checkUser() {
