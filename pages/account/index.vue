@@ -99,7 +99,7 @@
               <p class="ml-4 text-sm text-black">Ubah Email</p>
             </NuxtLink>
             <NuxtLink
-              to="/trash"
+              to="/waste"
               class="flex items-center justify-start px-4 py-3"
             >
               <div
