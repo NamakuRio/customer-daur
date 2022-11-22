@@ -2,7 +2,7 @@
   <div>
     <Header title="Alamat" :left-action="true" :right-action="true">
       <template #left-action>
-        <NuxtLink to="/order/create/waste">
+        <NuxtLink :to="urlBack">
           <svg
             width="37"
             height="40"
@@ -26,7 +26,13 @@
         </NuxtLink>
       </template>
       <template #right-action>
-        <NuxtLink to="/order/create/address/search">
+        <NuxtLink
+          :to="
+            $route.query?.ref
+              ? `/order/create/address/search?ref=/order/create/address?ref=${urlBack}`
+              : '/order/create/address/search'
+          "
+        >
           <svg
             width="23"
             height="23"
@@ -115,9 +121,12 @@
                 placeholder="Alamat detail"
               />
             </div>
-            <button class="mt-4 btn btn--primary btn--block btn--rounded">
+            <NuxtLink
+              to="/order/create/detail"
+              class="mt-4 btn btn--primary btn--block btn--rounded"
+            >
               Selanjutnya
-            </button>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -168,6 +177,11 @@ export default {
         address: null,
       },
     }
+  },
+  computed: {
+    urlBack() {
+      return this.$route.query?.ref || '/order/create/waste'
+    },
   },
   mounted() {
     setTimeout(() => {

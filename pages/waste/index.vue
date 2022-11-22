@@ -71,7 +71,7 @@
         />
         <template v-else>
           <div class="bg-white">
-            <div class="flex flex-col">
+            <div class="flex flex-col" v-if="waste.list.length > 0">
               <NuxtLink
                 v-for="item in waste.list"
                 :key="item.id"
@@ -105,6 +105,20 @@
                   />
                 </svg>
               </NuxtLink>
+            </div>
+            <div
+              v-else
+              class="inset-0 flex items-center w-full"
+              style="height: calc(100vh - (56px + 96px))"
+            >
+              <div class="block m-auto text-center">
+                <img
+                  src="~/assets/images/error/logo-2.png"
+                  alt="error logo"
+                  class="w-auto max-w-[240px]"
+                />
+                <p class="text-sm text-grey-3">Tidak ada sampah</p>
+              </div>
             </div>
           </div>
         </template>

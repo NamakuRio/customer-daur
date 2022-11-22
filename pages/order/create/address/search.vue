@@ -2,7 +2,7 @@
   <div>
     <HeaderSearch placeholder="Cari Lokasi" @search="searchResult">
       <template #left-action>
-        <NuxtLink to="/order/create/address">
+        <NuxtLink :to="urlBack">
           <svg
             width="37"
             height="40"
@@ -97,6 +97,11 @@ export default {
         loading: false,
       },
     }
+  },
+  computed: {
+    urlBack() {
+      return this.$route.query?.ref || '/order/create/address'
+    },
   },
   methods: {
     searchResult(e) {

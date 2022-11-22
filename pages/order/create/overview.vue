@@ -204,9 +204,12 @@
               </div>
             </div>
             <div>
-              <p class="text-sm font-extrabold text-black">Total Pembayaran</p>
+              <div class="flex items-center justify-between">
+                <p class="text-xs text-grey-3">Biaya Angkut</p>
+                <p class="text-xs font-medium text-black">1 x Rp. 15.000</p>
+              </div>
               <div class="flex items-center justify-between mt-3">
-                <p class="text-sm text-grey-3">Biaya Angkut & Layanan</p>
+                <p class="text-sm font-extrabold text-black">Total</p>
                 <p class="text-base font-extrabold text-black">Rp. 15.000</p>
               </div>
             </div>

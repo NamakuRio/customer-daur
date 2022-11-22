@@ -2,9 +2,10 @@
   <div>
     <Header title="Order" />
     <div class="with-header with-bottom-navbar">
-      <div>
-        <div class="p-5">
-          <div class="w-full">
+      <Loader v-if="order.loading && order.isFirst" />
+      <div v-else>
+        <div>
+          <div class="w-full p-5">
             <div class="relative">
               <div class="absolute top-0 p-4 right-1">
                 <svg
@@ -38,12 +39,12 @@
             </div>
           </div>
           <Loader
-            v-if="order.loading"
+            v-if="order.loading && !order.isFirst"
             classList=""
             styleList="height:calc(100vh - (144px + 96px));"
           />
           <template v-else>
-            <div class="flex flex-col gap-3 mt-4">
+            <div class="flex flex-col gap-3 p-5" v-if="order.list.length > 0">
               <NuxtLink
                 v-for="item in order.list"
                 :key="item.id"
@@ -164,6 +165,20 @@
                 </div>
               </NuxtLink> -->
             </div>
+            <div
+              v-else
+              class="inset-0 flex items-center w-full"
+              style="height: calc(100vh - (144px + 96px))"
+            >
+              <div class="block m-auto text-center">
+                <img
+                  src="~/assets/images/error/logo-2.png"
+                  alt="error logo"
+                  class="w-auto max-w-[240px]"
+                />
+                <p class="text-sm text-grey-3">Tidak ada order</p>
+              </div>
+            </div>
           </template>
         </div>
       </div>
@@ -177,6 +192,7 @@ export default {
   data() {
     return {
       order: {
+        isFirst: true,
         loading: true,
         list: [],
         params: {
@@ -219,6 +235,7 @@ export default {
 
         this.order.loading = false
         if (response.success) {
+          this.order.isFirst = false
           this.order.params.page++
           this.order.list = response.data
         }

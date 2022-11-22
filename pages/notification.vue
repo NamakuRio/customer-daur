@@ -29,7 +29,10 @@
     <div class="with-header">
       <Loader v-if="notification.loading" />
       <div v-else>
-        <div class="flex flex-col gap-3 p-5">
+        <div
+          class="flex flex-col gap-3 p-5"
+          v-if="notification.list.length > 0"
+        >
           <div
             v-for="item in notification.list"
             :key="item.id"
@@ -77,6 +80,16 @@
             <div slot="no-results"></div>
           </infinite-loading>
         </div>
+        <div v-else class="absolute inset-0 flex items-center w-full">
+          <div class="block m-auto text-center">
+            <img
+              src="~/assets/images/error/logo-2.png"
+              alt="error logo"
+              class="w-auto max-w-[240px]"
+            />
+            <p class="text-sm text-grey-3">Tidak ada notifikasi</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -101,7 +114,7 @@ export default {
   },
   computed: {
     urlGetNotificationList() {
-      return `/api/v1/order?limit=${this.notification.params.limit}&page=${this.notification.params.page}&order_by=${this.notification.params.orderBy}&sort_by=${this.notification.params.sortBy}`
+      return `/api/v1/notification?limit=${this.notification.params.limit}&page=${this.notification.params.page}&order_by=${this.notification.params.orderBy}&sort_by=${this.notification.params.sortBy}`
     },
   },
   mounted() {

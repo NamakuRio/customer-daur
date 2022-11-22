@@ -2,7 +2,7 @@
   <div>
     <Header :title="waste?.data?.name" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/order/create/waste">
+        <NuxtLink :to="urlBack">
           <svg
             width="37"
             height="40"
@@ -178,6 +178,9 @@ export default {
     }
   },
   computed: {
+    urlBack() {
+      return this.$route.query?.ref || '/order/create/waste'
+    },
     urlGetWasteTypeList() {
       return `/api/v1/waste-type?limit=${this.wasteType.params.limit}&page=${this.wasteType.params.page}&order_by=${this.wasteType.params.orderBy}&sort_by=${this.wasteType.params.sortBy}&status=${this.wasteType.params.status}&category=${this.wasteType.params.category}`
     },

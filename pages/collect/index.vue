@@ -19,7 +19,13 @@
       </template>
     </Header>
     <div class="with-header with-bottom-navbar">
-      <div>
+      <Loader
+        v-if="
+          (collect.onDemand.loading && collect.onDemand.isFirst) ||
+          (collect.scheduled.loading && collect.scheduled.isFirst)
+        "
+      />
+      <div v-else>
         <div>
           <div class="w-full p-5">
             <div class="relative">
@@ -50,6 +56,7 @@
                 type="text"
                 class="block w-full py-4 pl-4 pr-12 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
                 placeholder="Cari ID, customer, alamat"
+                @keyup="searchCollect($event.target.value)"
               />
             </div>
           </div>
@@ -75,7 +82,10 @@
               styleList="height:250px;"
             />
             <template v-else>
-              <div class="flex flex-col gap-3 pt-3 pb-4">
+              <div
+                class="flex flex-col gap-3 pt-3 pb-4"
+                v-if="collect.onDemand.list.length > 0"
+              >
                 <NuxtLink
                   v-for="item in collect.onDemand.list"
                   :key="item.id"
@@ -124,6 +134,16 @@
                   <div slot="no-results"></div>
                 </infinite-loading>
               </div>
+              <div v-else class="inset-0 flex items-center w-full h-72">
+                <div class="block m-auto text-center">
+                  <img
+                    src="~/assets/images/error/logo-2.png"
+                    alt="error logo"
+                    class="w-auto max-w-[240px]"
+                  />
+                  <p class="text-sm text-grey-3">Tidak ada pickup On-demand</p>
+                </div>
+              </div>
             </template>
           </div>
           <div class="p-5">
@@ -148,7 +168,10 @@
               styleList="height:250px;"
             />
             <template v-else>
-              <div class="flex flex-col gap-3 pt-3 pb-4">
+              <div
+                class="flex flex-col gap-3 pt-3 pb-4"
+                v-if="collect.scheduled.list.length > 0"
+              >
                 <NuxtLink
                   v-for="item in collect.onDemand.list"
                   :key="item.id"
@@ -235,6 +258,16 @@
                   <div slot="no-results"></div>
                 </infinite-loading>
               </div>
+              <div v-else class="inset-0 flex items-center w-full h-72">
+                <div class="block m-auto text-center">
+                  <img
+                    src="~/assets/images/error/logo-2.png"
+                    alt="error logo"
+                    class="w-auto max-w-[240px]"
+                  />
+                  <p class="text-sm text-grey-3">Tidak ada pickup terjadwal</p>
+                </div>
+              </div>
             </template>
           </div>
         </div>
@@ -250,6 +283,7 @@ export default {
     return {
       collect: {
         onDemand: {
+          isFirst: true,
           loading: true,
           list: [],
           params: {
@@ -257,7 +291,7 @@ export default {
             page: 1,
             orderBy: 'desc',
             sortBy: 'created_at',
-            search: 'order_number',
+            search: 'id',
             value: '',
             type: 'On-demand',
           },
@@ -266,6 +300,7 @@ export default {
           },
         },
         scheduled: {
+          isFirst: true,
           loading: true,
           list: [],
           params: {
@@ -273,7 +308,7 @@ export default {
             page: 1,
             orderBy: 'desc',
             sortBy: 'created_at',
-            search: 'order_number',
+            search: 'id',
             value: '',
             type: 'Scheduled',
           },
@@ -314,6 +349,7 @@ export default {
 
         this.collect.onDemand.loading = false
         if (response.success) {
+          this.collect.onDemand.isFirst = false
           this.collect.onDemand.params.page++
           this.collect.onDemand.list = response.data
         }
@@ -358,6 +394,7 @@ export default {
 
         this.collect.scheduled.loading = false
         if (response.success) {
+          this.collect.scheduled.isFirst = false
           this.collect.scheduled.params.page++
           this.collect.scheduled.list = response.data
         }
@@ -392,6 +429,31 @@ export default {
           $state.error()
         }
       }
+    },
+    searchCollect(value) {
+      if (this.collect.onDemand.search.timer) {
+        clearTimeout(this.collect.onDemand.search.timer)
+        this.collect.onDemand.search.timer = null
+      }
+      this.collect.onDemand.search.timer = setTimeout(() => {
+        this.collect.onDemand.params.page = 1
+        this.collect.onDemand.params.value = value
+        this.collect.onDemand.list = []
+        this.collect.onDemand.loading = true
+        this.getCollectOnDemandList()
+      }, 400)
+
+      if (this.collect.scheduled.search.timer) {
+        clearTimeout(this.collect.scheduled.search.timer)
+        this.collect.scheduled.search.timer = null
+      }
+      this.collect.scheduled.search.timer = setTimeout(() => {
+        this.collect.scheduled.params.page = 1
+        this.collect.scheduled.params.value = value
+        this.collect.scheduled.list = []
+        this.collect.scheduled.loading = true
+        this.getCollectScheduledList()
+      }, 400)
     },
   },
 }

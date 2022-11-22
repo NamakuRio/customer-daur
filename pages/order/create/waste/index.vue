@@ -2,7 +2,7 @@
   <div>
     <Header title="Pilih Jenis Sampah" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/">
+        <NuxtLink :to="urlBack">
           <svg
             width="37"
             height="40"
@@ -71,11 +71,15 @@
         />
         <template v-else>
           <div class="bg-white">
-            <div class="flex flex-col">
+            <div class="flex flex-col" v-if="waste.list.length > 0">
               <NuxtLink
                 v-for="item in waste.list"
                 :key="item.id"
-                :to="`/order/create/waste/${item.id}`"
+                :to="
+                  $route.query?.ref
+                    ? `/order/create/waste/${item.id}?ref=/order/create/waste?ref=${urlBack}`
+                    : `/order/create/waste/${item.id}`
+                "
                 class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
               >
                 <div class="flex items-center">
@@ -106,6 +110,20 @@
                 </svg>
               </NuxtLink>
             </div>
+            <div
+              v-else
+              class="inset-0 flex items-center w-full"
+              style="height: calc(100vh - (56px + 96px + 122px))"
+            >
+              <div class="block m-auto text-center">
+                <img
+                  src="~/assets/images/error/logo-2.png"
+                  alt="error logo"
+                  class="w-auto max-w-[240px]"
+                />
+                <p class="text-sm text-grey-3">Tidak ada sampah</p>
+              </div>
+            </div>
           </div>
         </template>
         <div
@@ -118,7 +136,10 @@
             <p class="text-base font-extrabold text-black">0</p>
           </div>
           <div class="flex items-center gap-3 mt-3">
-            <NuxtLink to="/" class="btn btn--default btn--block btn--rounded">
+            <NuxtLink
+              :to="urlBack"
+              class="btn btn--default btn--block btn--rounded"
+            >
               Batal
             </NuxtLink>
             <NuxtLink
@@ -159,6 +180,9 @@ export default {
     }
   },
   computed: {
+    urlBack() {
+      return this.$route.query?.ref || '/'
+    },
     urlGetWasteList() {
       return `/api/v1/waste?limit=${this.waste.params.limit}&page=${this.waste.params.page}&order_by=${this.waste.params.orderBy}&sort_by=${this.waste.params.sortBy}&status=${this.waste.params.status}&search=${this.waste.params.search}&value=${this.waste.params.value}`
     },

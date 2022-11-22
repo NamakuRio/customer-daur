@@ -31,7 +31,10 @@
         <div class="bg-white">
           <div class="p-5">
             <p class="text-sm font-extrabold text-black">Alamat Penjemputan</p>
-            <div class="flex items-start justify-between mt-3">
+            <NuxtLink
+              to="/order/create/address?ref=/order/create/detail"
+              class="flex items-start justify-between mt-3"
+            >
               <div class="flex items-start justify-start">
                 <svg
                   width="12"
@@ -76,7 +79,7 @@
                   />
                 </svg>
               </div>
-            </div>
+            </NuxtLink>
             <div class="mt-4">
               <input
                 type="text"
@@ -239,7 +242,8 @@
               <p class="text-sm font-extrabold text-black">Total</p>
               <p class="text-sm font-extrabold text-black">2,5kg</p>
             </div>
-            <div
+            <NuxtLink
+              to="/order/create/waste?ref=/order/create/detail"
               class="flex items-center justify-between px-4 py-3 border cursor-pointer border-success"
             >
               <p class="text-sm font-medium text-success">
@@ -267,7 +271,7 @@
                   </clipPath>
                 </defs>
               </svg>
-            </div>
+            </NuxtLink>
           </div>
           <div class="p-5 border-t border-black border-opacity-10">
             <NuxtLink
