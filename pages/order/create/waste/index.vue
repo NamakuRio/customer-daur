@@ -27,7 +27,8 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="waste.loading && waste.isFirst" />
+      <div v-else>
         <div
           class="w-full p-4 bg-white border-b border-black border-opacity-10"
         >
@@ -59,107 +60,56 @@
               type="text"
               class="block w-full py-4 pl-4 pr-12 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none"
               placeholder="Cari Jenis Sampah"
+              @keyup="searchWaste($event.target.value)"
             />
           </div>
         </div>
-        <div class="bg-white">
-          <div class="flex flex-col">
-            <div
-              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
-            >
-              <div class="flex items-center">
-                <img
-                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
-                  alt=""
-                  class="object-cover w-12 h-12 border rounded border-grey-1"
-                />
-                <div class="ml-4">
-                  <p class="text-sm text-grey-3">Plastik</p>
-                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
-                </div>
-              </div>
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 19 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+        <Loader
+          v-if="waste.loading && !waste.isFirst"
+          classList=""
+          styleList="height:calc(100vh - (56px + 96px + 122px));"
+        />
+        <template v-else>
+          <div class="bg-white">
+            <div class="flex flex-col">
+              <NuxtLink
+                v-for="item in waste.list"
+                :key="item.id"
+                :to="`/order/create/waste/${item.id}`"
+                class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
               >
-                <path
-                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
-                  stroke="#F17E60"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-            <div
-              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
-            >
-              <div class="flex items-center">
-                <img
-                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
-                  alt=""
-                  class="object-cover w-12 h-12 border rounded border-grey-1"
-                />
-                <div class="ml-4">
-                  <p class="text-sm text-grey-3">Plastik</p>
-                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
+                <div class="flex items-center">
+                  <img
+                    :src="item?.image || '/assets/images/trashes/no-image.svg'"
+                    alt=""
+                    class="object-cover w-12 h-12 border rounded border-grey-1"
+                  />
+                  <div class="ml-4">
+                    <p class="text-sm text-grey-3">{{ item?.name }}</p>
+                  </div>
                 </div>
-              </div>
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 19 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
-              >
-                <path
-                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
-                  stroke="#F17E60"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-            <div
-              class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
-            >
-              <div class="flex items-center">
-                <img
-                  src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
-                  alt=""
-                  class="object-cover w-12 h-12 border rounded border-grey-1"
-                />
-                <div class="ml-4">
-                  <p class="text-sm text-grey-3">Plastik</p>
-                  <p class="mt-1 text-sm text-grey-2">0 kg</p>
-                </div>
-              </div>
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 19 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
-              >
-                <path
-                  d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
-                  stroke="#F17E60"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+                <svg
+                  width="19"
+                  height="19"
+                  viewBox="0 0 19 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="min-w-[19px] min-h-[19px] max-w-[19px] max-h-[19px]"
+                >
+                  <path
+                    d="M6.33334 3.1665L12.6667 9.49984L6.33334 15.8332"
+                    stroke="#F17E60"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </NuxtLink>
             </div>
           </div>
-        </div>
+        </template>
         <div
+          v-if="!waste.isFirst"
           class="fixed bottom-0 w-full p-5 mx-auto bg-white max-w-[444px]"
           style="box-shadow: rgb(0 0 0 / 2%) 0px -6px 6px"
         >
@@ -168,9 +118,9 @@
             <p class="text-base font-extrabold text-black">0</p>
           </div>
           <div class="flex items-center gap-3 mt-3">
-            <button class="btn btn--default btn--block btn--rounded">
+            <NuxtLink to="/" class="btn btn--default btn--block btn--rounded">
               Batal
-            </button>
+            </NuxtLink>
             <NuxtLink
               to="/order/create/address"
               class="btn btn--primary btn--block btn--rounded"
@@ -186,5 +136,102 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      waste: {
+        isFirst: true,
+        loading: true,
+        list: [],
+        params: {
+          limit: 5,
+          page: 1,
+          orderBy: 'desc',
+          sortBy: 'created_at',
+          status: 'active',
+          search: 'name',
+          value: '',
+        },
+        search: {
+          timer: null,
+        },
+      },
+      axiosCancelToken: null,
+    }
+  },
+  computed: {
+    urlGetWasteList() {
+      return `/api/v1/waste?limit=${this.waste.params.limit}&page=${this.waste.params.page}&order_by=${this.waste.params.orderBy}&sort_by=${this.waste.params.sortBy}&status=${this.waste.params.status}&search=${this.waste.params.search}&value=${this.waste.params.value}`
+    },
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getWasteList()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    async getWasteList() {
+      try {
+        this.waste.loading = true
+        var response = await this.$axios.$get(this.urlGetWasteList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.waste.loading = false
+        if (response.success) {
+          this.waste.isFirst = false
+          this.waste.params.page++
+          this.waste.list = response.data
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+          this.waste.loading = false
+        }
+      }
+    },
+    async getWasteListInfinite($state) {
+      try {
+        var response = await this.$axios.$get(this.urlGetWasteList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        if (response.success) {
+          if (response.data.length > 0) {
+            this.waste.params.page++
+            this.waste.list.push(...response.data)
+
+            if (response.current_page < response.last_page) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+          $state.error()
+        }
+      }
+    },
+    searchWaste(value) {
+      if (this.waste.search.timer) {
+        clearTimeout(this.waste.search.timer)
+        this.waste.search.timer = null
+      }
+      this.waste.search.timer = setTimeout(() => {
+        this.waste.params.page = 1
+        this.waste.params.value = value
+        this.waste.list = []
+        this.waste.loading = true
+        this.getWasteList()
+      }, 400)
+    },
+  },
 }
 </script>

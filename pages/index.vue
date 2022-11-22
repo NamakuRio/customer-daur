@@ -120,7 +120,7 @@
           <div class="px-5">
             <div class="flex flex-wrap gap-4">
               <NuxtLink
-                to="/order/create/trash"
+                to="/order/create/waste"
                 class="flex-grow flex-shrink w-full"
                 style="flex-basis: 45%"
               >

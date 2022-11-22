@@ -27,7 +27,8 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="waste.loading && waste.isFirst" />
+      <div v-else>
         <div
           class="w-full p-4 bg-white border-b border-black border-opacity-10"
         >
@@ -64,16 +65,17 @@
           </div>
         </div>
         <Loader
-          v-if="waste.loading"
+          v-if="waste.loading && !waste.isFirst"
           classList=""
           styleList="height:calc(100vh - (56px + 96px));"
         />
         <template v-else>
           <div class="bg-white">
             <div class="flex flex-col">
-              <div
+              <NuxtLink
                 v-for="item in waste.list"
                 :key="item.id"
+                :to="`/waste/${item.id}`"
                 class="flex items-center justify-between px-5 py-4 border-b border-black cursor-pointer border-opacity-10"
               >
                 <div class="flex items-center">
@@ -81,11 +83,9 @@
                     :src="item?.image || '/assets/images/trashes/no-image.svg'"
                     alt=""
                     class="object-cover w-12 h-12 border rounded border-grey-1"
-                    @error="$handleErrorImage($event)"
                   />
                   <div class="ml-4">
                     <p class="text-sm text-grey-3">{{ item?.name }}</p>
-                    <!-- <p class="mt-1 text-sm text-grey-2">0 kg</p> -->
                   </div>
                 </div>
                 <svg
@@ -104,7 +104,7 @@
                     stroke-linejoin="round"
                   />
                 </svg>
-              </div>
+              </NuxtLink>
             </div>
           </div>
         </template>
@@ -118,6 +118,7 @@ export default {
   data() {
     return {
       waste: {
+        isFirst: true,
         loading: true,
         list: [],
         params: {
@@ -161,6 +162,7 @@ export default {
 
         this.waste.loading = false
         if (response.success) {
+          this.waste.isFirst = false
           this.waste.params.page++
           this.waste.list = response.data
         }

@@ -2,7 +2,7 @@
   <div>
     <Header title="Alamat" :left-action="true" :right-action="true">
       <template #left-action>
-        <NuxtLink to="/order/create/trash">
+        <NuxtLink to="/order/create/waste">
           <svg
             width="37"
             height="40"

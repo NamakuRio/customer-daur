@@ -533,7 +533,7 @@ export default {
           this.order.data = response.data
         }
       } catch (error) {
-        this.$store.commit('app/setLoader', false)
+        this.order.loading = false
         if (!this.$axios.isCancel(error)) {
           const code = parseInt(error.response && error.response.status)
           const statusText = error.response && error.response.statusText

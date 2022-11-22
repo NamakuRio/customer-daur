@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Header title="Plastik" :left-action="true">
+    <Header :title="waste?.data?.name" :left-action="true">
       <template #left-action>
-        <NuxtLink to="/order/create/trash">
+        <NuxtLink to="/order/create/waste">
           <svg
             width="37"
             height="40"
@@ -27,69 +27,45 @@
       </template>
     </Header>
     <div class="with-header">
-      <div>
+      <Loader v-if="waste.loading" />
+      <div v-else>
         <div>
           <div class="py-5">
-            <p class="mx-5 text-base font-bold text-black">Plastik</p>
+            <p class="mx-5 text-base font-bold text-black">
+              {{ waste?.data?.name }}
+            </p>
             <p class="mx-5 mt-2 text-sm font-medium text-grey-2">
-              Kami menerima semua jenis plastik
+              Kami menerima semua jenis {{ waste?.data?.name.toLowerCase() }}
             </p>
             <div class="mt-5 overflow-hidden">
-              <div class="swiper swiper-material" style="overflow: initial">
-                <div class="swiper-wrapper">
-                  <div
-                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
-                  >
-                    <img
-                      src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
-                      alt=""
-                      class="min-w-[70px] max-w-[70px] aspect-square"
-                    />
-                    <p class="text-sm text-center text-grey-3">Botol Plastik</p>
+              <Loader
+                v-if="wasteType.loading"
+                classList=""
+                styleList="height:200px;"
+              />
+              <template v-else>
+                <div class="swiper swiper-material" style="overflow: initial">
+                  <div class="swiper-wrapper">
+                    <div
+                      v-for="item in wasteType.list"
+                      :key="item.id"
+                      class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
+                    >
+                      <img
+                        :src="
+                          item?.image || '/assets/images/trashes/no-image.svg'
+                        "
+                        alt=""
+                        class="min-w-[70px] max-w-[70px] aspect-square"
+                      />
+                      <p class="text-sm text-center text-grey-3">
+                        {{ item?.name }}
+                      </p>
+                    </div>
                   </div>
-                  <div
-                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
-                  >
-                    <img
-                      src="/assets/images/trashes/2_plastik/2_emberan.png"
-                      alt=""
-                      class="min-w-[70px] max-w-[70px] aspect-square"
-                    />
-                    <p class="text-sm text-center text-grey-3">Emberan</p>
-                  </div>
-                  <div
-                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
-                  >
-                    <img
-                      src="/assets/images/trashes/2_plastik/4_kresek.png"
-                      alt=""
-                      class="min-w-[70px] max-w-[70px] aspect-square"
-                    />
-                    <p class="text-sm text-center text-grey-3">Kresek</p>
-                  </div>
-                  <div
-                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
-                  >
-                    <img
-                      src="/assets/images/trashes/2_plastik/5_cd.png"
-                      alt=""
-                      class="min-w-[70px] max-w-[70px] aspect-square"
-                    />
-                    <p class="text-sm text-center text-grey-3">CD</p>
-                  </div>
-                  <div
-                    class="flex flex-col items-center justify-center gap-2 !w-[28%] swiper-slide"
-                  >
-                    <img
-                      src="/assets/images/trashes/2_plastik/6_styrofoam.png"
-                      alt=""
-                      class="min-w-[70px] max-w-[70px] aspect-square"
-                    />
-                    <p class="text-sm text-center text-grey-3">Styrofoam</p>
-                  </div>
+                  <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination"></div>
-              </div>
+              </template>
             </div>
             <div class="mx-5 mt-7">
               <p class="text-sm text-grey-2">
@@ -104,7 +80,10 @@
           </div>
           <div class="p-5 border-t border-black border-opacity-10">
             <p class="text-sm font-extrabold text-grey-3">Deskripsi</p>
-            <div></div>
+            <div
+              v-html="waste?.data?.description"
+              class="text-sm text-grey-3 mt-4"
+            ></div>
           </div>
         </div>
         <div
@@ -178,13 +157,98 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
+      waste: {
+        loading: true,
+        data: null,
+      },
+      wasteType: {
+        loading: true,
+        list: [],
+        params: {
+          limit: 50,
+          page: 1,
+          orderBy: 'asc',
+          sortBy: 'name',
+          status: 'active',
+          category: '',
+        },
+      },
       swiper: null,
+      axiosCancelToken: null,
     }
   },
+  computed: {
+    urlGetWasteTypeList() {
+      return `/api/v1/waste-type?limit=${this.wasteType.params.limit}&page=${this.wasteType.params.page}&order_by=${this.wasteType.params.orderBy}&sort_by=${this.wasteType.params.sortBy}&status=${this.wasteType.params.status}&category=${this.wasteType.params.category}`
+    },
+  },
   mounted() {
-    this.initSwiper()
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.getWasteDetail()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
   },
   methods: {
+    async getWasteDetail() {
+      try {
+        this.waste.loading = true
+
+        let id = this.$route.params.id
+        var response = await this.$axios.$get(`/api/v1/waste/${id}`, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.waste.loading = false
+        if (response.success) {
+          this.waste.data = response.data
+          this.getWasteTypeDetail()
+        }
+      } catch (e) {
+        this.waste.loading = false
+        if (!this.$axios.isCancel(error)) {
+          const code = parseInt(error.response && error.response.status)
+          const statusText = error.response && error.response.statusText
+          const data = error.response && error.response.data
+
+          if (code === 404) {
+            this.$nuxt.context.error({
+              statusCode: 404,
+              message: data.message,
+            })
+            return Promise.resolve(false)
+          }
+        }
+      }
+    },
+    async getWasteTypeDetail() {
+      try {
+        this.wasteType.loading = true
+
+        let id = this.$route.params.id
+        this.wasteType.params.category = id
+
+        var response = await this.$axios.$get(this.urlGetWasteTypeList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.wasteType.loading = false
+        if (response.success) {
+          this.wasteType.params.page++
+          this.wasteType.list = response.data
+          setTimeout(() => {
+            this.initSwiper()
+          }, 10)
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(error)) {
+          this.wasteType.loading = false
+        }
+      }
+    },
     initSwiper() {
       this.swiper = new Swiper('.swiper-material', {
         modules: [Pagination],
