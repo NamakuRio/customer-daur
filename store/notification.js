@@ -31,8 +31,8 @@ export const actions = {
       if (permission === 'granted') {
         dispatch('getTokenDeviceNotification', token)
       }
-    } catch (e) {
-      console.error(e)
+    } catch (error) {
+      console.error(error)
     }
   },
   async getTokenDeviceNotification({ commit, dispatch }, token) {
@@ -48,8 +48,8 @@ export const actions = {
 
         dispatch('sendTokenToServer', data)
       }
-    } catch (e) {
-      console.error('error retreiving token. ', e)
+    } catch (error) {
+      console.error('error retreiving token. ', error)
     }
   },
   async sendTokenToServer({ dispatch }, data) {
@@ -64,8 +64,8 @@ export const actions = {
         if (response) {
           dispatch('setTokenSentToServer', true)
         }
-      } catch (e) {
-        console.error('error store token.', e)
+      } catch (error) {
+        console.error('error store token.', error)
       }
     }
   },

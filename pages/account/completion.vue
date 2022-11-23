@@ -195,9 +195,9 @@ export default {
         if (response.success) {
           this.$router.push('/')
         }
-      } catch (e) {
+      } catch (error) {
         this.isLoading = false
-        if (!this.$axios.isCancel(e)) {
+        if (!this.$axios.isCancel(error)) {
         }
       }
     },

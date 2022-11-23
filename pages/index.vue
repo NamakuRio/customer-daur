@@ -356,8 +356,8 @@ export default {
         if (response.success) {
           this.notification.list = response.data
         }
-      } catch (e) {
-        if (!this.$axios.isCancel(e)) {
+      } catch (error) {
+        if (!this.$axios.isCancel(error)) {
         }
       }
     },

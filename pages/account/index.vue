@@ -476,9 +476,9 @@ export default {
           this.$store.commit('authentication/logout')
           this.$router.push('/auth/login')
         }
-      } catch (e) {
+      } catch (error) {
         this.$store.commit('app/setLoader', false)
-        if (!this.$axios.isCancel(e)) {
+        if (!this.$axios.isCancel(error)) {
         }
       }
     },

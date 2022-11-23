@@ -217,9 +217,9 @@ export default {
 
           this.$router.push('/account/change/phone/new/verification')
         }
-      } catch (e) {
+      } catch (error) {
         this.isLoading = false
-        if (!this.$axios.isCancel(e)) {
+        if (!this.$axios.isCancel(error)) {
         }
       }
     },

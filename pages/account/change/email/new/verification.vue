@@ -322,8 +322,8 @@ export default {
             this.focusOnInput(el.nextElementSibling)
           }
         }
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        console.log(error)
       }
     },
     focusOnInput(el) {
@@ -373,12 +373,12 @@ export default {
           })
           this.successChangePopup = true
         }
-      } catch (e) {
+      } catch (error) {
         this.isLoading = false
-        if (!this.$axios.isCancel(e)) {
-          const code = parseInt(e.response && e.response.status)
-          const statusText = e.response && e.response.statusText
-          const data = e.response && e.response.data
+        if (!this.$axios.isCancel(error)) {
+          const code = parseInt(error.response && error.response.status)
+          const statusText = error.response && error.response.statusText
+          const data = error.response && error.response.data
 
           if (code === 422) {
             if (data.errors) this.validationErrors = data.errors
@@ -410,9 +410,9 @@ export default {
           })
           this.countTimeRequestCode()
         }
-      } catch (e) {
+      } catch (error) {
         this.isLoading = false
-        if (!this.$axios.isCancel(e)) {
+        if (!this.$axios.isCancel(error)) {
         }
       }
     },

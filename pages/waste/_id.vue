@@ -135,9 +135,9 @@ export default {
         this.waste.loading = false
         if (response.success) {
           this.waste.data = response.data
-          this.getWasteTypeDetail()
+          this.getWasteTypeList()
         }
-      } catch (e) {
+      } catch (error) {
         this.waste.loading = false
         if (!this.$axios.isCancel(error)) {
           const code = parseInt(error.response && error.response.status)
@@ -154,7 +154,7 @@ export default {
         }
       }
     },
-    async getWasteTypeDetail() {
+    async getWasteTypeList() {
       try {
         this.wasteType.loading = true
 
@@ -173,7 +173,7 @@ export default {
             this.initSwiper()
           }, 10)
         }
-      } catch (e) {
+      } catch (error) {
         if (!this.$axios.isCancel(error)) {
           this.wasteType.loading = false
         }

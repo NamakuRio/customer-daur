@@ -353,8 +353,8 @@ export default {
           this.collect.onDemand.params.page++
           this.collect.onDemand.list = response.data
         }
-      } catch (e) {
-        if (!this.$axios.isCancel(e)) {
+      } catch (error) {
+        if (!this.$axios.isCancel(error)) {
           this.collect.onDemand.loading = false
         }
       }
@@ -379,8 +379,8 @@ export default {
             $state.complete()
           }
         }
-      } catch (e) {
-        if (!this.$axios.isCancel(e)) {
+      } catch (error) {
+        if (!this.$axios.isCancel(error)) {
           $state.error()
         }
       }
@@ -398,8 +398,8 @@ export default {
           this.collect.scheduled.params.page++
           this.collect.scheduled.list = response.data
         }
-      } catch (e) {
-        if (!this.$axios.isCancel(e)) {
+      } catch (error) {
+        if (!this.$axios.isCancel(error)) {
           this.collect.scheduled.loading = false
         }
       }
@@ -424,8 +424,8 @@ export default {
             $state.complete()
           }
         }
-      } catch (e) {
-        if (!this.$axios.isCancel(e)) {
+      } catch (error) {
+        if (!this.$axios.isCancel(error)) {
           $state.error()
         }
       }
