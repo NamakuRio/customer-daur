@@ -113,11 +113,11 @@
             >
               <div class="block m-auto text-center">
                 <img
-                  src="~/assets/images/error/logo-2.png"
-                  alt="error logo"
-                  class="w-auto max-w-[240px]"
+                  src="~/assets/images/icon/info.svg"
+                  alt="icon info"
+                  class="w-auto max-w-[120px]"
                 />
-                <p class="text-sm text-grey-3">Tidak ada sampah</p>
+                <p class="text-sm text-grey-3 mt-6">Data tidak tersedia</p>
               </div>
             </div>
           </div>
