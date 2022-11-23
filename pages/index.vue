@@ -55,7 +55,13 @@
                         d="M26.5051 19.6464L24.1801 17.3084V11.5476C24.211 9.40839 23.4669 7.33021 22.0851 5.6968C20.7034 4.0634 18.7773 2.98508 16.6626 2.66095C15.4352 2.49932 14.1876 2.6013 13.0028 2.96007C11.818 3.31884 10.7233 3.92617 9.79184 4.74152C8.86036 5.55687 8.11348 6.5615 7.60103 7.68837C7.08857 8.81524 6.82233 10.0384 6.82007 11.2764V17.3084L4.49507 19.6464C4.20304 19.9433 4.00499 20.3197 3.92571 20.7285C3.84642 21.1374 3.88941 21.5605 4.04929 21.9451C4.20918 22.3296 4.47886 22.6585 4.82464 22.8906C5.17042 23.1227 5.57695 23.2478 5.99341 23.2501H10.3334V23.6893C10.3937 25.0006 10.9714 26.2345 11.9399 27.1206C12.9083 28.0068 14.1886 28.4729 15.5001 28.4168C16.8116 28.4729 18.0918 28.0068 19.0603 27.1206C20.0287 26.2345 20.6064 25.0006 20.6667 23.6893V23.2501H25.0067C25.4232 23.2478 25.8297 23.1227 26.1755 22.8906C26.5213 22.6585 26.791 22.3296 26.9509 21.9451C27.1107 21.5605 27.1537 21.1374 27.0744 20.7285C26.9952 20.3197 26.7971 19.9433 26.5051 19.6464ZM18.0834 23.6893C18.0118 24.3106 17.7032 24.8803 17.222 25.2797C16.7407 25.6791 16.1239 25.8775 15.5001 25.8335C14.8762 25.8775 14.2594 25.6791 13.7782 25.2797C13.297 24.8803 12.9884 24.3106 12.9167 23.6893V23.2501H18.0834V23.6893ZM7.11716 20.6668L8.64132 19.1426C8.88308 18.9023 9.07489 18.6165 9.20568 18.3017C9.33648 17.9869 9.40368 17.6493 9.40341 17.3084V11.2764C9.40411 10.405 9.59119 9.54389 9.9521 8.75078C10.313 7.95768 10.8394 7.25096 11.4959 6.67803C12.1436 6.09121 12.911 5.65213 13.7451 5.39119C14.5793 5.13025 15.4601 5.05368 16.3267 5.16678C17.8205 5.40933 19.1764 6.18334 20.1448 7.34632C21.1131 8.50929 21.6288 9.98294 21.5967 11.4959V17.3084C21.5948 17.6484 21.6599 17.9855 21.7885 18.3002C21.9171 18.615 22.1065 18.9012 22.3459 19.1426L23.883 20.6668H7.11716Z"
                         fill="white"
                       />
-                      <circle cx="8" cy="8" r="5" fill="#F17E60" />
+                      <circle
+                        v-if="notification.list.length > 0"
+                        cx="8"
+                        cy="8"
+                        r="5"
+                        fill="#F17E60"
+                      />
                     </svg>
                   </NuxtLink>
                 </div>
@@ -291,16 +297,36 @@ export default {
     return {
       welcomePopup: false,
       swiper: null,
+      notification: {
+        list: [],
+        params: {
+          limit: 1,
+          page: 1,
+          orderBy: 'desc',
+          sortBy: 'created_at',
+        },
+      },
     }
   },
   computed: {
     user() {
       return this.$store.state.authentication.user
     },
+    urlGetNotificationList() {
+      return `/api/v1/notification?limit=${this.notification.params.limit}&page=${this.notification.params.page}&order_by=${this.notification.params.orderBy}&sort_by=${this.notification.params.sortBy}`
+    },
   },
   mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
     this.checkWelcomePopup()
     this.initSwiper()
+    this.getNotificationList()
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
   },
   methods: {
     checkWelcomePopup() {
@@ -320,6 +346,20 @@ export default {
           bulletActiveClass: '!bg-secondary !opacity-100',
         },
       })
+    },
+    async getNotificationList() {
+      try {
+        var response = await this.$axios.$get(this.urlGetNotificationList, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        if (response.success) {
+          this.notification.list = response.data
+        }
+      } catch (e) {
+        if (!this.$axios.isCancel(e)) {
+        }
+      }
     },
   },
 }

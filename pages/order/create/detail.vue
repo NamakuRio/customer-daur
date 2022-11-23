@@ -92,17 +92,17 @@
             <p class="text-sm font-extrabold text-black">
               Pilihan Waktu Pengangkutan
             </p>
-            <div class="mt-4">
+            <div class="flex flex-col gap-4">
               <div class="flex items-center gap-x-3 gap-y-4">
                 <div class="flex items-center w-full">
                   <input
-                    id="radio-collect-ondemand"
+                    id="radio-collect-pickup-time-ondemand"
                     type="radio"
-                    name="radio-collect"
-                    class="hidden custom-selected-radio"
+                    name="radio-collect-pickup-time"
+                    class="hidden custom-selected-radio-area"
                   />
                   <label
-                    for="radio-collect-ondemand"
+                    for="radio-collect-pickup-time-ondemand"
                     class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
                   >
                     <span
@@ -113,13 +113,13 @@
                 </div>
                 <div class="flex items-center w-full">
                   <input
-                    id="radio-collect-scheduled"
+                    id="radio-collect-pickup-time-scheduled"
                     type="radio"
-                    name="radio-collect"
-                    class="hidden custom-selected-radio"
+                    name="radio-collect-pickup-time"
+                    class="hidden custom-selected-radio-area"
                   />
                   <label
-                    for="radio-collect-scheduled"
+                    for="radio-collect-pickup-time-scheduled"
                     class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
                   >
                     <span
@@ -129,19 +129,73 @@
                   </label>
                 </div>
               </div>
-            </div>
-            <div class="mt-4">
-              <div class="flex items-center gap-4">
-                <input
-                  type="text"
-                  class="block w-2/3 p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                  placeholder="hari / bulan / tahun"
-                />
-                <input
-                  type="text"
-                  class="block w-1/3 p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                  placeholder="00:00"
-                />
+              <div class="flex items-center gap-x-3 gap-y-4">
+                <div class="flex items-center w-full">
+                  <input
+                    id="radio-collect-pickup-time-scheduled-onetime"
+                    type="radio"
+                    name="radio-collect-pickup-time-scheduled"
+                    class="hidden custom-selected-radio"
+                  />
+                  <label
+                    for="radio-collect-pickup-time-scheduled-onetime"
+                    class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
+                  >
+                    <span
+                      class="inline-block w-4 h-4 border-2 rounded-full border-grey-1"
+                    ></span>
+                    <p class="ml-3">Angkut Sekali</p>
+                  </label>
+                </div>
+                <div class="flex items-center w-full">
+                  <input
+                    id="radio-collect-pickup-time-scheduled-subscription"
+                    type="radio"
+                    name="radio-collect-pickup-time-scheduled"
+                    class="hidden custom-selected-radio"
+                  />
+                  <label
+                    for="radio-collect-pickup-time-scheduled-subscription"
+                    class="flex items-center justify-start w-full text-sm text-black text-opacity-75 cursor-pointer"
+                  >
+                    <span
+                      class="inline-block w-4 h-4 border-2 rounded-full border-grey-1"
+                    ></span>
+                    <p class="ml-3">Angkut Rutin</p>
+                  </label>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4">
+                <!-- Start Scheduled One Time -->
+                <div>
+                  <input
+                    type="text"
+                    class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                    placeholder="Pilih tanggal & waktu"
+                  />
+                </div>
+                <!-- End Scheduled One Time -->
+                <!-- Start Scheduled Subscription -->
+                <div class="flex flex-col gap-4">
+                  <input
+                    type="text"
+                    class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                    placeholder="Pilih hari"
+                  />
+                  <div class="flex items-center gap-4">
+                    <input
+                      type="text"
+                      class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                      placeholder="Pilih waktu"
+                    />
+                    <input
+                      type="text"
+                      class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                      placeholder="Berapa kali angkut"
+                    />
+                  </div>
+                </div>
+                <!-- End Scheduled Subscription -->
               </div>
             </div>
           </div>
@@ -292,18 +346,34 @@ export default {
 }
 </script>
 <style>
+/** Custom Selected Radio */
 input[type='radio'].custom-selected-radio + label {
-  @apply transition duration-200 border border-grey-1 rounded-lg p-4 text-sm text-black;
+  @apply transition duration-200 text-sm text-black py-4;
 }
 
 input[type='radio'].custom-selected-radio:checked + label {
-  @apply border-secondary bg-secondary bg-opacity-25 text-secondary;
+  @apply text-secondary;
 }
 
 input[type='radio'].custom-selected-radio + label span {
   @apply transition-all duration-200;
 }
 input[type='radio'].custom-selected-radio:checked + label span {
+  @apply bg-secondary;
+}
+/** Custom Selected Radio Area */
+input[type='radio'].custom-selected-radio-area + label {
+  @apply transition duration-200 border border-grey-1 rounded-lg p-4 text-sm text-black;
+}
+
+input[type='radio'].custom-selected-radio-area:checked + label {
+  @apply border-secondary bg-secondary bg-opacity-25 text-secondary;
+}
+
+input[type='radio'].custom-selected-radio-area + label span {
+  @apply transition-all duration-200;
+}
+input[type='radio'].custom-selected-radio-area:checked + label span {
   @apply bg-secondary border-white;
 }
 </style>
