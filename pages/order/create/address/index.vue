@@ -121,12 +121,12 @@
                 placeholder="Alamat detail"
               />
             </div>
-            <NuxtLink
-              to="/order/create/detail"
+            <div
               class="mt-4 btn btn--primary btn--block btn--rounded"
+              @click="saveAddress()"
             >
               Selanjutnya
-            </NuxtLink>
+            </div>
           </div>
         </div>
       </div>
@@ -176,6 +176,25 @@ export default {
         },
         address: null,
       },
+      processCreatingOrderData: {
+        data: {
+          order_type: null,
+          schedules: [],
+          wastes: [],
+          latitude: null,
+          longitude: null,
+          address: null,
+          amount: 0,
+          payment_method: 'gopay',
+          image: null,
+          wasteWeight: 0,
+        },
+        schedule: {
+          day: null,
+          time: null,
+          date: null,
+        },
+      },
     }
   },
   computed: {
@@ -184,6 +203,7 @@ export default {
     },
   },
   mounted() {
+    this.checkOrderDataLocalStorage()
     setTimeout(() => {
       if (this.maps.map === null && window.google) {
         this.initMap()
@@ -196,6 +216,21 @@ export default {
     )
   },
   methods: {
+    checkOrderDataLocalStorage() {
+      if (process.client) {
+        let processCreatingOrderData = JSON.parse(
+          localStorage.getItem('processCreatingOrderData')
+        )
+
+        if (processCreatingOrderData) {
+          this.processCreatingOrderData = processCreatingOrderData
+        }
+        localStorage.setItem(
+          'processCreatingOrderData',
+          JSON.stringify(this.processCreatingOrderData)
+        )
+      }
+    },
     initMap() {
       let maps = this.maps
       let _self = this
@@ -360,6 +395,18 @@ export default {
           }
         }
       )
+    },
+    saveAddress() {
+      this.processCreatingOrderData.data.address = this.addresses.address
+      this.processCreatingOrderData.data.latitude =
+        this.addresses.coordinate.lat
+      this.processCreatingOrderData.data.longitude =
+        this.addresses.coordinate.lng
+      localStorage.setItem(
+        'processCreatingOrderData',
+        JSON.stringify(this.processCreatingOrderData)
+      )
+      this.$router.push('/order/create/detail')
     },
   },
 }

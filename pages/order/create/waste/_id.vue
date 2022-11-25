@@ -92,12 +92,17 @@
         >
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
-            <p class="text-base font-extrabold text-black">0</p>
+            <p class="text-base font-extrabold text-black">
+              {{ waste.storing.weight || 0 }} kg
+            </p>
           </div>
           <div class="flex items-center gap-3 mt-3">
             <div class="flex items-center w-1/2">
               <div class="flex items-center gap-4">
-                <div class="text-black cursor-pointer">
+                <div
+                  class="text-black cursor-pointer"
+                  @click="changeUnit('reduce')"
+                >
                   <svg
                     width="29"
                     height="29"
@@ -117,8 +122,13 @@
                     />
                   </svg>
                 </div>
-                <p class="text-base font-medium text-grey-3">0</p>
-                <div class="text-black cursor-pointer">
+                <p class="text-base font-medium text-grey-3">
+                  {{ waste.storing.total || 0 }}
+                </p>
+                <div
+                  class="text-black cursor-pointer"
+                  @click="changeUnit('add')"
+                >
                   <svg
                     width="29"
                     height="29"
@@ -139,9 +149,14 @@
                   </svg>
                 </div>
               </div>
-              <p class="ml-3 text-sm font-medium text-grey-3">Pcs</p>
+              <p class="ml-3 text-sm font-medium text-grey-3">
+                {{ waste?.data?.unit }}
+              </p>
             </div>
-            <button class="btn btn--secondary btn--block btn--rounded !w-1/2">
+            <button
+              class="btn btn--secondary btn--block btn--rounded !w-1/2"
+              @click="saveWaste()"
+            >
               Tambahkan
             </button>
           </div>
@@ -160,6 +175,11 @@ export default {
       waste: {
         loading: true,
         data: null,
+        storing: {
+          id: null,
+          total: 0,
+          weight: 0,
+        },
       },
       wasteType: {
         loading: true,
@@ -171,6 +191,25 @@ export default {
           sortBy: 'name',
           status: 'active',
           category: '',
+        },
+      },
+      processCreatingOrderData: {
+        data: {
+          order_type: null,
+          schedules: [],
+          wastes: [],
+          latitude: null,
+          longitude: null,
+          address: null,
+          amount: 0,
+          payment_method: 'gopay',
+          image: null,
+          wasteWeight: 0,
+        },
+        schedule: {
+          day: null,
+          time: null,
+          date: null,
         },
       },
       swiper: null,
@@ -187,6 +226,7 @@ export default {
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.checkOrderDataLocalStorage()
     this.getWasteDetail()
   },
   created() {
@@ -196,6 +236,21 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
+    checkOrderDataLocalStorage() {
+      if (process.client) {
+        let processCreatingOrderData = JSON.parse(
+          localStorage.getItem('processCreatingOrderData')
+        )
+
+        if (processCreatingOrderData) {
+          this.processCreatingOrderData = processCreatingOrderData
+        }
+        localStorage.setItem(
+          'processCreatingOrderData',
+          JSON.stringify(this.processCreatingOrderData)
+        )
+      }
+    },
     async getWasteDetail() {
       try {
         this.waste.loading = true
@@ -262,6 +317,44 @@ export default {
           bulletActiveClass: '!bg-secondary !opacity-100',
         },
       })
+    },
+    changeUnit(type) {
+      let waste = this.waste.storing
+
+      waste.id = this.waste?.data?.id
+      if (type == 'add') {
+        waste.total++
+        waste.weight =
+          waste.total / this.waste.data.unit_convertion >= 0.1
+            ? waste.total / this.waste.data.unit_convertion
+            : 0.1
+      } else if (type == 'reduce') {
+        if (waste.total === 0) {
+          return false
+        }
+        waste.total--
+        waste.weight =
+          waste.total / this.waste.data.unit_convertion >= 0.1
+            ? waste.total / this.waste.data.unit_convertion
+            : 0.1
+      }
+    },
+    saveWaste() {
+      this.processCreatingOrderData.data.wastes =
+        this.processCreatingOrderData.data.wastes.filter(
+          (item) => item.id !== this.waste.storing.id
+        )
+      this.processCreatingOrderData.data.wastes.push(this.waste.storing)
+      let wasteWeight = this.processCreatingOrderData.data.wastes.reduce(
+        (sum, data) => sum + data.weight,
+        0
+      )
+      this.processCreatingOrderData.data.wasteWeight = wasteWeight
+      localStorage.setItem(
+        'processCreatingOrderData',
+        JSON.stringify(this.processCreatingOrderData)
+      )
+      this.$router.push('/order/create/waste')
     },
   },
 }

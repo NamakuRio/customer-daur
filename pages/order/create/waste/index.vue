@@ -90,6 +90,14 @@
                   />
                   <div class="ml-4">
                     <p class="text-sm text-grey-3">{{ item?.name }}</p>
+                    <p class="text-sm text-grey-2">
+                      {{
+                        processCreatingOrderData?.data?.wastes.find(
+                          (waste) => waste.id === item.id
+                        )?.weight || 0
+                      }}
+                      kg
+                    </p>
                   </div>
                 </div>
                 <svg
@@ -141,7 +149,9 @@
         >
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
-            <p class="text-base font-extrabold text-black">0</p>
+            <p class="text-base font-extrabold text-black">
+              {{ processCreatingOrderData?.data?.wasteWeight }} kg
+            </p>
           </div>
           <div class="flex items-center gap-3 mt-3">
             <NuxtLink
@@ -184,18 +194,23 @@ export default {
           timer: null,
         },
       },
-      storeOrder: {
+      processCreatingOrderData: {
         data: {
+          order_type: null,
+          schedules: [],
           wastes: [],
           latitude: null,
           longitude: null,
           address: null,
           amount: 0,
           payment_method: 'gopay',
+          image: null,
+          wasteWeight: 0,
         },
-        waste: {
-          id: null,
-          weight: null,
+        schedule: {
+          day: null,
+          time: null,
+          date: null,
         },
       },
       axiosCancelToken: null,
@@ -211,6 +226,7 @@ export default {
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.checkOrderDataLocalStorage()
     this.getWasteList()
   },
   created() {
@@ -220,6 +236,21 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
+    checkOrderDataLocalStorage() {
+      if (process.client) {
+        let processCreatingOrderData = JSON.parse(
+          localStorage.getItem('processCreatingOrderData')
+        )
+
+        if (processCreatingOrderData) {
+          this.processCreatingOrderData = processCreatingOrderData
+        }
+        localStorage.setItem(
+          'processCreatingOrderData',
+          JSON.stringify(this.processCreatingOrderData)
+        )
+      }
+    },
     async getWasteList() {
       try {
         this.waste.loading = true
