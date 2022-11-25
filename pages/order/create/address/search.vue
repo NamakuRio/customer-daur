@@ -36,6 +36,7 @@
                 v-for="item in search.results"
                 :key="item?.place_id"
                 class="p-5 border-b border-black cursor-pointer border-opacity-10"
+                @click="selectAddress(item)"
               >
                 <p class="text-base font-medium text-black">
                   {{ item?.structured_formatting?.main_text }}
@@ -112,6 +113,10 @@ export default {
     },
   },
   methods: {
+    selectAddress(item) {
+      this.$store.commit('order/setSelectedSearchAddress', item)
+      this.$router.push(this.urlBack)
+    },
     searchResult(e) {
       if (this.search.timer) {
         clearTimeout(this.search.timer)

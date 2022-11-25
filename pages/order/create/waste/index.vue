@@ -92,7 +92,7 @@
                     <p class="text-sm text-grey-3">{{ item?.name }}</p>
                     <p class="text-sm text-grey-2">
                       {{
-                        processCreatingOrderData?.data?.wastes.find(
+                        temporaryCreateData?.wastes.find(
                           (waste) => waste.id === item.id
                         )?.weight || 0
                       }}
@@ -150,7 +150,7 @@
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
             <p class="text-base font-extrabold text-black">
-              {{ processCreatingOrderData?.data?.wasteWeight }} kg
+              {{ temporaryCreateData?.wasteWeight || 0 }} kg
             </p>
           </div>
           <div class="flex items-center gap-3 mt-3">
@@ -160,12 +160,13 @@
             >
               Batal
             </NuxtLink>
-            <NuxtLink
-              to="/order/create/address"
+            <button
+              @click="nextStep()"
               class="btn btn--primary btn--block btn--rounded"
+              :disabled="isFilledAllField"
             >
               Selanjutnya
-            </NuxtLink>
+            </button>
           </div>
         </div>
       </div>
@@ -194,29 +195,16 @@ export default {
           timer: null,
         },
       },
-      processCreatingOrderData: {
-        data: {
-          order_type: null,
-          schedules: [],
-          wastes: [],
-          latitude: null,
-          longitude: null,
-          address: null,
-          amount: 0,
-          payment_method: 'gopay',
-          image: null,
-          wasteWeight: 0,
-        },
-        schedule: {
-          day: null,
-          time: null,
-          date: null,
-        },
-      },
       axiosCancelToken: null,
     }
   },
   computed: {
+    temporaryCreateData() {
+      return this.$store.getters['order/getTemporaryCreateData']
+    },
+    isFilledAllField() {
+      return this.temporaryCreateData.wastes.length == 0 ? true : false
+    },
     urlBack() {
       return this.$route.query?.ref || '/'
     },
@@ -226,7 +214,7 @@ export default {
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
-    this.checkOrderDataLocalStorage()
+    this.$store.dispatch('order/loadTemporaryCreateData')
     this.getWasteList()
   },
   created() {
@@ -236,21 +224,6 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
-    checkOrderDataLocalStorage() {
-      if (process.client) {
-        let processCreatingOrderData = JSON.parse(
-          localStorage.getItem('processCreatingOrderData')
-        )
-
-        if (processCreatingOrderData) {
-          this.processCreatingOrderData = processCreatingOrderData
-        }
-        localStorage.setItem(
-          'processCreatingOrderData',
-          JSON.stringify(this.processCreatingOrderData)
-        )
-      }
-    },
     async getWasteList() {
       try {
         this.waste.loading = true
@@ -308,6 +281,13 @@ export default {
         this.waste.loading = true
         this.getWasteList()
       }, 400)
+    },
+    nextStep() {
+      if (this.urlBack !== '/') {
+        this.$router.push(this.urlBack)
+      } else {
+        this.$router.push('/order/create/address')
+      }
     },
   },
 }

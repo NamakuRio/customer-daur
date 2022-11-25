@@ -54,7 +54,9 @@
               </svg>
               <div class="ml-3">
                 <p class="text-sm text-grey-2">Jenis Order</p>
-                <p class="mt-1 text-sm text-grey-3">On-demand</p>
+                <p class="mt-1 text-sm text-grey-3">
+                  {{ temporaryCreateData?.order_type || '-' }}
+                </p>
               </div>
             </div>
             <div class="flex items-start justify-start">
@@ -81,8 +83,7 @@
               <div class="ml-3">
                 <p class="text-sm text-grey-2">Alamat Penjemputan</p>
                 <p class="mt-1 text-sm text-grey-3">
-                  Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
-                  50129
+                  {{ temporaryCreateData?.address || '-' }}
                 </p>
               </div>
             </div>
@@ -102,7 +103,7 @@
               </svg>
               <div class="ml-3">
                 <p class="text-sm text-grey-2">Jadwal Pengangkutan</p>
-                <p class="mt-1 text-sm text-grey-3">Sekarang</p>
+                <p class="mt-1 text-sm text-grey-3">{{ pickupSchedule }}</p>
               </div>
             </div>
             <div>
@@ -125,20 +126,26 @@
               <div class="mt-4">
                 <div class="border border-grey-1">
                   <div class="flex flex-col gap-4 p-4">
-                    <div class="flex items-center justify-between">
-                      <p class="text-sm font-medium text-grey-3">Plastik PET</p>
-                      <p class="text-sm font-extrabold text-black">1,5kg</p>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <p class="text-sm font-medium text-grey-3">Plastik PET</p>
-                      <p class="text-sm font-extrabold text-black">1,5kg</p>
+                    <div
+                      v-for="item in temporaryCreateData?.wastes"
+                      :key="item.id"
+                      class="flex items-center justify-between"
+                    >
+                      <p class="text-sm font-medium text-grey-3">
+                        {{ item?.name || '-' }}
+                      </p>
+                      <p class="text-sm font-extrabold text-black">
+                        {{ item?.weight || 0 }} kg
+                      </p>
                     </div>
                   </div>
                   <hr />
                   <div class="flex flex-col gap-4 p-4">
                     <div class="flex items-center justify-between">
                       <p class="text-sm font-extrabold text-grey-3">Total</p>
-                      <p class="text-sm font-extrabold text-black">2,5kg</p>
+                      <p class="text-sm font-extrabold text-black">
+                        {{ temporaryCreateData?.wasteWeight || 0 }} kg
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -258,5 +265,32 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      axiosCancelToken: null,
+    }
+  },
+  computed: {
+    temporaryCreateData() {
+      return this.$store.getters['order/getTemporaryCreateData']
+    },
+    pickupSchedule() {
+      if (this.temporaryCreateData.order_type == 'on-demand') {
+        return 'Sekarang'
+      } else {
+        return 'Nanti'
+      }
+    },
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.$store.dispatch('order/loadTemporaryCreateData')
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
 }
 </script>

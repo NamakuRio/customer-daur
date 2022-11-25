@@ -321,6 +321,9 @@ export default {
     this.checkWelcomePopup()
     this.initSwiper()
     this.getNotificationList()
+    if (process.client) {
+      localStorage.removeItem('temporaryCreateData')
+    }
   },
   created() {
     this.axiosCancelToken = this.$axios.CancelToken.source()

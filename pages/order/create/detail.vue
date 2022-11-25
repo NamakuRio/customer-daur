@@ -57,8 +57,7 @@
                   </defs>
                 </svg>
                 <p class="ml-3 text-sm text-grey-2">
-                  Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
-                  50129
+                  {{ temporaryCreateData?.address || '-' }}
                 </p>
               </div>
               <div class="ml-3 cursor-pointer">
@@ -92,7 +91,7 @@
             <p class="text-sm font-extrabold text-black">
               Pilihan Waktu Pengangkutan
             </p>
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 mt-4">
               <div class="flex items-center gap-x-3 gap-y-4">
                 <div class="flex items-center w-full">
                   <input
@@ -100,6 +99,13 @@
                     type="radio"
                     name="radio-collect-pickup-time"
                     class="hidden custom-selected-radio-area"
+                    @change="
+                      $store.commit('order/updateTemporaryCreateData', {
+                        key: 'order_type',
+                        value: 'on-demand',
+                      })
+                    "
+                    :checked="temporaryCreateData?.order_type == 'on-demand'"
                   />
                   <label
                     for="radio-collect-pickup-time-ondemand"
@@ -117,6 +123,16 @@
                     type="radio"
                     name="radio-collect-pickup-time"
                     class="hidden custom-selected-radio-area"
+                    @change="
+                      $store.commit('order/updateTemporaryCreateData', {
+                        key: 'order_type',
+                        value: 'scheduled',
+                      })
+                    "
+                    :checked="
+                      temporaryCreateData?.order_type == 'scheduled' ||
+                      temporaryCreateData?.order_type == 'subscription'
+                    "
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled"
@@ -129,13 +145,26 @@
                   </label>
                 </div>
               </div>
-              <div class="flex items-center gap-x-3 gap-y-4">
+              <div
+                class="flex items-center gap-x-3 gap-y-4"
+                v-if="
+                  temporaryCreateData?.order_type == 'scheduled' ||
+                  temporaryCreateData?.order_type == 'subscription'
+                "
+              >
                 <div class="flex items-center w-full">
                   <input
                     id="radio-collect-pickup-time-scheduled-onetime"
                     type="radio"
                     name="radio-collect-pickup-time-scheduled"
                     class="hidden custom-selected-radio"
+                    @change="
+                      $store.commit('order/updateTemporaryCreateData', {
+                        key: 'order_type',
+                        value: 'scheduled',
+                      })
+                    "
+                    :checked="temporaryCreateData?.order_type == 'scheduled'"
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled-onetime"
@@ -153,6 +182,13 @@
                     type="radio"
                     name="radio-collect-pickup-time-scheduled"
                     class="hidden custom-selected-radio"
+                    @change="
+                      $store.commit('order/updateTemporaryCreateData', {
+                        key: 'order_type',
+                        value: 'subscription',
+                      })
+                    "
+                    :checked="temporaryCreateData?.order_type == 'subscription'"
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled-subscription"
@@ -167,7 +203,7 @@
               </div>
               <div class="flex flex-col gap-4">
                 <!-- Start Scheduled One Time -->
-                <div>
+                <div v-if="temporaryCreateData?.order_type === 'scheduled'">
                   <input
                     type="text"
                     class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
@@ -176,7 +212,10 @@
                 </div>
                 <!-- End Scheduled One Time -->
                 <!-- Start Scheduled Subscription -->
-                <div class="flex flex-col gap-4">
+                <div
+                  class="flex flex-col gap-4"
+                  v-else-if="temporaryCreateData?.order_type === 'subscription'"
+                >
                   <input
                     type="text"
                     class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
@@ -204,15 +243,19 @@
           >
             <p class="text-sm font-extrabold text-black">Sampah</p>
             <div class="flex flex-col gap-3">
-              <div class="flex items-start justify-between">
+              <div
+                v-for="item in temporaryCreateData.wastes"
+                :key="item.id"
+                class="flex items-start justify-between"
+              >
                 <div class="flex items-center justify-start">
                   <img
-                    src="/assets/images/trashes/2_plastik/1_botol-plastik.png"
+                    :src="item?.image || '/assets/images/trashes/no-image.svg'"
                     alt=""
                     class="object-cover w-12 h-12 border rounded border-grey-1"
                   />
                   <div class="ml-4">
-                    <p class="text-sm text-grey-3">Plastik</p>
+                    <p class="text-sm text-grey-3">{{ item?.name || '=' }}</p>
                     <div class="flex items-center mt-2 cursor-pointer">
                       <svg
                         width="12"
@@ -227,74 +270,24 @@
                           fill="#F17E60"
                         />
                       </svg>
-                      <p class="ml-1 text-sm text-secondary">Edit</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="text-sm font-extrabold text-black">1,5 kg</p>
-              </div>
-              <div class="flex items-start justify-between">
-                <div class="flex items-center justify-start">
-                  <img
-                    src="/assets/images/trashes/2_plastik/6_styrofoam.png"
-                    alt=""
-                    class="object-cover w-12 h-12 border rounded border-grey-1"
-                  />
-                  <div class="ml-4">
-                    <p class="text-sm text-grey-3">Plastik</p>
-                    <div class="flex items-center mt-2 cursor-pointer">
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
+                      <NuxtLink
+                        :to="`/order/create/waste/${item.id}?ref=/order/create/detail`"
+                        class="ml-1 text-sm text-secondary"
+                        >Edit</NuxtLink
                       >
-                        <path
-                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
-                          fill="#F17E60"
-                        />
-                      </svg>
-                      <p class="ml-1 text-sm text-secondary">Edit</p>
                     </div>
                   </div>
                 </div>
-                <p class="text-sm font-extrabold text-black">1,5 kg</p>
-              </div>
-              <div class="flex items-start justify-between">
-                <div class="flex items-center justify-start">
-                  <img
-                    src="/assets/images/trashes/2_plastik/5_cd.png"
-                    alt=""
-                    class="object-cover w-12 h-12 border rounded border-grey-1"
-                  />
-                  <div class="ml-4">
-                    <p class="text-sm text-grey-3">Plastik</p>
-                    <div class="flex items-center mt-2 cursor-pointer">
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
-                      >
-                        <path
-                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
-                          fill="#F17E60"
-                        />
-                      </svg>
-                      <p class="ml-1 text-sm text-secondary">Edit</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="text-sm font-extrabold text-black">1,5 kg</p>
+                <p class="text-sm font-extrabold text-black">
+                  {{ item.weight }} kg
+                </p>
               </div>
             </div>
             <div class="flex items-center justify-between">
               <p class="text-sm font-extrabold text-black">Total</p>
-              <p class="text-sm font-extrabold text-black">2,5kg</p>
+              <p class="text-sm font-extrabold text-black">
+                {{ temporaryCreateData?.wasteWeight }} kg
+              </p>
             </div>
             <NuxtLink
               to="/order/create/waste?ref=/order/create/detail"
@@ -328,12 +321,13 @@
             </NuxtLink>
           </div>
           <div class="p-5 border-t border-black border-opacity-10">
-            <NuxtLink
-              to="/order/create/overview"
+            <button
+              @click="savePickupTime()"
               class="btn btn--primary btn--rounded btn--block"
+              :disabled="isFilledAllField"
             >
               Selanjutnya
-            </NuxtLink>
+            </button>
           </div>
         </div>
       </div>
@@ -343,6 +337,44 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  data() {
+    return {
+      axiosCancelToken: null,
+    }
+  },
+  computed: {
+    temporaryCreateData() {
+      return this.$store.getters['order/getTemporaryCreateData']
+    },
+    isFilledAllField() {
+      if (this.temporaryCreateData.wastes.length == 0) return true
+
+      if (this.temporaryCreateData.order_type) {
+        if (this.temporaryCreateData.order_type == 'on-demand') {
+          return false
+        } else {
+        }
+      }
+      return true
+    },
+  },
+  mounted() {
+    this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
+    this.$store.dispatch('order/loadTemporaryCreateData')
+  },
+  created() {
+    this.axiosCancelToken = this.$axios.CancelToken.source()
+  },
+  destroyed() {
+    this.axiosCancelToken.cancel()
+  },
+  methods: {
+    savePickupTime() {
+      this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
+
+      this.$router.push('/order/create/overview')
+    },
+  },
 }
 </script>
 <style>

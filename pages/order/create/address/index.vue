@@ -121,12 +121,12 @@
                 placeholder="Alamat detail"
               />
             </div>
-            <div
-              class="mt-4 btn btn--primary btn--block btn--rounded"
+            <button
+              class="mt-4 cursor-pointer btn btn--primary btn--block btn--rounded"
               @click="saveAddress()"
             >
               Selanjutnya
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -176,34 +176,21 @@ export default {
         },
         address: null,
       },
-      processCreatingOrderData: {
-        data: {
-          order_type: null,
-          schedules: [],
-          wastes: [],
-          latitude: null,
-          longitude: null,
-          address: null,
-          amount: 0,
-          payment_method: 'gopay',
-          image: null,
-          wasteWeight: 0,
-        },
-        schedule: {
-          day: null,
-          time: null,
-          date: null,
-        },
-      },
     }
   },
   computed: {
+    temporaryCreateData() {
+      return this.$store.getters['order/getTemporaryCreateData']
+    },
+    selectedSearchAddress() {
+      return this.$store.getters['order/getSelectedSearchAddress']
+    },
     urlBack() {
       return this.$route.query?.ref || '/order/create/waste'
     },
   },
   mounted() {
-    this.checkOrderDataLocalStorage()
+    this.$store.dispatch('order/loadTemporaryCreateData')
     setTimeout(() => {
       if (this.maps.map === null && window.google) {
         this.initMap()
@@ -216,21 +203,6 @@ export default {
     )
   },
   methods: {
-    checkOrderDataLocalStorage() {
-      if (process.client) {
-        let processCreatingOrderData = JSON.parse(
-          localStorage.getItem('processCreatingOrderData')
-        )
-
-        if (processCreatingOrderData) {
-          this.processCreatingOrderData = processCreatingOrderData
-        }
-        localStorage.setItem(
-          'processCreatingOrderData',
-          JSON.stringify(this.processCreatingOrderData)
-        )
-      }
-    },
     initMap() {
       let maps = this.maps
       let _self = this
@@ -254,8 +226,6 @@ export default {
         animation: google.maps.Animation.DROP,
         draggable: false,
       })
-
-      this.getUserLocation()
 
       // handle event marker target
       maps.marker.target.addListener('click', function () {
@@ -318,6 +288,46 @@ export default {
         let center = maps.map.getCenter()
         maps.marker.target.setPosition(center)
       })
+
+      // running code
+      if (this.selectedSearchAddress) {
+        let address = this.selectedSearchAddress.structured_formatting.main_text
+        const callback = (response) => {
+          let data = response[0]
+
+          this.addresses.coordinate = {
+            lat: data.geometry.location.lat(),
+            lng: data.geometry.location.lng(),
+          }
+          this.addresses.address = data.formatted_address
+
+          this.maps.map.panTo(this.addresses.coordinate)
+          this.maps.marker.target.setPosition(this.addresses.coordinate)
+          this.maps.map.setZoom(16)
+
+          this.$store.commit('order/clearSelectedSearchAddress')
+        }
+
+        this.geocodeAddress(address, callback)
+      } else {
+        if (
+          this.temporaryCreateData?.address &&
+          this.temporaryCreateData?.latitude &&
+          this.temporaryCreateData?.longitude
+        ) {
+          this.addresses.address = this.temporaryCreateData?.address
+          this.addresses.coordinate.lat = this.temporaryCreateData?.latitude
+          this.addresses.coordinate.lng = this.temporaryCreateData?.longitude
+
+          setTimeout(() => {
+            this.maps.map.panTo(this.addresses.coordinate)
+            this.maps.marker.target.setPosition(this.addresses.coordinate)
+            this.maps.map.setZoom(16)
+          }, 500)
+        } else {
+          this.getUserLocation()
+        }
+      }
     },
     getUserLocation() {
       if (navigator.geolocation) {
@@ -338,9 +348,9 @@ export default {
         lng: location.coords.longitude,
       }
 
-      this.maps.map.setZoom(16)
-      this.maps.marker.target.setPosition(pos)
       this.maps.map.panTo(pos)
+      this.maps.marker.target.setPosition(pos)
+      this.maps.map.setZoom(16)
 
       this.addresses.coordinate = pos
       const callback = (response) => {
@@ -396,16 +406,40 @@ export default {
         }
       )
     },
-    saveAddress() {
-      this.processCreatingOrderData.data.address = this.addresses.address
-      this.processCreatingOrderData.data.latitude =
-        this.addresses.coordinate.lat
-      this.processCreatingOrderData.data.longitude =
-        this.addresses.coordinate.lng
-      localStorage.setItem(
-        'processCreatingOrderData',
-        JSON.stringify(this.processCreatingOrderData)
+    geocodeAddress(address, callback) {
+      new google.maps.Geocoder().geocode(
+        {
+          address,
+        },
+        function (results, status) {
+          if (status === 'OK') {
+            if (typeof callback == 'function') {
+              callback(results)
+            }
+          } else {
+            this.$store.commit('notification/showNotification', {
+              type: 'error',
+              message: `Geocoder failed due to: ${status}`,
+            })
+          }
+        }
       )
+    },
+    saveAddress() {
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'address',
+        value: this.addresses.address,
+      })
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'latitude',
+        value: this.addresses.coordinate.lat,
+      })
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'longitude',
+        value: this.addresses.coordinate.lng,
+      })
+      this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
+
       this.$router.push('/order/create/detail')
     },
   },

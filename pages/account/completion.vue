@@ -135,7 +135,7 @@ export default {
   },
   computed: {
     isFilledAllField() {
-      return this.email && this.account_type ? true : false
+      return !this.email && !this.account_type ? true : false
     },
   },
   mounted() {

@@ -93,14 +93,19 @@
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
             <p class="text-base font-extrabold text-black">
-              {{ waste.storing.weight || 0 }} kg
+              {{ waste?.storing?.weight || 0 }} kg
             </p>
           </div>
           <div class="flex items-center gap-3 mt-3">
             <div class="flex items-center w-1/2">
               <div class="flex items-center gap-4">
                 <div
-                  class="text-black cursor-pointer"
+                  class="text-black transition-colors duration-300"
+                  :class="[
+                    waste?.storing?.total == 0
+                      ? 'cursor-not-allowed text-opacity-40'
+                      : 'cursor-pointer',
+                  ]"
                   @click="changeUnit('reduce')"
                 >
                   <svg
@@ -123,7 +128,7 @@
                   </svg>
                 </div>
                 <p class="text-base font-medium text-grey-3">
-                  {{ waste.storing.total || 0 }}
+                  {{ waste?.storing?.total || 0 }}
                 </p>
                 <div
                   class="text-black cursor-pointer"
@@ -154,8 +159,9 @@
               </p>
             </div>
             <button
-              class="btn btn--secondary btn--block btn--rounded !w-1/2"
               @click="saveWaste()"
+              class="btn btn--secondary btn--block btn--rounded !w-1/2"
+              :disabled="isFilledAllField"
             >
               Tambahkan
             </button>
@@ -175,11 +181,7 @@ export default {
       waste: {
         loading: true,
         data: null,
-        storing: {
-          id: null,
-          total: 0,
-          weight: 0,
-        },
+        storing: null,
       },
       wasteType: {
         loading: true,
@@ -193,30 +195,17 @@ export default {
           category: '',
         },
       },
-      processCreatingOrderData: {
-        data: {
-          order_type: null,
-          schedules: [],
-          wastes: [],
-          latitude: null,
-          longitude: null,
-          address: null,
-          amount: 0,
-          payment_method: 'gopay',
-          image: null,
-          wasteWeight: 0,
-        },
-        schedule: {
-          day: null,
-          time: null,
-          date: null,
-        },
-      },
       swiper: null,
       axiosCancelToken: null,
     }
   },
   computed: {
+    temporaryCreateData() {
+      return this.$store.getters['order/getTemporaryCreateData']
+    },
+    isFilledAllField() {
+      return this.waste.storing.total == 0 ? true : false
+    },
     urlBack() {
       return this.$route.query?.ref || '/order/create/waste'
     },
@@ -226,7 +215,7 @@ export default {
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
-    this.checkOrderDataLocalStorage()
+    this.$store.dispatch('order/loadTemporaryCreateData')
     this.getWasteDetail()
   },
   created() {
@@ -236,21 +225,6 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
-    checkOrderDataLocalStorage() {
-      if (process.client) {
-        let processCreatingOrderData = JSON.parse(
-          localStorage.getItem('processCreatingOrderData')
-        )
-
-        if (processCreatingOrderData) {
-          this.processCreatingOrderData = processCreatingOrderData
-        }
-        localStorage.setItem(
-          'processCreatingOrderData',
-          JSON.stringify(this.processCreatingOrderData)
-        )
-      }
-    },
     async getWasteDetail() {
       try {
         this.waste.loading = true
@@ -263,6 +237,18 @@ export default {
         this.waste.loading = false
         if (response.success) {
           this.waste.data = response.data
+
+          let waste = this.temporaryCreateData.wastes.find(
+            (item) => item.id === this.waste.data.id
+          )
+
+          if (waste) {
+            this.waste.storing = JSON.parse(JSON.stringify(waste))
+          } else {
+            this.waste.storing = JSON.parse(JSON.stringify(this.waste.data))
+            this.waste.storing.total = 0
+            this.waste.storing.weight = 0
+          }
           this.getWasteTypeList()
         }
       } catch (error) {
@@ -319,11 +305,10 @@ export default {
       })
     },
     changeUnit(type) {
-      let waste = this.waste.storing
+      let waste = JSON.parse(JSON.stringify(this.waste.storing))
 
-      waste.id = this.waste?.data?.id
       if (type == 'add') {
-        waste.total++
+        waste.total += 1
         waste.weight =
           waste.total / this.waste.data.unit_convertion >= 0.1
             ? waste.total / this.waste.data.unit_convertion
@@ -332,29 +317,40 @@ export default {
         if (waste.total === 0) {
           return false
         }
-        waste.total--
-        waste.weight =
-          waste.total / this.waste.data.unit_convertion >= 0.1
-            ? waste.total / this.waste.data.unit_convertion
-            : 0.1
+        waste.total -= 1
+        if (waste.total > 0) {
+          waste.weight =
+            waste.total / this.waste.data.unit_convertion >= 0.1
+              ? waste.total / this.waste.data.unit_convertion
+              : 0.1
+        } else {
+          waste.weight = 0
+        }
       }
+      this.waste.storing = waste
     },
     saveWaste() {
-      this.processCreatingOrderData.data.wastes =
-        this.processCreatingOrderData.data.wastes.filter(
-          (item) => item.id !== this.waste.storing.id
-        )
-      this.processCreatingOrderData.data.wastes.push(this.waste.storing)
-      let wasteWeight = this.processCreatingOrderData.data.wastes.reduce(
+      this.$store.commit(
+        'order/removeWasteTemporaryCreateData',
+        this.waste.storing.id
+      )
+      this.$store.commit(
+        'order/addWasteTemporaryCreateData',
+        this.waste.storing
+      )
+
+      let wasteWeight = this.temporaryCreateData.wastes.reduce(
         (sum, data) => sum + data.weight,
         0
       )
-      this.processCreatingOrderData.data.wasteWeight = wasteWeight
-      localStorage.setItem(
-        'processCreatingOrderData',
-        JSON.stringify(this.processCreatingOrderData)
-      )
-      this.$router.push('/order/create/waste')
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'wasteWeight',
+        value: wasteWeight,
+      })
+
+      this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
+
+      this.$router.push(this.urlBack)
     },
   },
 }

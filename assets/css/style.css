@@ -54,7 +54,7 @@ body {
 
 /** Secondary Button */
 .btn--secondary {
-  @apply bg-secondary text-white border border-secondary border-solid;
+  @apply bg-secondary text-white border border-secondary border-solid disabled:cursor-not-allowed disabled:bg-opacity-40 disabled:border-opacity-0;
 }
 
 .btn--secondary-outline {
