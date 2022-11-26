@@ -427,7 +427,6 @@ export default {
         })
 
         if (response.success) {
-          this.$store.commit('app/setLoader', false)
           this.$store.commit('order/clearTemporaryCreateData')
           this.$router.push(`/order/${response.data.id}`)
         }
