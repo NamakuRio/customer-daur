@@ -388,6 +388,7 @@ export default {
     },
     isFilledAllField() {
       if (this.temporaryCreateData.wastes.length == 0) return true
+      if (!this.imageDataURL) return true
 
       if (this.temporaryCreateData.order_type) {
         if (this.temporaryCreateData.order_type == 'on-demand') {
@@ -442,7 +443,7 @@ export default {
         canvas.height = height
         ctx.drawImage(img, 0, 0, width, height)
 
-        _self.imageDataURL = canvas.toDataURL('image/jpeg', 1)
+        _self.imageDataURL = canvas.toDataURL('image/jpeg', 0.3)
       }
     },
     savePickupTime() {
