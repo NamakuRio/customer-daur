@@ -28,6 +28,26 @@ export const getters = {
 }
 
 export const mutations = {
+  clearTemporaryCreateData(state) {
+    state.temporaryCreateData = {
+      order_type: null,
+      schedules: [],
+      wastes: [],
+      latitude: null,
+      longitude: null,
+      address: null,
+      amount: 0,
+      payment_method: 'gopay',
+      image: null,
+      wasteWeight: 0,
+    }
+
+    state.address = {
+      search: {
+        selected: null,
+      },
+    }
+  },
   saveToLocalStorageTemporaryCreateData(state) {
     localStorage.setItem(
       'temporaryCreateData',

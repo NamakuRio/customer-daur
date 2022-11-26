@@ -38,4 +38,14 @@ export default ({ app, $moment }, inject) => {
   inject('formattingThousand', (value) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   })
+  inject('b64ToBlob', (image, type) => {
+    var byteString = atob(image.split(',')[1])
+    var ab = new ArrayBuffer(byteString.length)
+    var ia = new Uint8Array(ab)
+
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([ab], { type })
+  })
 }

@@ -325,7 +325,13 @@
               @click="captureImage()"
               class="rounded-lg border bg-white border-black border-opacity-10 text-grey-2 cursor-pointer group hover:text-primary hover:border-primary hover:border-dashed"
             >
-              <div class="flex flex-col items-center gap-4 px-5 pt-8 pb-7">
+              <div v-if="imageDataURL" class="p-[1px]">
+                <img :src="imageDataURL" alt="" class="m-auto rounded-lg" />
+              </div>
+              <div
+                v-else
+                class="flex flex-col items-center gap-4 px-5 pt-8 pb-7"
+              >
                 <svg
                   width="50"
                   height="50"
@@ -350,6 +356,7 @@
               capture="image"
               class="hidden"
               ref="capture-image-file"
+              @change="handleCapturingImage($event)"
             />
           </div>
           <div class="p-5 border-t border-black border-opacity-10">
@@ -371,6 +378,7 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
+      imageDataURL: null,
       axiosCancelToken: null,
     }
   },
@@ -401,13 +409,50 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
+    captureImage() {
+      this.$refs['capture-image-file'].click()
+    },
+    handleCapturingImage(e) {
+      let _self = this
+      let file = e.target.files[0]
+
+      let img = document.createElement('img')
+      img.src = URL.createObjectURL(file)
+      img.onload = function () {
+        let canvas = document.createElement('canvas')
+        let ctx = canvas.getContext('2d')
+
+        var MAX_WIDTH = 400
+        var MAX_HEIGHT = 150
+        var width = img.width
+        var height = img.height
+
+        // if (width > height) {
+        //   if (width > MAX_WIDTH) {
+        //     height *= MAX_WIDTH / width
+        //     width = MAX_WIDTH
+        //   }
+        // } else {
+        //   if (height > MAX_HEIGHT) {
+        //     width *= MAX_HEIGHT / height
+        //     height = MAX_HEIGHT
+        //   }
+        // }
+        canvas.width = width
+        canvas.height = height
+        ctx.drawImage(img, 0, 0, width, height)
+
+        _self.imageDataURL = canvas.toDataURL('image/jpeg', 1)
+      }
+    },
     savePickupTime() {
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'image',
+        value: this.imageDataURL,
+      })
       this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
 
       this.$router.push('/order/create/overview')
-    },
-    captureImage() {
-      this.$refs['capture-image-file'].click()
     },
   },
 }

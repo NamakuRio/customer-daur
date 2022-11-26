@@ -406,6 +406,21 @@ export default {
           this.temporaryCreateData.payment_method
         )
 
+        // image
+        let imageDataURL = this.temporaryCreateData.image.split(';')
+        let imageBase64 = imageDataURL[1]
+        let imageType = imageDataURL[0].split(':')[1]
+        let imageBlob = this.$b64ToBlob(imageBase64, imageType)
+        formData.append('image', imageBlob, 'order.jpeg')
+
+        // schedules
+        if (this.temporaryCreateData.order_type == 'on-demand') {
+          formData.append(
+            'schedules[0][date]',
+            this.$moment().format('YYYY-MM-DD')
+          )
+        }
+
         var response = await this.$axios.$post('/api/v1/order', formData, {
           'content-type': 'multipart/form-data',
           CancelToken: this.axiosCancelToken,
@@ -413,9 +428,11 @@ export default {
 
         if (response.success) {
           this.$store.commit('app/setLoader', false)
-          this.price.data = response.data
+          this.$store.commit('order/clearTemporaryCreateData')
+          this.$router.push(`/order/${response.data.id}`)
         }
       } catch (error) {
+        console.log(error)
         this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(error)) {
           const code = parseInt(error.response && error.response.status)
