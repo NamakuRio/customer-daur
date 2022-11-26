@@ -48,4 +48,16 @@ export default ({ app, $moment }, inject) => {
     }
     return new Blob([ab], { type })
   })
+  inject('orderPaymentStatusText', (value) => {
+    let status = ''
+    if (value == 'not_yet') {
+      status = 'Belum Lunas'
+    } else if (value == 'paid') {
+      status = 'Lunas'
+    } else if (value == 'failed') {
+      status = 'Belum Lunas'
+    }
+
+    return status
+  })
 }

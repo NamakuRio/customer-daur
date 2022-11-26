@@ -354,7 +354,9 @@
                   <p class="text-sm font-extrabold text-black">
                     ID Pengangkutan
                   </p>
-                  <p class="mt-1 text-sm font-medium text-grey-2">#01292</p>
+                  <p class="mt-1 text-sm font-medium text-grey-2">
+                    {{ collect?.data?.collect_number || '-' }}
+                  </p>
                 </div>
                 <span
                   class="px-5 py-1 text-xs font-medium rounded-full bg-info text-info bg-opacity-20"
@@ -365,7 +367,7 @@
                 <div>
                   <p class="text-sm font-extrabold text-black">Collector</p>
                   <p class="mt-1 text-sm font-medium text-grey-2">
-                    Budi Romadon
+                    {{ collect?.data?.collector?.name || 'Menunggu' }}
                   </p>
                 </div>
                 <div class="flex items-center">
@@ -417,8 +419,7 @@
                     Alamat Penjemputan
                   </p>
                   <p class="mt-1 text-sm font-medium text-grey-3">
-                    Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                    Barat 50129
+                    {{ collect?.data?.address }}
                   </p>
                 </div>
               </div>
@@ -462,7 +463,7 @@
                       />
                     </svg>
                     <p class="ml-2 text-sm font-medium text-grey-2">
-                      Jadwal Pengangkutan
+                      Jenis Sampah
                     </p>
                   </div>
                   <p
@@ -495,24 +496,26 @@
                 <div class="mt-4">
                   <div class="border border-grey-1">
                     <div class="flex flex-col gap-4 p-4">
-                      <div class="flex items-center justify-between">
+                      <div
+                        v-for="item in collect?.data?.collect_items"
+                        :key="item.id"
+                        class="flex items-center justify-between"
+                      >
                         <p class="text-sm font-medium text-grey-3">
-                          Plastik PET
+                          {{ item.name }}
                         </p>
-                        <p class="text-sm font-extrabold text-black">1,5kg</p>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-grey-3">
-                          Plastik PET
+                        <p class="text-sm font-extrabold text-black">
+                          {{ item.weight }} kg
                         </p>
-                        <p class="text-sm font-extrabold text-black">1,5kg</p>
                       </div>
                     </div>
                     <hr />
                     <div class="flex flex-col gap-4 p-4">
                       <div class="flex items-center justify-between">
                         <p class="text-sm font-extrabold text-grey-3">Total</p>
-                        <p class="text-sm font-extrabold text-black">2,5kg</p>
+                        <p class="text-sm font-extrabold text-black">
+                          {{ wasteWeight }} kg
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1166,6 +1169,17 @@ export default {
       },
       axiosCancelToken: null,
     }
+  },
+  computed: {
+    wasteWeight() {
+      let wasteWeight = 0
+      wasteWeight = this.collect?.data?.collect_items.reduce(
+        (sum, data) => sum + data.weight,
+        ''
+      )
+
+      return wasteWeight
+    },
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')

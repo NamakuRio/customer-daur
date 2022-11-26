@@ -224,7 +224,7 @@
         <div class="bg-white">
           <div>
             <div
-              class="flex flex-col gap-5 p-5 border-b border-black border-opacity-10"
+              class="hidden flex flex-col gap-5 p-5 border-b border-black border-opacity-10"
             >
               <div class="flex items-start justify-between">
                 <div>
@@ -285,23 +285,45 @@
               <div class="flex items-start justify-between">
                 <div>
                   <p class="text-sm font-extrabold text-black">ID Order</p>
-                  <p class="mt-1 text-sm font-medium text-grey-2">#01292</p>
+                  <p class="mt-1 text-sm font-medium text-grey-2">
+                    {{ order?.data?.order_number || '-' }}
+                  </p>
                 </div>
                 <div class="text-right">
                   <span
-                    class="px-5 py-1 text-xs font-medium rounded-full bg-success text-success bg-opacity-20"
+                    class="px-5 py-1 text-xs font-medium rounded-full bg-opacity-20"
+                    :class="[
+                      order?.data?.status == 'pending'
+                        ? 'bg-warning text-warning'
+                        : '',
+                      order?.data?.status == 'active'
+                        ? 'bg-success text-success'
+                        : '',
+                      order?.data?.status == 'inactive'
+                        ? 'bg-grey-3 text-grey-3'
+                        : '',
+                      order?.data?.status == 'cancel'
+                        ? 'bg-danger text-danger'
+                        : '',
+                    ]"
                   >
-                    active
+                    {{ order?.data?.status }}
                   </span>
                   <p class="mt-1 text-sm font-medium text-grey-2">
-                    20 Juli 2022 19:20 WIB
+                    {{
+                      `${$moment(order?.data?.created_at).format(
+                        'DD MMMM YYYY HH:mm'
+                      )} WIB` || '-'
+                    }}
                   </p>
                 </div>
               </div>
               <div>
                 <div>
                   <p class="text-sm font-extrabold text-black">Jenis Order</p>
-                  <p class="mt-1 text-sm font-medium text-grey-2">Scheduled</p>
+                  <p class="mt-1 text-sm font-medium text-grey-2">
+                    {{ order?.data?.type || '-' }}
+                  </p>
                 </div>
               </div>
               <div class="flex items-end justify-between">
@@ -309,13 +331,21 @@
                   <p class="text-sm font-extrabold text-black">
                     Status Pembayaran
                   </p>
-                  <p class="mt-1 text-sm font-medium text-success">Lunas</p>
+                  <p
+                    class="mt-1 text-sm font-medium"
+                    :class="paymentStatusClass"
+                  >
+                    {{ paymentStatus }}
+                  </p>
                 </div>
                 <div>
-                  <p class="text-sm font-extrabold text-black">Rp. 15.000</p>
+                  <p class="text-sm font-extrabold text-black">
+                    Rp.
+                    {{ $formattingThousand(order?.data?.payment?.amount) || 0 }}
+                  </p>
                 </div>
               </div>
-              <div>
+              <div v-if="this.order?.data?.payment?.status == 'paid'">
                 <div>
                   <p class="text-sm font-extrabold text-black">Poin</p>
                   <p class="mt-1 text-sm font-medium text-grey-2">100</p>
@@ -352,8 +382,7 @@
                     Alamat Penjemputan
                   </p>
                   <p class="mt-1 text-sm font-medium text-grey-3">
-                    Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa
-                    Barat 50129
+                    {{ $formattingThousand(order?.data?.address) || '-' }}
                   </p>
                 </div>
               </div>
@@ -507,6 +536,32 @@ export default {
       },
       axiosCancelToken: null,
     }
+  },
+  computed: {
+    paymentStatusClass() {
+      let status = ''
+      if (this.order?.data?.payment?.status == 'not_yet') {
+        status = 'text-warning'
+      } else if (this.order?.data?.payment?.status == 'paid') {
+        status = 'text-success'
+      } else if (this.order?.data?.payment?.status == 'failed') {
+        status = 'text-warning'
+      }
+
+      return status
+    },
+    paymentStatus() {
+      let status = ''
+      if (this.order?.data?.payment?.status == 'not_yet') {
+        status = 'Belum Lunas'
+      } else if (this.order?.data?.payment?.status == 'paid') {
+        status = 'Lunas'
+      } else if (this.order?.data?.payment?.status == 'failed') {
+        status = 'Belum Lunas'
+      }
+
+      return status
+    },
   },
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
