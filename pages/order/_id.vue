@@ -534,6 +534,10 @@ export default {
         loading: true,
         data: null,
       },
+      orderCollect: {
+        loading: true,
+        data: null,
+      },
       axiosCancelToken: null,
     }
   },
@@ -566,6 +570,7 @@ export default {
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
     this.getOrderDetail()
+    this.getOrderCollectDetail()
   },
   created() {
     this.axiosCancelToken = this.$axios.CancelToken.source()
@@ -589,6 +594,36 @@ export default {
         }
       } catch (error) {
         this.order.loading = false
+        if (!this.$axios.isCancel(error)) {
+          const code = parseInt(error.response && error.response.status)
+          const statusText = error.response && error.response.statusText
+          const data = error.response && error.response.data
+
+          if (code === 404) {
+            this.$nuxt.context.error({
+              statusCode: 404,
+              message: data.message,
+            })
+            return Promise.resolve(false)
+          }
+        }
+      }
+    },
+    async getOrderCollectDetail() {
+      try {
+        this.orderCollect.loading = true
+
+        let id = this.$route.params.id
+        var response = await this.$axios.$get(`/api/v1/order/${id}/collect`, {
+          CancelToken: this.axiosCancelToken,
+        })
+
+        this.orderCollect.loading = false
+        if (response.success) {
+          this.orderCollect.data = response.data
+        }
+      } catch (error) {
+        this.orderCollect.loading = false
         if (!this.$axios.isCancel(error)) {
           const code = parseInt(error.response && error.response.status)
           const statusText = error.response && error.response.statusText
