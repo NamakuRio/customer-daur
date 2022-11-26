@@ -5,6 +5,10 @@ export default function ({ store, $axios, app }) {
     const data = error.response && error.response.data
 
     if (code === 401) {
+      store.commit('notification/showNotification', {
+        type: 'error',
+        message: 'Unauthorized',
+      })
       store.commit('authentication/logout')
       window.location = '/auth/login'
     } else {

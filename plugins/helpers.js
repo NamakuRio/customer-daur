@@ -35,4 +35,7 @@ export default ({ app, $moment }, inject) => {
       console.log(event)
     }
   )
+  inject('formattingThousand', (value) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  })
 }
