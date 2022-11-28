@@ -63,19 +63,8 @@
                     </div>
                     <span
                       class="rounded-full py-1 px-4 bg-opacity-20 text-xs font-medium"
-                      :class="[
-                        item?.status == 'pending'
-                          ? 'bg-warning text-warning'
-                          : '',
-                        item?.status == 'active'
-                          ? 'bg-success text-success'
-                          : '',
-                        item?.status == 'inactive'
-                          ? 'bg-grey-3 text-grey-3'
-                          : '',
-                        item?.status == 'cancel' ? 'bg-danger text-danger' : '',
-                      ]"
-                      >{{ item?.status }}</span
+                      :class="$orderStatusClass(item?.status)"
+                      >{{ $orderStatus(item?.status) }}</span
                     >
                   </div>
                   <p class="text-xs text-grey-3">

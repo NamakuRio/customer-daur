@@ -101,24 +101,9 @@
                         </p>
                       </div>
                       <span
-                        class="rounded-full py-1 px-4 bg-opacity-30 text-xs font-medium"
-                        :class="[
-                          item?.status == 'scheduled'
-                            ? 'bg-grey-3 text-grey-3'
-                            : '',
-                          item?.status == 'request'
-                            ? 'bg-warning text-warning'
-                            : '',
-                          item?.status == 'pickup' ? 'bg-info text-info' : '',
-                          item?.status == 'drop' ? 'bg-info text-info' : '',
-                          item?.status == 'complete'
-                            ? 'bg-success text-success'
-                            : '',
-                          item?.status == 'cancel'
-                            ? 'bg-danger text-danger'
-                            : '',
-                        ]"
-                        >{{ item?.status }}</span
+                        class="rounded-full py-1 px-4 bg-opacity-20 text-xs font-medium"
+                        :class="$collectStatusClass(item?.status)"
+                        >{{ $collectStatus(item?.status) }}</span
                       >
                     </div>
                     <p class="text-xs tetext-grey-3">
@@ -188,23 +173,8 @@
                       </div>
                       <span
                         class="rounded-full py-1 px-4 bg-opacity-20 text-xs font-medium"
-                        :class="[
-                          item?.status == 'scheduled'
-                            ? 'bg-grey-3 text-grey-3'
-                            : '',
-                          item?.status == 'request'
-                            ? 'bg-warning text-warning'
-                            : '',
-                          item?.status == 'pickup' ? 'bg-info text-info' : '',
-                          item?.status == 'drop' ? 'bg-info text-info' : '',
-                          item?.status == 'complete'
-                            ? 'bg-success text-success'
-                            : '',
-                          item?.status == 'cancel'
-                            ? 'bg-danger text-danger'
-                            : '',
-                        ]"
-                        >{{ item?.status }}</span
+                        :class="$collectStatusClass(item?.status)"
+                        >{{ $collectStatus(item?.status) }}</span
                       >
                     </div>
                     <div>

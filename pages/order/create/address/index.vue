@@ -124,6 +124,7 @@
             <button
               class="mt-4 cursor-pointer btn btn--primary btn--block btn--rounded"
               @click="saveAddress()"
+              :disabled="isFilledAllField"
             >
               Selanjutnya
             </button>
@@ -187,6 +188,17 @@ export default {
     },
     urlBack() {
       return this.$route.query?.ref || '/order/create/waste'
+    },
+    isFilledAllField() {
+      if (
+        this.addresses.coordinate.lat &&
+        this.addresses.coordinate.lng &&
+        this.addresses.address
+      ) {
+        return false
+      }
+
+      return true
     },
   },
   mounted() {

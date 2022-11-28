@@ -48,7 +48,35 @@ export default ({ app, $moment }, inject) => {
     }
     return new Blob([ab], { type })
   })
-  inject('orderPaymentStatusText', (value) => {
+  inject('orderStatus', (value) => {
+    let status = ''
+    if (value == 'pending') {
+      status = 'Pending'
+    } else if (value == 'active') {
+      status = 'Active'
+    } else if (value == 'inactive') {
+      status = 'Inactive'
+    } else if (value == 'cancel') {
+      status = 'Canceled'
+    }
+
+    return status
+  })
+  inject('orderStatusClass', (value) => {
+    let status = ''
+    if (value == 'pending') {
+      status = 'bg-warning text-warning'
+    } else if (value == 'active') {
+      status = 'bg-success text-success'
+    } else if (value == 'inactive') {
+      status = 'bg-grey-3 text-grey-3'
+    } else if (value == 'cancel') {
+      status = 'bg-danger text-danger'
+    }
+
+    return status
+  })
+  inject('paymentOrderStatus', (value) => {
     let status = ''
     if (value == 'not_yet') {
       status = 'Belum Lunas'
@@ -56,6 +84,50 @@ export default ({ app, $moment }, inject) => {
       status = 'Lunas'
     } else if (value == 'failed') {
       status = 'Belum Lunas'
+    }
+
+    return status
+  })
+  inject('paymentOrderStatusClass', (value) => {
+    let status = ''
+    if (value == 'not_yet') {
+      status = 'text-warning'
+    } else if (value == 'paid') {
+      status = 'text-success'
+    } else if (value == 'failed') {
+      status = 'text-warning'
+    }
+
+    return status
+  })
+  inject('collectStatus', (value) => {
+    let status = ''
+    if (value == 'scheduled') {
+      status = 'Waiting'
+    } else if (value == 'pickup') {
+      status = 'Pickup'
+    } else if (value == 'drop') {
+      status = 'Dropping'
+    } else if (value == 'completed') {
+      status = 'Complete'
+    } else if (value == 'cancel') {
+      status = 'Canceled'
+    }
+
+    return status
+  })
+  inject('collectStatusClass', (value) => {
+    let status = ''
+    if (value == 'scheduled') {
+      status = 'bg-grey-3 text-grey-3'
+    } else if (value == 'pickup') {
+      status = 'bg-info text-info'
+    } else if (value == 'drop') {
+      status = 'bg-info text-info'
+    } else if (value == 'completed') {
+      status = 'bg-success text-success'
+    } else if (value == 'cancel') {
+      status = 'bg-danger text-danger'
     }
 
     return status

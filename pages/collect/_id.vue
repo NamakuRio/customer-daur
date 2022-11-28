@@ -359,8 +359,9 @@
                   </p>
                 </div>
                 <span
-                  class="px-5 py-1 text-xs font-medium rounded-full bg-info text-info bg-opacity-20"
-                  >pickup</span
+                  class="px-5 py-1 text-xs font-medium rounded-full bg-opacity-20"
+                  :class="$collectStatusClass(collect?.data?.status)"
+                  >{{ $collectStatus(collect?.data?.status) }}</span
                 >
               </div>
               <div class="flex items-end justify-between">
