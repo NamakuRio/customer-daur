@@ -402,6 +402,7 @@ export default {
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
     this.$store.dispatch('order/loadTemporaryCreateData')
+    this.imageDataURL = this.temporaryCreateData.image || null
   },
   created() {
     this.axiosCancelToken = this.$axios.CancelToken.source()

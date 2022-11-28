@@ -78,6 +78,23 @@ body {
   @apply bg-grey-1 text-white;
 }
 
+/** Danger Button */
+.btn--danger {
+  @apply bg-danger text-white border border-danger border-solid disabled:cursor-not-allowed disabled:bg-opacity-40 disabled:border-opacity-0;
+}
+
+.btn--danger-outline {
+  @apply bg-transparent text-danger transition-all duration-300 border border-danger border-solid;
+}
+
+.btn--danger-soft {
+  @apply bg-danger-soft text-danger transition-all duration-300 border-transparent;
+}
+
+.btn--danger-outline:hover {
+  @apply bg-danger text-white;
+}
+
 /** Variant Button */
 .btn--rounded {
   @apply rounded-full;

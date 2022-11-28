@@ -18,6 +18,7 @@ module.exports = {
           3: '#5F6266',
         },
         danger: '#FB4E4E',
+        'danger-soft': '#FFF0F0',
         warning: '#DD9813',
         success: '#2AC769',
         info: '#30AEE4',

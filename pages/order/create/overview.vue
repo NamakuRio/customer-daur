@@ -426,6 +426,7 @@ export default {
           CancelToken: this.axiosCancelToken,
         })
 
+        this.$store.commit('app/setLoader', false)
         if (response.success) {
           this.$store.commit('order/clearTemporaryCreateData')
           this.$router.push(`/order/${response.data.id}`)
