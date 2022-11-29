@@ -301,7 +301,7 @@
                   viewBox="0 0 20 20"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="min-w-[20px] min-h-[20px] max-w-[20px] max-h-[20px] transition-all duration-500"
+                  class="ml-4 min-w-[20px] min-h-[20px] max-w-[20px] max-h-[20px] transition-all duration-500"
                   :class="{ 'rotate-180': selectedAccordion == 1 }"
                 >
                   <g clip-path="url(#clip0_1513_6949)">

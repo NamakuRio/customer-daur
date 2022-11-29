@@ -118,6 +118,16 @@ body {
 }
 
 /** Transition */
+/** Fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /** Slide Popup */
 .slide-popup-enter-active,
 .slide-popup-leave-active {

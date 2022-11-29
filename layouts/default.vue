@@ -1,19 +1,17 @@
 <template>
-  <div class="app" :class="appBackground">
-    <div
-      v-if="isLoader"
-      class="fixed inset-0 w-full h-full"
-      style="background-color: #0000006e; z-index: 10000"
-    >
+  <div class="app" :class="[appBackground]">
+    <transition name="fade">
       <div
-        class="relative flex m-auto"
-        style="max-width: 330px; min-height: calc(100% - 1rem)"
+        v-if="isLoader"
+        class="fixed inset-0 w-full h-full bg-[#0000006e] z-[10000]"
       >
-        <div class="relative flex p-4 m-auto bg-white rounded-xl">
-          <Loader classList="inline-block" />
+        <div class="relative flex m-auto max-w-[330px] min-h-screen">
+          <div class="relative flex p-4 m-auto bg-white rounded-xl">
+            <Loader classList="inline-block" />
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
     <Notification />
 
     <Nuxt v-if="isAppLoaded" />
