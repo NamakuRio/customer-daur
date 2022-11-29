@@ -6,23 +6,18 @@ export const state = () => ({
     latitude: null,
     longitude: null,
     address: null,
+    address_note: '',
     amount: 0,
     payment_method: 'gopay',
     image: null,
     wasteWeight: 0,
-    onDemand: {
-      collect_datetime: null,
-      collect_count: 1,
-    },
-    scheduled: {
-      collect_datetime: null,
-      collect_count: 1,
-    },
-    subscription: {
-      collect_day: null,
-      collect_time: null,
-      collect_count: null,
-    },
+    onDemand_collect_dateTime: null,
+    onDemand_collect_count: 1,
+    scheduled_collect_dateTime: null,
+    scheduled_collect_count: 1,
+    subscription_collect_day: null,
+    subscription_collect_time: null,
+    subscription_collect_count: null,
   },
   address: {
     search: {
@@ -49,10 +44,18 @@ export const mutations = {
       latitude: null,
       longitude: null,
       address: null,
+      address_note: null,
       amount: 0,
       payment_method: 'gopay',
       image: null,
       wasteWeight: 0,
+      onDemand_collect_dateTime: null,
+      onDemand_collect_count: 1,
+      scheduled_collect_dateTime: null,
+      scheduled_collect_count: 1,
+      subscription_collect_day: null,
+      subscription_collect_time: null,
+      subscription_collect_count: null,
     }
 
     state.address = {

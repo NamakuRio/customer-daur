@@ -322,7 +322,7 @@ export default {
     this.initSwiper()
     this.getNotificationList()
     if (process.client) {
-      localStorage.removeItem('temporaryCreateData')
+      this.$store.commit('order/clearTemporaryCreateData')
     }
   },
   created() {

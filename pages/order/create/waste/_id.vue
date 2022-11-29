@@ -75,6 +75,7 @@
                 type="text"
                 class="block w-full p-4 mt-2 text-sm text-black bg-gray-100 rounded focus:outline-none"
                 placeholder="Jenis plastik lain"
+                v-model="waste.storing.note"
               />
             </div>
           </div>
@@ -330,6 +331,7 @@ export default {
             this.waste.storing = JSON.parse(JSON.stringify(this.waste.data))
             this.waste.storing.total = 0
             this.waste.storing.weight = 0
+            this.waste.storing.note = ''
           }
           this.getWasteTypeList()
         }

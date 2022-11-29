@@ -119,6 +119,7 @@
                 type="text"
                 class="block w-full p-4 mt-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
                 placeholder="Alamat detail"
+                v-model="addresses.address_note"
               />
             </div>
             <button
@@ -176,6 +177,7 @@ export default {
           lng: null,
         },
         address: null,
+        address_note: '',
       },
     }
   },
@@ -327,6 +329,7 @@ export default {
           this.temporaryCreateData?.latitude &&
           this.temporaryCreateData?.longitude
         ) {
+          this.addresses.address_note = this.temporaryCreateData?.address_note
           this.addresses.address = this.temporaryCreateData?.address
           this.addresses.coordinate.lat = this.temporaryCreateData?.latitude
           this.addresses.coordinate.lng = this.temporaryCreateData?.longitude
@@ -441,6 +444,10 @@ export default {
       this.$store.commit('order/updateTemporaryCreateData', {
         key: 'address',
         value: this.addresses.address,
+      })
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'address_note',
+        value: this.addresses.address_note,
       })
       this.$store.commit('order/updateTemporaryCreateData', {
         key: 'latitude',

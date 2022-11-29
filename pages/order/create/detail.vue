@@ -84,6 +84,7 @@
                 type="text"
                 class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
                 placeholder="Alamat detail"
+                v-model="address_note"
               />
             </div>
           </div>
@@ -99,13 +100,8 @@
                     type="radio"
                     name="radio-collect-pickup-time"
                     class="hidden custom-selected-radio-area"
-                    @change="
-                      $store.commit('order/updateTemporaryCreateData', {
-                        key: 'order_type',
-                        value: 'on-demand',
-                      })
-                    "
-                    :checked="temporaryCreateData?.order_type == 'on-demand'"
+                    @change="setOrderType('on-demand', 1)"
+                    :checked="order?.order_type_1 == 'on-demand'"
                   />
                   <label
                     for="radio-collect-pickup-time-ondemand"
@@ -123,16 +119,8 @@
                     type="radio"
                     name="radio-collect-pickup-time"
                     class="hidden custom-selected-radio-area"
-                    @change="
-                      $store.commit('order/updateTemporaryCreateData', {
-                        key: 'order_type',
-                        value: 'scheduled',
-                      })
-                    "
-                    :checked="
-                      temporaryCreateData?.order_type == 'scheduled' ||
-                      temporaryCreateData?.order_type == 'subscription'
-                    "
+                    @change="setOrderType('scheduled', 1)"
+                    :checked="order?.order_type_1 == 'scheduled'"
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled"
@@ -147,10 +135,7 @@
               </div>
               <div
                 class="flex items-center gap-x-3 gap-y-4"
-                v-if="
-                  temporaryCreateData?.order_type == 'scheduled' ||
-                  temporaryCreateData?.order_type == 'subscription'
-                "
+                v-if="order?.order_type_1 == 'scheduled'"
               >
                 <div class="flex items-center w-full">
                   <input
@@ -158,13 +143,8 @@
                     type="radio"
                     name="radio-collect-pickup-time-scheduled"
                     class="hidden custom-selected-radio"
-                    @change="
-                      $store.commit('order/updateTemporaryCreateData', {
-                        key: 'order_type',
-                        value: 'scheduled',
-                      })
-                    "
-                    :checked="temporaryCreateData?.order_type == 'scheduled'"
+                    @change="setOrderType('scheduled-onetime', 2)"
+                    :checked="order?.order_type_2 == 'scheduled-onetime'"
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled-onetime"
@@ -182,13 +162,8 @@
                     type="radio"
                     name="radio-collect-pickup-time-scheduled"
                     class="hidden custom-selected-radio"
-                    @change="
-                      $store.commit('order/updateTemporaryCreateData', {
-                        key: 'order_type',
-                        value: 'subscription',
-                      })
-                    "
-                    :checked="temporaryCreateData?.order_type == 'subscription'"
+                    @change="setOrderType('scheduled-subscription', 2)"
+                    :checked="order?.order_type_2 == 'scheduled-subscription'"
                   />
                   <label
                     for="radio-collect-pickup-time-scheduled-subscription"
@@ -203,14 +178,14 @@
               </div>
               <div class="flex flex-col gap-4">
                 <!-- Start Scheduled One Time -->
-                <div v-if="temporaryCreateData?.order_type === 'scheduled'">
+                <div v-if="order?.order_type_2 == 'scheduled-onetime'">
                   <vc-date-picker
-                    v-model="scheduledOneTime.dateTime"
+                    v-model="order.scheduled.oneTime.dateTime"
                     mode="dateTime"
                     is24hr
                     locale="id-ID"
-                    :min-date="scheduledOneTime.minDate"
-                    :masks="scheduledOneTime.masks"
+                    :min-date="order.scheduled.oneTime.config.minDate"
+                    :masks="order.scheduled.oneTime.config.masks"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -226,12 +201,13 @@
                 <!-- Start Scheduled Subscription -->
                 <div
                   class="flex flex-col gap-4"
-                  v-else-if="temporaryCreateData?.order_type === 'subscription'"
+                  v-else-if="order?.order_type_2 == 'scheduled-subscription'"
                 >
                   <select
                     name=""
                     id=""
                     class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                    v-model="order.scheduled.subscription.day"
                   >
                     <option value="" selected disabled>Pilih hari</option>
                     <option value="Senin">Senin</option>
@@ -243,26 +219,18 @@
                     <option value="Minggu">Minggu</option>
                   </select>
                   <div class="flex items-center gap-4">
-                    <vc-date-picker
-                      v-model="scheduledSubscription.time"
-                      mode="time"
-                      is24hr
-                      locale="id-ID"
-                      :masks="scheduledSubscription.masks"
-                    >
-                      <template v-slot="{ inputValue, inputEvents }">
-                        <input
-                          class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                          :value="inputValue"
-                          v-on="inputEvents"
-                          placeholder="Pilih waktu"
-                        />
-                      </template>
-                    </vc-date-picker>
+                    <input
+                      type="tel"
+                      class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none cleave-time"
+                      placeholder="Pilih waktu"
+                      v-model="order.scheduled.subscription.time"
+                    />
                     <input
                       type="text"
                       class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
                       placeholder="Berapa kali angkut"
+                      @keypress="$onlyNumber($event)"
+                      v-model="order.scheduled.subscription.count"
                     />
                   </div>
                 </div>
@@ -452,19 +420,27 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
-      scheduledOneTime: {
-        minDate: new Date(),
-        dateTime: null,
-        masks: {
-          inputDateTime24hr: 'DD MMMM YYYY HH:mm',
+      order: {
+        order_type_1: null,
+        order_type_2: null,
+        scheduled: {
+          oneTime: {
+            dateTime: null,
+            config: {
+              minDate: new Date(),
+              masks: {
+                inputDateTime24hr: 'DD MMMM YYYY HH:mm',
+              },
+            },
+          },
+          subscription: {
+            day: null,
+            time: null,
+            count: null,
+          },
         },
       },
-      scheduledSubscription: {
-        time: null,
-        masks: {
-          inputTime24hr: 'HH:mm',
-        },
-      },
+      address_note: '',
       imageDataURL: null,
       axiosCancelToken: null,
     }
@@ -477,10 +453,21 @@ export default {
       if (this.temporaryCreateData.wastes.length == 0) return true
       if (!this.imageDataURL) return true
 
-      if (this.temporaryCreateData.order_type) {
-        if (this.temporaryCreateData.order_type == 'on-demand') {
+      if (this.order.order_type_1 == 'on-demand') {
+        return false
+      } else if (this.order.order_type_1 == 'scheduled') {
+        if (
+          this.order.order_type_2 == 'scheduled-onetime' &&
+          this.order.scheduled.oneTime.dateTime
+        ) {
           return false
-        } else {
+        } else if (
+          this.order.order_type_2 == 'scheduled-subscription' &&
+          this.order.scheduled.subscription.day &&
+          this.order.scheduled.subscription.time &&
+          this.order.scheduled.subscription.count
+        ) {
+          return false
         }
       }
       return true
@@ -489,7 +476,27 @@ export default {
   mounted() {
     this.$axios.setToken(this.$store.state.authentication.token, 'Bearer')
     this.$store.dispatch('order/loadTemporaryCreateData')
+    this.address_note = this.temporaryCreateData.address_note || ''
     this.imageDataURL = this.temporaryCreateData.image || null
+    if (this.temporaryCreateData.order_type) {
+      if (this.temporaryCreateData.order_type == 'on-demand') {
+        this.order.order_type_1 = 'on-demand'
+      } else if (this.temporaryCreateData.order_type == 'scheduled') {
+        this.order.order_type_1 = 'scheduled'
+        this.order.order_type_2 = 'scheduled-onetime'
+        this.order.scheduled.OneTime.dateTime =
+          this.temporaryCreateData?.scheduled_collect_dateTime
+      } else if (this.temporaryCreateData.order_type == 'subscription') {
+        this.order.order_type_1 = 'scheduled'
+        this.order.order_type_2 = 'scheduled-subscription'
+        this.order.scheduled.subscription.day =
+          this.temporaryCreateData?.subscription_collect_day
+        this.order.scheduled.subscription.time =
+          this.temporaryCreateData?.subscription_collect_time
+        this.order.scheduled.subscription.count =
+          this.temporaryCreateData?.subscription_collect_count
+      }
+    }
   },
   created() {
     this.axiosCancelToken = this.$axios.CancelToken.source()
@@ -498,6 +505,13 @@ export default {
     this.axiosCancelToken.cancel()
   },
   methods: {
+    setOrderType(value, level) {
+      if (level == 1) {
+        this.order.order_type_1 = value
+      } else if (level == 2) {
+        this.order.order_type_2 = value
+      }
+    },
     captureImage() {
       this.$refs['capture-image-file'].click()
     },
@@ -535,9 +549,49 @@ export default {
       }
     },
     savePickupTime() {
+      // order type
+      if (this.order.order_type_1 == 'on-demand') {
+        this.$store.commit('order/updateTemporaryCreateData', {
+          key: 'order_type',
+          value: 'on-demand',
+        })
+      } else if (this.order.order_type_1 == 'scheduled') {
+        if (this.order.order_type_2 == 'scheduled-onetime') {
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'order_type',
+            value: 'scheduled',
+          })
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'scheduled_collect_dateTime',
+            value: this.order.scheduled.oneTime.dateTime,
+          })
+        } else if (this.order.order_type_2 == 'scheduled-subscription') {
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'order_type',
+            value: 'subscription',
+          })
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'subscription_collect_day',
+            value: this.order.scheduled.subscription.day,
+          })
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'subscription_collect_time',
+            value: this.order.scheduled.subscription.time,
+          })
+          this.$store.commit('order/updateTemporaryCreateData', {
+            key: 'subscription_collect_count',
+            value: this.order.scheduled.subscription.count,
+          })
+        }
+      }
+
       this.$store.commit('order/updateTemporaryCreateData', {
         key: 'image',
         value: this.imageDataURL,
+      })
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'address_note',
+        value: this.address_note,
       })
       this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
 

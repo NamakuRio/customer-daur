@@ -86,6 +86,12 @@
                   <p class="text-sm text-grey-2">Alamat Penjemputan</p>
                   <p class="mt-1 text-sm text-grey-3">
                     {{ temporaryCreateData?.address || '-' }}
+                    <template v-if="temporaryCreateData?.address_note"
+                      ><span class="italic"
+                        >(note :
+                        {{ `${temporaryCreateData?.address_note}` }})</span
+                      ></template
+                    >
                   </p>
                 </div>
               </div>
@@ -182,10 +188,10 @@
                 <div class="ml-3">
                   <p class="text-sm text-grey-2">Jenis Kendaraan</p>
                   <p class="mt-1 text-sm text-grey-3">
-                    {{ price?.data?.vehicle }}
+                    {{ price?.data?.vehicle || '-' }}
                   </p>
                   <p class="mt-1 text-xs text-grey-3 text-opacity-70">
-                    Volume maximum : 35cm x 30cm x 35cm
+                    Volume maximum : {{ price?.data?.dimension || '-' }}
                   </p>
                 </div>
               </div>
@@ -263,7 +269,12 @@
                 <div class="flex items-center justify-between">
                   <p class="text-xs text-grey-3">Biaya Angkut</p>
                   <p class="text-xs font-medium text-black">
-                    1 x Rp.
+                    {{
+                      temporaryCreateData?.order_type == 'subscription'
+                        ? temporaryCreateData?.subscription_collect_count
+                        : 1
+                    }}
+                    x Rp.
                     {{
                       $formattingThousand(
                         $changeSeparator(price?.data?.price?.total)
@@ -275,11 +286,7 @@
                   <p class="text-sm font-extrabold text-black">Total</p>
                   <p class="text-base font-extrabold text-black">
                     Rp.
-                    {{
-                      $formattingThousand(
-                        $changeSeparator(price?.data?.price?.total)
-                      ) || 0
-                    }}
+                    {{ totalPayment }}
                   </p>
                 </div>
               </div>
@@ -321,15 +328,34 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.state.authentication.user
+    },
     temporaryCreateData() {
       return this.$store.getters['order/getTemporaryCreateData']
     },
     pickupSchedule() {
       if (this.temporaryCreateData.order_type == 'on-demand') {
         return 'Sekarang'
+      } else if (this.temporaryCreateData.order_type == 'scheduled') {
+        return this.$moment(
+          this.temporaryCreateData.scheduled_collect_dateTime
+        ).format('DD MMMM YYYY, HH:mm')
+      } else if (this.temporaryCreateData.order_type == 'subscription') {
+        return this.$moment(
+          this.temporaryCreateData.scheduled_collect_dateTime
+        ).format('DD MMMM YYYY, HH:mm')
       } else {
         return 'Nanti'
       }
+    },
+    totalPayment() {
+      let total = this.price?.data?.price?.total || 0
+      if (this.temporaryCreateData?.order_type == 'subscription') {
+        total = total * this.temporaryCreateData?.subscription_collect_count
+      }
+
+      return this.$formattingThousand(this.$changeSeparator(total))
     },
     urlGetDropPointList() {
       return `/api/v1/drop-point?limit=${this.dropPoint.params.limit}&page=${this.dropPoint.params.page}&order_by=${this.dropPoint.params.orderBy}&sort_by=${this.dropPoint.params.sortBy}&status=${this.dropPoint.params.status}&latitude=${this.temporaryCreateData.latitude}&longitude=${this.temporaryCreateData.longitude}`
@@ -406,7 +432,7 @@ export default {
         // wastes
         this.temporaryCreateData.wastes.forEach((item, index) => {
           for (var prop in item) {
-            if (prop == 'id' || prop == 'weight') {
+            if (prop == 'id' || prop == 'weight' || prop == 'note') {
               formData.append(`wastes[${index}][${prop}]`, item[prop])
             }
           }
@@ -416,6 +442,7 @@ export default {
         formData.append('latitude', this.temporaryCreateData.latitude)
         formData.append('longitude', this.temporaryCreateData.longitude)
         formData.append('address', this.temporaryCreateData.address)
+        formData.append('address_note', this.temporaryCreateData.address_note)
 
         // payment
         formData.append('amount', this.price.data.price.total)
@@ -437,6 +464,51 @@ export default {
             'schedules[0][date]',
             this.$moment().format('YYYY-MM-DD')
           )
+          formData.append('schedules[0][time]', this.$moment().format('HH:mm'))
+          formData.append('schedules[0][day]', this.$moment().format('dddd'))
+        } else if (this.temporaryCreateData.order_type == 'scheduled') {
+          formData.append(
+            'schedules[0][date]',
+            this.$moment(
+              this.temporaryCreateData.scheduled_collect_dateTime
+            ).format('YYYY-MM-DD')
+          )
+          formData.append(
+            'schedules[0][time]',
+            this.$moment(
+              this.temporaryCreateData.scheduled_collect_dateTime
+            ).format('HH:mm')
+          )
+          formData.append(
+            'schedules[0][day]',
+            this.$moment(
+              this.temporaryCreateData.scheduled_collect_dateTime
+            ).format('dddd')
+          )
+        }
+
+        // collect
+        if (this.temporaryCreateData.order_type == 'subscription') {
+          formData.append(
+            'collect_count',
+            this.temporaryCreateData.subscription_collect_count
+          )
+          formData.append(
+            'collect_day',
+            this.temporaryCreateData.subscription_collect_day
+          )
+          formData.append(
+            'collect_time',
+            this.temporaryCreateData.subscription_collect_time
+          )
+        } else {
+          formData.append('collect_count', 1)
+        }
+
+        // other
+        if (this.temporaryCreateData.order_type == 'subscription') {
+          formData.append('customer_id', this.user.id)
+          formData.append('collector_id', 2)
         }
 
         // vehicle

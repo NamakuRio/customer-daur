@@ -161,9 +161,13 @@
                     <div class="mt-3">
                       <p class="text-sm font-medium text-grey-2 max-w-[258px]">
                         Segera lakukan pembayaran sebelum<br />
-                        <span class="font-extrabold text-grey-3"
-                          >04 Juni 2022 Pukul 14:00 WIB</span
-                        >
+                        <span class="font-extrabold text-grey-3">{{
+                          `${$moment(order?.data?.payment?.max_payment).format(
+                            'DD MMMM YYYY'
+                          )} Pukul ${$moment(
+                            order?.data?.payment?.max_payment
+                          ).format('HH:mm')} WIB`
+                        }}</span>
                       </p>
                     </div>
                   </div>
@@ -456,7 +460,9 @@
               <div v-if="this.order?.data?.payment?.status == 'paid'">
                 <div>
                   <p class="text-sm font-extrabold text-black">Poin</p>
-                  <p class="mt-1 text-sm font-medium text-grey-2">100</p>
+                  <p class="mt-1 text-sm font-medium text-grey-2">
+                    {{ order?.data?.poin }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -492,7 +498,12 @@
                     Alamat Penjemputan
                   </p>
                   <p class="mt-1 text-sm font-medium text-grey-3">
-                    {{ $formattingThousand(order?.data?.address) || '-' }}
+                    {{ order?.data?.address || '-' }}
+                    <template v-if="order?.data?.address_note"
+                      ><span class="italic"
+                        >(note : {{ `${order?.data?.address_note}` }})</span
+                      ></template
+                    >
                   </p>
                 </div>
               </div>
@@ -516,9 +527,9 @@
                   </p>
                   <p class="mt-1 text-sm font-medium text-grey-3">
                     {{
-                      `${$moment(order?.data?.date).format(
+                      `${$moment(collect?.data?.date).format(
                         'dddd, DD MMMM YYYY'
-                      )}, Jam ${$moment(order?.data?.date).format(
+                      )}, Jam ${$moment(collect?.data?.date).format(
                         'HH:mm'
                       )} WIB` || '-'
                     }}

@@ -101,6 +101,11 @@
                   </div>
                   <p class="text-xs text-grey-3">
                     {{ item.address }}
+                    <template v-if="item?.address_note"
+                      ><span class="italic"
+                        >(note : {{ `${item?.address_note}` }})</span
+                      ></template
+                    >
                   </p>
                   <p class="text-xs text-grey-3">{{ item.type }}</p>
                 </div>
