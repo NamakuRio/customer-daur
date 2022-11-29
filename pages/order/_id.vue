@@ -122,11 +122,25 @@
                   <div class="flex flex-col gap-2">
                     <div class="flex items-center justify-between">
                       <p class="text-sm text-grey-3">Biaya Angkut</p>
-                      <p class="text-sm text-black">1 x Rp. 15.000</p>
+                      <p class="text-sm text-black">
+                        1 x Rp.
+                        {{
+                          $formattingThousand(
+                            $changeSeparator(order?.data?.payment?.amount)
+                          ) || 0
+                        }}
+                      </p>
                     </div>
                     <div class="flex items-center justify-between">
                       <p class="text-sm font-bold text-black">Total</p>
-                      <p class="text-sm font-bold text-black">Rp. 15.000</p>
+                      <p class="text-sm font-bold text-black">
+                        Rp.
+                        {{
+                          $formattingThousand(
+                            $changeSeparator(order?.data?.payment?.amount)
+                          ) || 0
+                        }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -505,7 +519,11 @@
                         fill="#F17E60"
                       />
                     </svg>
-                    <span class="ml-2">Lihat Foto</span>
+                    <span
+                      class="ml-2 cursor-pointer"
+                      @click="previewImage.popup = true"
+                      >Lihat Foto</span
+                    >
                   </p>
                 </div>
                 <div class="mt-4">
@@ -661,6 +679,51 @@
       </div>
     </transition>
     <!-- End Popup Cancel Order -->
+
+    <!-- Start Popup Preview Image -->
+    <transition name="slide-popup">
+      <div
+        class="fixed bottom-0 flex items-center justify-center w-full h-full"
+        style="
+          max-width: 444px;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1111;
+        "
+        v-if="previewImage.popup"
+      >
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="previewImage.popup = false"
+        ></div>
+        <div
+          class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
+        >
+          <div class="w-full overflow-auto bg-white rounded-lg">
+            <!-- content -->
+            <div>
+              <div class="p-4">
+                <img
+                  :src="collect?.data?.collect_wastes[0]?.image"
+                  alt=""
+                  class="rounded-lg w-full"
+                />
+              </div>
+              <div
+                class="flex items-center border-t border-black border-opacity-10"
+              >
+                <button
+                  class="!py-4 btn btn--block text-grey-2 font-medium uppercase"
+                  @click="previewImage.popup = false"
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <!-- End Popup Preview Image -->
   </div>
 </template>
 <script>
@@ -677,6 +740,9 @@ export default {
         data: null,
       },
       confirmationCancel: {
+        popup: false,
+      },
+      previewImage: {
         popup: false,
       },
       axiosCancelToken: null,

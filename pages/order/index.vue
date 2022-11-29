@@ -58,7 +58,7 @@
                   class="flex flex-row items-center p-3 mb-4 border rounded border-warning text-warning bg-warning bg-opacity-10"
                 >
                   <svg
-                    class="min-w-[11px] min-h-[11px]"
+                    class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
                     width="11"
                     height="11"
                     viewBox="0 0 11 11"

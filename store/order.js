@@ -10,6 +10,19 @@ export const state = () => ({
     payment_method: 'gopay',
     image: null,
     wasteWeight: 0,
+    onDemand: {
+      collect_datetime: null,
+      collect_count: 1,
+    },
+    scheduled: {
+      collect_datetime: null,
+      collect_count: 1,
+    },
+    subscription: {
+      collect_day: null,
+      collect_time: null,
+      collect_count: null,
+    },
   },
   address: {
     search: {
