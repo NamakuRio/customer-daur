@@ -173,6 +173,81 @@
         </div>
       </div>
     </div>
+
+    <!-- Start Popup Delete Waste -->
+    <transition name="slide-popup">
+      <div
+        class="fixed bottom-0 flex items-center justify-center w-full h-full"
+        style="
+          max-width: 444px;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1111;
+        "
+        v-if="confirmationDeleteWaste.popup"
+      >
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="confirmationDeleteWaste.popup = false"
+        ></div>
+        <div
+          class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
+        >
+          <div class="w-full overflow-auto bg-white rounded-lg">
+            <!-- content -->
+            <div>
+              <div class="px-3 pb-8 text-center pt-7">
+                <svg
+                  width="75"
+                  height="75"
+                  viewBox="0 0 75 75"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mx-auto"
+                >
+                  <path
+                    d="M37.5002 72.9168C57.0602 72.9168 72.9168 57.0602 72.9168 37.5002C72.9168 17.9401 57.0602 2.0835 37.5002 2.0835C17.9401 2.0835 2.0835 17.9401 2.0835 37.5002C2.0835 57.0602 17.9401 72.9168 37.5002 72.9168Z"
+                    stroke="#DD9813"
+                    stroke-width="4"
+                  />
+                  <path
+                    d="M30.417 25.0478C32.1878 21.5416 33.9587 19.792 37.5003 19.792C41.9132 19.792 44.5837 23.2947 44.5837 26.7974C44.5837 30.3001 42.8128 32.0497 37.5003 35.556V41.042M37.5003 53.4378V55.2087"
+                    stroke="#DD9813"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+                <h1
+                  class="mt-4 text-xl font-semibold text-primary max-w-[160px] mx-auto"
+                >
+                  Anda Yakin?
+                </h1>
+                <p class="mt-2 text-xs text-grey-2 max-w-[222px] mx-auto">
+                  Data sampah akan dihapus
+                </p>
+              </div>
+              <div
+                class="flex items-center border-t border-black border-opacity-10"
+              >
+                <button
+                  class="!py-4 btn btn--block text-grey-2 font-medium uppercase"
+                  @click="confirmationDeleteWaste.popup = false"
+                >
+                  Batal
+                </button>
+                <button
+                  @click="deleteWaste()"
+                  class="!py-4 font-bold btn btn--block text-warning uppercase"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <!-- End Popup Delete Waste -->
   </div>
 </template>
 <script>
@@ -198,6 +273,9 @@ export default {
           status: 'active',
           category: '',
         },
+      },
+      confirmationDeleteWaste: {
+        popup: false,
       },
       swiper: null,
       axiosCancelToken: null,
@@ -321,6 +399,15 @@ export default {
         if (waste.total === 0) {
           return false
         }
+
+        if (waste.total === 1) {
+          if (
+            this.temporaryCreateData.wastes.find((item) => item.id === waste.id)
+          ) {
+            this.confirmationDeleteWaste.popup = true
+            return false
+          }
+        }
         waste.total -= 1
         if (waste.total > 0) {
           waste.weight =
@@ -332,6 +419,25 @@ export default {
         }
       }
       this.waste.storing = waste
+    },
+    deleteWaste() {
+      this.$store.commit(
+        'order/removeWasteTemporaryCreateData',
+        this.waste.storing.id
+      )
+
+      let wasteWeight = this.temporaryCreateData.wastes.reduce(
+        (sum, data) => sum + data.weight,
+        0
+      )
+      this.$store.commit('order/updateTemporaryCreateData', {
+        key: 'wasteWeight',
+        value: wasteWeight,
+      })
+
+      this.$store.commit('order/saveToLocalStorageTemporaryCreateData')
+
+      this.$router.push(this.urlBack)
     },
     saveWaste() {
       this.$store.commit(

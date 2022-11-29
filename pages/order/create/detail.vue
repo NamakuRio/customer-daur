@@ -274,58 +274,97 @@
             class="flex flex-col gap-5 p-5 border-t border-black border-opacity-10"
           >
             <p class="text-sm font-extrabold text-black">Sampah</p>
-            <div class="flex flex-col gap-3">
-              <div
-                v-for="item in temporaryCreateData.wastes"
-                :key="item.id"
-                class="flex items-start justify-between"
-              >
-                <div class="flex items-center justify-start">
-                  <img
-                    :src="item?.image || '/assets/images/trashes/no-image.svg'"
-                    alt=""
-                    class="object-cover w-12 h-12 border rounded border-grey-1"
-                  />
-                  <div class="ml-4">
-                    <p class="text-sm text-grey-3">{{ item?.name || '=' }}</p>
-                    <div class="flex items-center mt-2 cursor-pointer">
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
-                      >
-                        <path
-                          d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
-                          fill="#F17E60"
-                        />
-                      </svg>
-                      <NuxtLink
-                        :to="`/order/create/waste/${item.id}?ref=/order/create/detail`"
-                        class="ml-1 text-sm text-secondary"
-                        >Edit</NuxtLink
-                      >
+            <template v-if="temporaryCreateData?.wastes?.length > 0">
+              <div class="flex flex-col gap-3">
+                <div
+                  v-for="item in temporaryCreateData.wastes"
+                  :key="item.id"
+                  class="flex items-start justify-between"
+                >
+                  <div class="flex items-center justify-start">
+                    <img
+                      :src="
+                        item?.image || '/assets/images/trashes/no-image.svg'
+                      "
+                      alt=""
+                      class="object-cover w-12 h-12 border rounded border-grey-1"
+                    />
+                    <div class="ml-4">
+                      <p class="text-sm text-grey-3">{{ item?.name || '=' }}</p>
+                      <div class="flex items-center mt-2 cursor-pointer">
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="min-w-[12px] min-h-[12px] max-w-[12px] max-h-[12px]"
+                        >
+                          <path
+                            d="M4.3535 9.85332L9 5.20682L6.793 2.99982L2.1465 7.64632C2.08253 7.71037 2.03709 7.79053 2.015 7.87832L1.5 10.4998L4.121 9.98482C4.209 9.96282 4.2895 9.91732 4.3535 9.85332ZM10.5 3.70682C10.6875 3.51929 10.7928 3.26498 10.7928 2.99982C10.7928 2.73465 10.6875 2.48035 10.5 2.29282L9.707 1.49982C9.51947 1.31235 9.26516 1.20703 9 1.20703C8.73484 1.20703 8.48053 1.31235 8.293 1.49982L7.5 2.29282L9.707 4.49982L10.5 3.70682Z"
+                            fill="#F17E60"
+                          />
+                        </svg>
+                        <NuxtLink
+                          :to="`/order/create/waste/${item.id}?ref=/order/create/detail`"
+                          class="ml-1 text-sm text-secondary"
+                          >Edit</NuxtLink
+                        >
+                      </div>
                     </div>
                   </div>
+                  <p class="text-sm font-extrabold text-black">
+                    {{ $formattingThousand($changeSeparator(item.weight)) }} kg
+                  </p>
                 </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-extrabold text-black">Total</p>
                 <p class="text-sm font-extrabold text-black">
-                  {{ $formattingThousand($changeSeparator(item.weight)) }} kg
+                  {{
+                    $formattingThousand(
+                      $changeSeparator(temporaryCreateData?.wasteWeight)
+                    )
+                  }}
+                  kg
                 </p>
               </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-extrabold text-black">Total</p>
-              <p class="text-sm font-extrabold text-black">
-                {{
-                  $formattingThousand(
-                    $changeSeparator(temporaryCreateData?.wasteWeight)
-                  )
-                }}
-                kg
-              </p>
-            </div>
+            </template>
+            <template v-else>
+              <div class="text-center">
+                <svg
+                  width="54"
+                  height="54"
+                  viewBox="0 0 54 54"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mx-auto min-w-[54px] min-h-[54px] max-w-[54px] max-h-[54px]"
+                >
+                  <path
+                    d="M45.5625 15.1875L42.5387 44.2695C42.4421 45.0906 42.0474 45.8477 41.4296 46.3971C40.8117 46.9465 40.0137 47.25 39.1869 47.25H14.8141C13.9874 47.25 13.1893 46.9465 12.5715 46.3971C11.9537 45.8477 11.559 45.0906 11.4623 44.2695L8.4375 15.1875"
+                    stroke="#E8E8E8"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M48.9375 6.75H5.0625C4.13052 6.75 3.375 7.50552 3.375 8.4375V13.5C3.375 14.432 4.13052 15.1875 5.0625 15.1875H48.9375C49.8695 15.1875 50.625 14.432 50.625 13.5V8.4375C50.625 7.50552 49.8695 6.75 48.9375 6.75Z"
+                    stroke="#E8E8E8"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M32.9062 25.3125L21.0938 37.125M32.9062 37.125L21.0938 25.3125"
+                    stroke="#E8E8E8"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <p class="text-sm text-grey-2 mt-2">Belum ada sampah</p>
+              </div>
+            </template>
             <NuxtLink
               to="/order/create/waste?ref=/order/create/detail"
               class="flex items-center justify-between px-4 py-3 border cursor-pointer border-success"
