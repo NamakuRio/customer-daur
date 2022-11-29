@@ -283,9 +283,7 @@
                 >
                   <div class="flex items-center justify-start">
                     <img
-                      :src="
-                        item?.image || '/assets/images/trashes/no-image.svg'
-                      "
+                      :src="item?.image || '/assets/images/wastes/no-image.svg'"
                       alt=""
                       class="object-cover w-12 h-12 border rounded border-grey-1"
                     />

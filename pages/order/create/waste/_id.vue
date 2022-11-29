@@ -53,7 +53,7 @@
                     >
                       <img
                         :src="
-                          item?.image || '/assets/images/trashes/no-image.svg'
+                          item?.image || '/assets/images/wastes/no-image.svg'
                         "
                         alt=""
                         class="min-w-[70px] max-w-[70px] aspect-square"

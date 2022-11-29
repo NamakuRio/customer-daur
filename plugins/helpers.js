@@ -29,7 +29,7 @@ export default ({ app, $moment }, inject) => {
   })
   inject(
     'handleErrorImage',
-    (event, image = '/assets/images/trashes/no-image.svg') => {
+    (event, image = '/assets/images/wastes/no-image.svg') => {
       event.target.src = image
       event.onerror = ''
       console.log(event)

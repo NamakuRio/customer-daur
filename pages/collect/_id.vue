@@ -1298,7 +1298,7 @@
                   :src="
                     collect?.data?.collect_wastes?.length > 0
                       ? collect?.data?.collect_wastes?.image
-                      : '/assets/images/trashes/no-image.svg'
+                      : '/assets/images/wastes/no-image.svg'
                   "
                   alt=""
                   class="rounded-lg w-full"

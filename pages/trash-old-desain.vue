@@ -65,7 +65,7 @@
         </div>
         <div class="bg-white">
           <div class="flex flex-col">
-            <div v-for="item in trashes" :key="item.id">
+            <div v-for="item in wastes" :key="item.id">
               <div class="px-5 py-4 border-b border-black border-opacity-10">
                 <h1 class="text-xs font-bold text-black">{{ item.name }}</h1>
               </div>
@@ -184,17 +184,17 @@ export default {
               {
                 id: 10,
                 name: 'Kardus',
-                image: '/assets/images/trashes/1_kertas/1_kardus.png',
+                image: '/assets/images/wastes/1_kertas/1_kardus.png',
               },
               {
                 id: 11,
                 name: 'Putihan',
-                image: '/assets/images/trashes/1_kertas/2_putihan.png',
+                image: '/assets/images/wastes/1_kertas/2_putihan.png',
               },
               {
                 id: 12,
                 name: 'Kertas Campur',
-                image: '/assets/images/trashes/1_kertas/3_kertas-campur.png',
+                image: '/assets/images/wastes/1_kertas/3_kertas-campur.png',
               },
             ],
           },
@@ -207,32 +207,32 @@ export default {
               {
                 id: 13,
                 name: 'Botol Plastik',
-                image: '/assets/images/trashes/2_plastik/1_botol-plastik.png',
+                image: '/assets/images/wastes/2_plastik/1_botol-plastik.png',
               },
               {
                 id: 14,
                 name: 'Emberan',
-                image: '/assets/images/trashes/2_plastik/2_emberan.png',
+                image: '/assets/images/wastes/2_plastik/2_emberan.png',
               },
               {
                 id: 15,
                 name: 'Kemasan',
-                image: '/assets/images/trashes/2_plastik/3_kemasan.png',
+                image: '/assets/images/wastes/2_plastik/3_kemasan.png',
               },
               {
                 id: 16,
                 name: 'Kresek',
-                image: '/assets/images/trashes/2_plastik/4_kresek.png',
+                image: '/assets/images/wastes/2_plastik/4_kresek.png',
               },
               {
                 id: 17,
                 name: 'CD',
-                image: '/assets/images/trashes/2_plastik/5_cd.png',
+                image: '/assets/images/wastes/2_plastik/5_cd.png',
               },
               {
                 id: 18,
                 name: 'Styrofoam',
-                image: '/assets/images/trashes/2_plastik/6_styrofoam.png',
+                image: '/assets/images/wastes/2_plastik/6_styrofoam.png',
               },
             ],
           },
@@ -245,13 +245,12 @@ export default {
               {
                 id: 19,
                 name: 'Botol Beling',
-                image:
-                  '/assets/images/trashes/3_kaca-beling/1_botol-beling.png',
+                image: '/assets/images/wastes/3_kaca-beling/1_botol-beling.png',
               },
               {
                 id: 20,
                 name: 'Kaca',
-                image: '/assets/images/trashes/3_kaca-beling/2_kaca.png',
+                image: '/assets/images/wastes/3_kaca-beling/2_kaca.png',
               },
             ],
           },
@@ -264,17 +263,17 @@ export default {
               {
                 id: 21,
                 name: 'Besi',
-                image: '/assets/images/trashes/4_logam/1_besi.png',
+                image: '/assets/images/wastes/4_logam/1_besi.png',
               },
               {
                 id: 22,
                 name: 'Tembaga',
-                image: '/assets/images/trashes/4_logam/2_tembaga.png',
+                image: '/assets/images/wastes/4_logam/2_tembaga.png',
               },
               {
                 id: 23,
                 name: 'Alumunium',
-                image: '/assets/images/trashes/4_logam/3_alumunium.png',
+                image: '/assets/images/wastes/4_logam/3_alumunium.png',
               },
             ],
           },
@@ -287,27 +286,27 @@ export default {
               {
                 id: 24,
                 name: 'TV',
-                image: '/assets/images/trashes/5_elektronik/1_tv.png',
+                image: '/assets/images/wastes/5_elektronik/1_tv.png',
               },
               {
                 id: 25,
                 name: 'Kabel',
-                image: '/assets/images/trashes/5_elektronik/2_kabel.png',
+                image: '/assets/images/wastes/5_elektronik/2_kabel.png',
               },
               {
                 id: 26,
                 name: 'Mesin Cuci',
-                image: '/assets/images/trashes/5_elektronik/3_mesin-cuci.png',
+                image: '/assets/images/wastes/5_elektronik/3_mesin-cuci.png',
               },
               {
                 id: 27,
                 name: 'Komputer',
-                image: '/assets/images/trashes/5_elektronik/4_komputer.png',
+                image: '/assets/images/wastes/5_elektronik/4_komputer.png',
               },
               {
                 id: 28,
                 name: 'Handphone',
-                image: '/assets/images/trashes/5_elektronik/5_handphone.png',
+                image: '/assets/images/wastes/5_elektronik/5_handphone.png',
               },
             ],
           },
@@ -320,12 +319,12 @@ export default {
               {
                 id: 29,
                 name: 'Minyak Goreng',
-                image: '/assets/images/trashes/6_minyak/1_minyak-goreng.png',
+                image: '/assets/images/wastes/6_minyak/1_minyak-goreng.png',
               },
               {
                 id: 30,
                 name: 'Oli',
-                image: '/assets/images/trashes/6_minyak/2_oli.png',
+                image: '/assets/images/wastes/6_minyak/2_oli.png',
               },
             ],
           },
@@ -338,7 +337,7 @@ export default {
               {
                 id: 31,
                 name: 'Medis',
-                image: '/assets/images/trashes/7_b3/1_medis.png',
+                image: '/assets/images/wastes/7_b3/1_medis.png',
               },
             ],
           },
@@ -351,17 +350,17 @@ export default {
               {
                 id: 32,
                 name: 'Baju',
-                image: '/assets/images/trashes/8_kain/1_baju.png',
+                image: '/assets/images/wastes/8_kain/1_baju.png',
               },
               {
                 id: 33,
                 name: 'Celana',
-                image: '/assets/images/trashes/8_kain/2_celana.png',
+                image: '/assets/images/wastes/8_kain/2_celana.png',
               },
               {
                 id: 34,
                 name: 'Bahan Kain',
-                image: '/assets/images/trashes/8_kain/3_bahan-kain.png',
+                image: '/assets/images/wastes/8_kain/3_bahan-kain.png',
               },
             ],
           },
@@ -374,7 +373,7 @@ export default {
               {
                 id: 35,
                 name: 'Ban Bekas',
-                image: '/assets/images/trashes/9_karet/1_ban.png',
+                image: '/assets/images/wastes/9_karet/1_ban.png',
               },
             ],
           },
@@ -394,7 +393,7 @@ export default {
     }
   },
   computed: {
-    trashes() {
+    wastes() {
       if (this.trash.search.key !== '') {
         return this.searchTrash(this.trash.search.key)
       } else {
@@ -404,19 +403,19 @@ export default {
   },
   methods: {
     searchTrash(value) {
-      let trashes = []
+      let wastes = []
 
-      trashes = this.trash.list
-      trashes = trashes.filter(
+      wastes = this.trash.list
+      wastes = wastes.filter(
         (item) =>
           item.list.filter((item2) => item2.name.toLowerCase().includes(value))
             .length > 0 || item.name.toLocaleLowerCase().includes(value)
       )
 
-      return trashes
+      return wastes
     },
     openTrashDetail(parentId, childId) {
-      let parent = this.trashes.find((item) => item.id === parentId)
+      let parent = this.wastes.find((item) => item.id === parentId)
       let children = parent.list.find((item) => item.id === childId)
 
       this.trash.detail.content = {
@@ -426,7 +425,7 @@ export default {
       this.trash.detail.popup = true
     },
     handleErrorImage(event) {
-      event.target.src = '/assets/images/trashes/no-image.svg'
+      event.target.src = '/assets/images/wastes/no-image.svg'
       event.onerror = ''
     },
   },
