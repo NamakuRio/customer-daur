@@ -60,12 +60,18 @@ export const mutations = {
         selected: null,
       },
     }
+
+    if (process.client) {
+      localStorage.removeItem('temporaryCreateData')
+    }
   },
   saveToLocalStorageTemporaryCreateData(state) {
-    localStorage.setItem(
-      'temporaryCreateData',
-      JSON.stringify(state.temporaryCreateData)
-    )
+    if (process.client) {
+      localStorage.setItem(
+        'temporaryCreateData',
+        JSON.stringify(state.temporaryCreateData)
+      )
+    }
   },
   updateAllTemporaryCreateData(state, data) {
     state.temporaryCreateData = data

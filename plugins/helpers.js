@@ -119,7 +119,7 @@ export default ({ app, $moment }, inject) => {
       status = 'Dropping'
     } else if (value == 'completed') {
       status = 'Complete'
-    } else if (value == 'cancel') {
+    } else if (value == 'canceled' || value == 'cancel') {
       status = 'Canceled'
     }
 
@@ -135,7 +135,7 @@ export default ({ app, $moment }, inject) => {
       status = 'bg-info text-info'
     } else if (value == 'completed') {
       status = 'bg-success text-success'
-    } else if (value == 'cancel') {
+    } else if (value == 'canceled' || value == 'cancel') {
       status = 'bg-danger text-danger'
     }
 

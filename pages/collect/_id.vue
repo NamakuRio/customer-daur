@@ -69,7 +69,7 @@
         <template
           v-if="
             collect?.data?.order?.type.toLowerCase() == 'on-demand' &&
-            collect?.data?.status != 'completed'
+            ['scheduled', 'pickup', 'drop'].includes(collect?.data?.status)
           "
         >
           <div class="bg-white border-b-[16px] border-black border-opacity-5">
@@ -1295,7 +1295,11 @@
             <div>
               <div class="p-4">
                 <img
-                  :src="collect?.data?.collect_wastes[0]?.image"
+                  :src="
+                    collect?.data?.collect_wastes?.length > 0
+                      ? collect?.data?.collect_wastes?.image
+                      : '/assets/images/trashes/no-image.svg'
+                  "
                   alt=""
                   class="rounded-lg w-full"
                 />
