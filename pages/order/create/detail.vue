@@ -204,11 +204,23 @@
               <div class="flex flex-col gap-4">
                 <!-- Start Scheduled One Time -->
                 <div v-if="temporaryCreateData?.order_type === 'scheduled'">
-                  <input
-                    type="text"
-                    class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                    placeholder="Pilih tanggal & waktu"
-                  />
+                  <vc-date-picker
+                    v-model="scheduledOneTime.dateTime"
+                    mode="dateTime"
+                    is24hr
+                    locale="id-ID"
+                    :min-date="scheduledOneTime.minDate"
+                    :masks="scheduledOneTime.masks"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                        placeholder="Pilih tanggal & waktu"
+                      />
+                    </template>
+                  </vc-date-picker>
                 </div>
                 <!-- End Scheduled One Time -->
                 <!-- Start Scheduled Subscription -->
@@ -216,17 +228,37 @@
                   class="flex flex-col gap-4"
                   v-else-if="temporaryCreateData?.order_type === 'subscription'"
                 >
-                  <input
-                    type="text"
+                  <select
+                    name=""
+                    id=""
                     class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                    placeholder="Pilih hari"
-                  />
+                  >
+                    <option value="" selected disabled>Pilih hari</option>
+                    <option value="Senin">Senin</option>
+                    <option value="Selasa">Selasa</option>
+                    <option value="Rabu">Rabu</option>
+                    <option value="Kamis">Kamis</option>
+                    <option value="Jumat">Jumat</option>
+                    <option value="Sabtu">Sabtu</option>
+                    <option value="Minggu">Minggu</option>
+                  </select>
                   <div class="flex items-center gap-4">
-                    <input
-                      type="text"
-                      class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
-                      placeholder="Pilih waktu"
-                    />
+                    <vc-date-picker
+                      v-model="scheduledSubscription.time"
+                      mode="time"
+                      is24hr
+                      locale="id-ID"
+                      :masks="scheduledSubscription.masks"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                          placeholder="Pilih waktu"
+                        />
+                      </template>
+                    </vc-date-picker>
                     <input
                       type="text"
                       class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
@@ -279,14 +311,19 @@
                   </div>
                 </div>
                 <p class="text-sm font-extrabold text-black">
-                  {{ item.weight }} kg
+                  {{ $formattingThousand($changeSeparator(item.weight)) }} kg
                 </p>
               </div>
             </div>
             <div class="flex items-center justify-between">
               <p class="text-sm font-extrabold text-black">Total</p>
               <p class="text-sm font-extrabold text-black">
-                {{ temporaryCreateData?.wasteWeight }} kg
+                {{
+                  $formattingThousand(
+                    $changeSeparator(temporaryCreateData?.wasteWeight)
+                  )
+                }}
+                kg
               </p>
             </div>
             <NuxtLink
@@ -378,6 +415,19 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
+      scheduledOneTime: {
+        minDate: new Date(),
+        dateTime: null,
+        masks: {
+          inputDateTime24hr: 'DD MMMM YYYY HH:mm',
+        },
+      },
+      scheduledSubscription: {
+        time: null,
+        masks: {
+          inputTime24hr: 'HH:mm',
+        },
+      },
       imageDataURL: null,
       axiosCancelToken: null,
     }

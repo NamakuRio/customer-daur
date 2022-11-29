@@ -93,7 +93,11 @@
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
             <p class="text-base font-extrabold text-black">
-              {{ waste?.storing?.weight || 0 }} kg
+              {{
+                $formattingThousand($changeSeparator(waste?.storing?.weight)) ||
+                0
+              }}
+              kg
             </p>
           </div>
           <div class="flex items-center gap-3 mt-3">

@@ -92,9 +92,13 @@
                     <p class="text-sm text-grey-3">{{ item?.name }}</p>
                     <p class="text-sm text-grey-2">
                       {{
-                        temporaryCreateData?.wastes.find(
-                          (waste) => waste.id === item.id
-                        )?.weight || 0
+                        $formattingThousand(
+                          $changeSeparator(
+                            temporaryCreateData?.wastes.find(
+                              (waste) => waste.id === item.id
+                            )?.weight
+                          )
+                        ) || 0
                       }}
                       kg
                     </p>
@@ -150,7 +154,12 @@
           <div class="flex items-center justify-between">
             <p class="text-sm font-medium text-grey-3">Total</p>
             <p class="text-base font-extrabold text-black">
-              {{ temporaryCreateData?.wasteWeight || 0 }} kg
+              {{
+                $formattingThousand(
+                  $changeSeparator(temporaryCreateData?.wasteWeight)
+                ) || 0
+              }}
+              kg
             </p>
           </div>
           <div class="flex items-center gap-3 mt-3">

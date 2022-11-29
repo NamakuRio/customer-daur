@@ -35,6 +35,7 @@ export default {
     '~/plugins/axios',
     { src: '~/plugins/helpers', ssr: false },
     { src: '~/plugins/infiniteloading', ssr: false },
+    { src: '~/plugins/vcalendar', ssr: false },
   ],
   components: true,
   buildModules: [],

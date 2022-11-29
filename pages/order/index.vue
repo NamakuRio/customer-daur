@@ -51,40 +51,10 @@
                 :to="`/order/${item.id}`"
                 class="p-4 border rounded-lg cursor-pointer border-grey-1"
               >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">
-                        {{ item.order_number }}
-                      </p>
-                      <p class="mt-1 text-xs text-grey-2">
-                        {{ $dateDiffForHumans(item.created_at) }}
-                      </p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-4 bg-opacity-20 text-xs font-medium"
-                      :class="$orderStatusClass(item?.status)"
-                      >{{ $orderStatus(item?.status) }}</span
-                    >
-                  </div>
-                  <p class="text-xs text-grey-3">
-                    {{ item.address }}
-                  </p>
-                  <p class="text-xs text-grey-3">{{ item.type }}</p>
-                </div>
-              </NuxtLink>
-              <infinite-loading
-                @infinite="getOrderListInfinite"
-                spinner="spiral"
-              >
-                <div slot="no-more"></div>
-                <div slot="no-results"></div>
-              </infinite-loading>
-              <!-- <NuxtLink
-                to="/order/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
-              >
                 <div
+                  v-if="
+                    item?.status == 'pending' && item?.payment?.status != 'paid'
+                  "
                   class="flex flex-row items-center p-3 mb-4 border rounded border-warning text-warning bg-warning bg-opacity-10"
                 >
                   <svg
@@ -116,43 +86,32 @@
                 <div class="flex flex-col gap-3">
                   <div class="flex items-start justify-between">
                     <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
+                      <p class="text-sm font-extrabold text-black">
+                        {{ item.order_number }}
+                      </p>
+                      <p class="mt-1 text-xs text-grey-2">
+                        {{ $dateDiffForHumans(item.created_at) }}
+                      </p>
                     </div>
                     <span
-                      class="rounded-full py-1 px-2 bg-warning text-warning bg-opacity-30 text-[10px] font-medium"
-                      >pending</span
+                      class="rounded-full py-1 px-4 bg-opacity-20 text-xs font-medium"
+                      :class="$orderStatusClass(item?.status)"
+                      >{{ $orderStatus(item?.status) }}</span
                     >
                   </div>
                   <p class="text-xs text-grey-3">
-                    Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
-                    50129
+                    {{ item.address }}
                   </p>
-                  <p class="text-xs text-grey-3">On-demand</p>
+                  <p class="text-xs text-grey-3">{{ item.type }}</p>
                 </div>
               </NuxtLink>
-              <NuxtLink
-                to="/order/1"
-                class="p-4 border rounded-lg cursor-pointer border-grey-1"
+              <infinite-loading
+                @infinite="getOrderListInfinite"
+                spinner="spiral"
               >
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <p class="text-sm font-extrabold text-black">#01292</p>
-                      <p class="mt-1 text-xs text-grey-2">2 jam lalu</p>
-                    </div>
-                    <span
-                      class="rounded-full py-1 px-2 bg-success text-success bg-opacity-20 text-[10px] font-medium"
-                      >active</span
-                    >
-                  </div>
-                  <p class="text-xs text-grey-3">
-                    Jl. Soreang Rahayu IV, Nomor 289, Kabutaten Bogor, Jawa Barat
-                    50129
-                  </p>
-                  <p class="text-xs text-grey-3">On-demand</p>
-                </div>
-              </NuxtLink> -->
+                <div slot="no-more"></div>
+                <div slot="no-results"></div>
+              </infinite-loading>
             </div>
             <div
               v-else

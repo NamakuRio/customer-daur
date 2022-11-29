@@ -139,7 +139,12 @@
                           {{ item?.name || '-' }}
                         </p>
                         <p class="text-sm font-extrabold text-black">
-                          {{ item?.weight || 0 }} kg
+                          {{
+                            $formattingThousand(
+                              $changeSeparator(item?.weight)
+                            ) || 0
+                          }}
+                          kg
                         </p>
                       </div>
                     </div>
@@ -148,7 +153,12 @@
                       <div class="flex items-center justify-between">
                         <p class="text-sm font-extrabold text-grey-3">Total</p>
                         <p class="text-sm font-extrabold text-black">
-                          {{ temporaryCreateData?.wasteWeight || 0 }} kg
+                          {{
+                            $formattingThousand(
+                              $changeSeparator(temporaryCreateData?.wasteWeight)
+                            ) || 0
+                          }}
+                          kg
                         </p>
                       </div>
                     </div>
@@ -254,14 +264,22 @@
                   <p class="text-xs text-grey-3">Biaya Angkut</p>
                   <p class="text-xs font-medium text-black">
                     1 x Rp.
-                    {{ $formattingThousand(price?.data?.price?.total) || 0 }}
+                    {{
+                      $formattingThousand(
+                        $changeSeparator(price?.data?.price?.total)
+                      ) || 0
+                    }}
                   </p>
                 </div>
                 <div class="flex items-center justify-between mt-3">
                   <p class="text-sm font-extrabold text-black">Total</p>
                   <p class="text-base font-extrabold text-black">
                     Rp.
-                    {{ $formattingThousand(price?.data?.price?.total) || 0 }}
+                    {{
+                      $formattingThousand(
+                        $changeSeparator(price?.data?.price?.total)
+                      ) || 0
+                    }}
                   </p>
                 </div>
               </div>
@@ -421,15 +439,18 @@ export default {
           )
         }
 
+        // vehicle
+        formData.append('vehicle', this.price.data.vehicle)
+
         var response = await this.$axios.$post('/api/v1/order', formData, {
           'content-type': 'multipart/form-data',
           CancelToken: this.axiosCancelToken,
         })
 
-        this.$store.commit('app/setLoader', false)
         if (response.success) {
           this.$store.commit('order/clearTemporaryCreateData')
           this.$router.push(`/order/${response.data.id}`)
+          this.$store.commit('app/setLoader', false)
         }
       } catch (error) {
         console.log(error)

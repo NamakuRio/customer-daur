@@ -35,8 +35,17 @@ export default ({ app, $moment }, inject) => {
       console.log(event)
     }
   )
+  inject('changeSeparator', (value, from = '.', to = ',') => {
+    if (value) {
+      return value.toString().replaceAll(from, to)
+    }
+    return value
+  })
   inject('formattingThousand', (value) => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    if (value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    }
+    return value
   })
   inject('b64ToBlob', (image, type) => {
     var byteString = atob(image.split(',')[1])
@@ -76,7 +85,7 @@ export default ({ app, $moment }, inject) => {
 
     return status
   })
-  inject('paymentOrderStatus', (value) => {
+  inject('paymentStatus', (value) => {
     let status = ''
     if (value == 'not_yet') {
       status = 'Belum Lunas'
@@ -88,7 +97,7 @@ export default ({ app, $moment }, inject) => {
 
     return status
   })
-  inject('paymentOrderStatusClass', (value) => {
+  inject('paymentStatusClass', (value) => {
     let status = ''
     if (value == 'not_yet') {
       status = 'text-warning'

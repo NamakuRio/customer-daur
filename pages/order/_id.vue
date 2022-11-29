@@ -373,17 +373,19 @@
                   </p>
                   <p
                     class="mt-1 text-sm font-medium"
-                    :class="
-                      $paymentOrderStatusClass(order.data.data?.payment?.status)
-                    "
+                    :class="$paymentStatusClass(order.data?.payment?.status)"
                   >
-                    {{ $paymentOrderStatus(order.data.data?.payment?.status) }}
+                    {{ $paymentStatus(order.data?.payment?.status) }}
                   </p>
                 </div>
                 <div>
                   <p class="text-sm font-extrabold text-black">
                     Rp.
-                    {{ $formattingThousand(order?.data?.payment?.amount) || 0 }}
+                    {{
+                      $formattingThousand(
+                        $changeSeparator(order?.data?.payment?.amount)
+                      ) || 0
+                    }}
                   </p>
                 </div>
               </div>
@@ -518,7 +520,10 @@
                           {{ item?.name }}
                         </p>
                         <p class="text-sm font-extrabold text-black">
-                          {{ item?.weight }} kg
+                          {{
+                            $formattingThousand($changeSeparator(item?.weight))
+                          }}
+                          kg
                         </p>
                       </div>
                     </div>
@@ -527,7 +532,10 @@
                       <div class="flex items-center justify-between">
                         <p class="text-sm font-extrabold text-grey-3">Total</p>
                         <p class="text-sm font-extrabold text-black">
-                          {{ wasteWeight }} kg
+                          {{
+                            $formattingThousand($changeSeparator(wasteWeight))
+                          }}
+                          kg
                         </p>
                       </div>
                     </div>
