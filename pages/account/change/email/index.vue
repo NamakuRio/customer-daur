@@ -53,7 +53,7 @@
                     type="tel"
                     class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @input="$onlyNumber($event)"
+                    @keypress="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
@@ -66,7 +66,7 @@
                     type="tel"
                     class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @input="$onlyNumber($event)"
+                    @keypress="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
@@ -79,7 +79,7 @@
                     type="tel"
                     class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @input="$onlyNumber($event)"
+                    @keypress="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
@@ -92,7 +92,7 @@
                     type="tel"
                     class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @input="$onlyNumber($event)"
+                    @keypress="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')

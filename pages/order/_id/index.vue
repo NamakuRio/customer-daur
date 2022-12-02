@@ -751,7 +751,9 @@
                         </p>
                         <p class="text-sm font-extrabold text-black">
                           {{
-                            $formattingThousand($changeSeparator(item?.weight))
+                            $formattingThousand(
+                              $changeSeparator($ceilNumber(item?.weight))
+                            )
                           }}
                           kg
                         </p>
@@ -977,7 +979,7 @@ export default {
       let wasteWeight = 0
 
       wasteWeight = this.collect?.data?.collect_items.reduce(
-        (sum, data) => sum + data.weight,
+        (sum, data) => parseFloat(Number(sum)) + parseFloat(data.weight),
         ''
       )
 
@@ -1118,7 +1120,6 @@ export default {
           }, 1000)
         }
       } catch (error) {
-        console.log(error)
         this.$store.commit('app/setLoader', false)
         if (!this.$axios.isCancel(error)) {
           const code = parseInt(error.response && error.response.status)

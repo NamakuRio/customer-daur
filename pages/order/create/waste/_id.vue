@@ -132,9 +132,14 @@
                     />
                   </svg>
                 </div>
-                <p class="text-base font-medium text-grey-3">
-                  {{ waste?.storing?.total || 0 }}
-                </p>
+                <input
+                  type="tel"
+                  v-model="waste.storing.total"
+                  placeholder="0"
+                  class="text-center text-base font-medium text-grey-3 w-8 focus:outline-none"
+                  @keypress="$onlyNumber($event)"
+                  @keyup="changeUnit('input', $event.target.value)"
+                />
                 <div
                   class="text-black cursor-pointer"
                   @click="changeUnit('add')"
@@ -388,7 +393,7 @@ export default {
         },
       })
     },
-    changeUnit(type) {
+    changeUnit(type, value = 0) {
       let waste = JSON.parse(JSON.stringify(this.waste.storing))
 
       if (type == 'add') {
@@ -414,6 +419,23 @@ export default {
             Math.ceil((waste.total / this.waste.data.unit_convertion) * 10) / 10
         } else {
           waste.weight = 0
+        }
+      } else if (type == 'input') {
+        value = parseInt(Number(value))
+        if (value <= 0) {
+          if (
+            this.temporaryCreateData.wastes.find((item) => item.id === waste.id)
+          ) {
+            this.confirmationDeleteWaste.popup = true
+            waste.total = 1
+            waste.weight =
+              Math.ceil((waste.total / this.waste.data.unit_convertion) * 10) /
+              10
+          }
+        } else {
+          waste.total = value
+          waste.weight =
+            Math.ceil((waste.total / this.waste.data.unit_convertion) * 10) / 10
         }
       }
       this.waste.storing = waste

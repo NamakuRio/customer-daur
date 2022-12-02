@@ -233,7 +233,7 @@
                       v-model="order.scheduled.subscription.time"
                     /> -->
                     <input
-                      type="text"
+                      type="tel"
                       class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
                       placeholder="Berapa kali angkut"
                       @keypress="$onlyNumber($event)"

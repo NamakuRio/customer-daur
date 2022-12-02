@@ -742,7 +742,9 @@
                         </p>
                         <p class="text-sm font-extrabold text-black">
                           {{
-                            $formattingThousand($changeSeparator(item.weight))
+                            $formattingThousand(
+                              $changeSeparator($ceilNumber(item.weight))
+                            )
                           }}
                           kg
                         </p>
@@ -1477,7 +1479,7 @@ export default {
     wasteWeight() {
       let wasteWeight = 0
       wasteWeight = this.collect?.data?.collect_items.reduce(
-        (sum, data) => sum + data.weight,
+        (sum, data) => parseFloat(Number(sum)) + parseFloat(data.weight),
         ''
       )
 

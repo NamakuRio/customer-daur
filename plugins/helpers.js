@@ -47,6 +47,12 @@ export default ({ app, $moment }, inject) => {
     }
     return value
   })
+  inject('ceilNumber', (value) => {
+    if (value) {
+      return Math.ceil(value * 10) / 10
+    }
+    return value
+  })
   inject('roundNumber', (value) => {
     if (value) {
       return Math.round(value * 10) / 10
