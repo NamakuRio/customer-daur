@@ -219,12 +219,19 @@
                     <option value="Minggu">Minggu</option>
                   </select>
                   <div class="flex items-center gap-4">
-                    <input
+                    <cleave
+                      v-model="order.scheduled.subscription.time"
+                      :options="cleave.options.time"
+                      :raw="false"
+                      class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none cleave-time"
+                      placeholder="Pilih waktu"
+                    />
+                    <!-- <input
                       type="tel"
                       class="block w-full p-4 mt-1 text-xs text-black bg-gray-100 rounded focus:outline-none cleave-time"
                       placeholder="Pilih waktu"
                       v-model="order.scheduled.subscription.time"
-                    />
+                    /> -->
                     <input
                       type="text"
                       class="block w-full p-4 text-sm text-black bg-gray-100 rounded focus:outline-none"
@@ -421,7 +428,11 @@
   </div>
 </template>
 <script>
+import Cleave from 'vue-cleave-component'
 export default {
+  components: {
+    Cleave,
+  },
   middleware: ['authenticated'],
   data() {
     return {
@@ -440,13 +451,21 @@ export default {
           },
           subscription: {
             day: '',
-            time: null,
-            count: null,
+            time: '',
+            count: '',
           },
         },
       },
       address_note: '',
       imageDataURL: null,
+      cleave: {
+        options: {
+          time: {
+            time: true,
+            timePattern: ['h', 'm'],
+          },
+        },
+      },
       axiosCancelToken: null,
     }
   },

@@ -43,6 +43,7 @@ export default {
   css: ['~/assets/css/tailwind.css', '~/assets/css/style.css'],
   plugins: [
     '~/plugins/axios',
+    { src: '~/plugins/cleave', ssr: false },
     { src: '~/plugins/helpers', ssr: false },
     { src: '~/plugins/infiniteloading', ssr: false },
     { src: '~/plugins/midtrans', ssr: false },
