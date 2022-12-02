@@ -26,7 +26,7 @@
         </NuxtLink>
       </template>
     </Header>
-    <div class="with-header">
+    <div class="with-header with-bottom-navbar">
       <div>
         <div class="bg-white">
           <div class="p-5">
@@ -404,7 +404,9 @@
               @change="handleCapturingImage($event)"
             />
           </div>
-          <div class="p-5 border-t border-black border-opacity-10">
+          <div
+            class="fixed bottom-0 w-full max-w-[444px] mx-auto bg-white p-5 border-t border-black border-opacity-10"
+          >
             <button
               @click="savePickupTime()"
               class="btn btn--primary btn--rounded btn--block"

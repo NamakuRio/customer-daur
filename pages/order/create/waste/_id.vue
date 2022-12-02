@@ -394,9 +394,7 @@ export default {
       if (type == 'add') {
         waste.total += 1
         waste.weight =
-          waste.total / this.waste.data.unit_convertion >= 0.1
-            ? waste.total / this.waste.data.unit_convertion
-            : 0.1
+          Math.ceil((waste.total / this.waste.data.unit_convertion) * 10) / 10
       } else if (type == 'reduce') {
         if (waste.total === 0) {
           return false
@@ -413,9 +411,7 @@ export default {
         waste.total -= 1
         if (waste.total > 0) {
           waste.weight =
-            waste.total / this.waste.data.unit_convertion >= 0.1
-              ? waste.total / this.waste.data.unit_convertion
-              : 0.1
+            Math.ceil((waste.total / this.waste.data.unit_convertion) * 10) / 10
         } else {
           waste.weight = 0
         }
@@ -428,9 +424,11 @@ export default {
         this.waste.storing.id
       )
 
-      let wasteWeight = this.temporaryCreateData.wastes.reduce(
-        (sum, data) => sum + data.weight,
-        0
+      let wasteWeight = this.$roundNumber(
+        this.temporaryCreateData.wastes.reduce(
+          (sum, data) => sum + data.weight,
+          0
+        )
       )
       this.$store.commit('order/updateTemporaryCreateData', {
         key: 'wasteWeight',
@@ -451,9 +449,11 @@ export default {
         this.waste.storing
       )
 
-      let wasteWeight = this.temporaryCreateData.wastes.reduce(
-        (sum, data) => sum + data.weight,
-        0
+      let wasteWeight = this.$roundNumber(
+        this.temporaryCreateData.wastes.reduce(
+          (sum, data) => sum + data.weight,
+          0
+        )
       )
       this.$store.commit('order/updateTemporaryCreateData', {
         key: 'wasteWeight',

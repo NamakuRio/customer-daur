@@ -47,6 +47,12 @@ export default ({ app, $moment }, inject) => {
     }
     return value
   })
+  inject('roundNumber', (value) => {
+    if (value) {
+      return Math.round(value * 10) / 10
+    }
+    return value
+  })
   inject('b64ToBlob', (image, type) => {
     var byteString = atob(image.split(',')[1])
     var ab = new ArrayBuffer(byteString.length)

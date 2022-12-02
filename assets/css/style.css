@@ -26,7 +26,7 @@ body {
   min-height: calc(100vh - 88px);
 }
 
-.with-header.with-bottom-nav {
+.with-header.with-bottom-navbar {
   min-height: calc(100vh - 144px);
 }
 

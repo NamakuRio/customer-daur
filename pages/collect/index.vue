@@ -168,7 +168,9 @@
                   <div class="flex flex-col gap-3">
                     <div class="flex items-start justify-between">
                       <div>
-                        <p class="text-sm font-extrabold text-black">#01292</p>
+                        <p class="text-sm font-extrabold text-black">
+                          {{ item.collect_number }}
+                        </p>
                         <p class="mt-1 text-xs text-grey-2">
                           {{ $dateDiffForHumans(item.created_at) }}
                         </p>

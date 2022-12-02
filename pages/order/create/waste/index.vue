@@ -156,7 +156,9 @@
             <p class="text-base font-extrabold text-black">
               {{
                 $formattingThousand(
-                  $changeSeparator(temporaryCreateData?.wasteWeight)
+                  $changeSeparator(
+                    $roundNumber(temporaryCreateData?.wasteWeight)
+                  )
                 ) || 0
               }}
               kg
