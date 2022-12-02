@@ -1,14 +1,14 @@
 export default {
-  publicRuntimeConfig: {
-    APP_NAME: process.env.APP_NAME || 'Customer Daur',
-    APP_ENV: process.env.APP_ENV || 'local',
-    APP_VERSION: process.env.APP_VERSION || 'v0.1.1',
-    APP_URL: process.env.APP_URL || 'http://localhost:3001',
-    API_URL: process.env.API_URL || 'https://daur.oxxiv.com',
-    MIDTRANS_URL: process.env.MIDTRANS_URL,
-    MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
-    MAPS_KEY: process.env.MAPS_KEY,
-  },
+  // publicRuntimeConfig: {
+  //   APP_NAME: process.env.APP_NAME || 'Customer Daur',
+  //   APP_ENV: process.env.APP_ENV || 'local',
+  //   APP_VERSION: process.env.APP_VERSION || 'v0.1.1',
+  //   APP_URL: process.env.APP_URL || 'http://localhost:3001',
+  //   API_URL: process.env.API_URL || 'https://daur.oxxiv.com',
+  //   MIDTRANS_URL: process.env.MIDTRANS_URL,
+  //   MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
+  //   MAPS_KEY: process.env.MAPS_KEY,
+  // },
   ssr: false,
   target: 'static',
   generate: {
@@ -64,6 +64,9 @@ export default {
   },
   axios: {
     baseUrl: process.env.API_URL || 'https://daur.oxxiv.com',
+  },
+  dotenv: {
+    systemvars: true,
   },
   firebase: {
     config: {
