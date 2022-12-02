@@ -887,10 +887,10 @@ export default {
       ? {
           script: [
             {
-              src: `${process.env.MIDTRANS_URL}/snap/snap.js`,
+              src: `${this.$config.MIDTRANS_URL}/snap/snap.js`,
               async: true,
               defer: true,
-              'data-client-key': process.env.MIDTRANS_CLIENT_KEY,
+              'data-client-key': this.$config.MIDTRANS_CLIENT_KEY,
             },
           ],
         }
