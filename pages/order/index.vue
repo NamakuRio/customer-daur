@@ -161,7 +161,7 @@ export default {
           page: 1,
           orderBy: 'desc',
           sortBy: 'created_at',
-          search: 'order_number',
+          search: 'order_number,address',
           value: '',
         },
         search: {

@@ -1133,6 +1133,55 @@
     </transition>
     <!-- End Bottom Popup Laporan Pengangkutan -->
 
+    <!-- Start Popup Preview Image -->
+    <transition name="slide-popup">
+      <div
+        class="fixed bottom-0 flex items-center justify-center w-full h-full"
+        style="
+          max-width: 444px;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1111;
+        "
+        v-if="previewImage.popup"
+      >
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="previewImage.popup = false"
+        ></div>
+        <div
+          class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
+        >
+          <div class="w-full overflow-auto bg-white rounded-lg">
+            <!-- content -->
+            <div>
+              <div class="p-4">
+                <img
+                  :src="
+                    collect?.data?.collect_wastes?.length > 0
+                      ? collect?.data?.collect_wastes?.image
+                      : '/assets/images/wastes/no-image.svg'
+                  "
+                  alt=""
+                  class="rounded-lg w-full"
+                />
+              </div>
+              <div
+                class="flex items-center border-t border-black border-opacity-10"
+              >
+                <button
+                  class="!py-4 btn btn--block text-grey-2 font-medium uppercase"
+                  @click="previewImage.popup = false"
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <!-- End Popup Preview Image -->
+
     <!-- Start Popup Thankyou -->
     <transition name="slide-popup">
       <div
@@ -1142,9 +1191,12 @@
           background-color: rgba(0, 0, 0, 0.5);
           z-index: 1111;
         "
-        v-if="false"
+        v-if="popup.completed"
       >
-        <div class="absolute z-0 w-full h-full"></div>
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="popup.completed = false"
+        ></div>
         <div
           class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
         >
@@ -1225,10 +1277,19 @@
               <div
                 class="flex items-center border-t border-black border-opacity-10"
               >
-                <button class="!py-4 btn btn--block text-grey-2 font-medium">
+                <button
+                  class="!py-4 btn btn--block text-grey-2 font-medium"
+                  @click="popup.completed = false"
+                >
                   TUTUP
                 </button>
-                <button class="!py-4 font-bold btn btn--block text-primary">
+                <button
+                  class="!py-4 font-bold btn btn--block text-primary"
+                  @click="
+                    popup.completed = false
+                    popup.rate.toggle = true
+                  "
+                >
                   BERI ULASAN
                 </button>
               </div>
@@ -1247,9 +1308,12 @@
           background-color: rgba(0, 0, 0, 0.5);
           z-index: 1111;
         "
-        v-if="false"
+        v-if="popup.rate.toggle"
       >
-        <div class="absolute z-0 w-full h-full"></div>
+        <div
+          class="absolute z-0 w-full h-full"
+          @click="popup.rate.toggle = false"
+        ></div>
         <div
           class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
         >
@@ -1392,7 +1456,10 @@
               <div
                 class="flex items-center border-t border-black border-opacity-10"
               >
-                <button class="!py-4 btn btn--block text-grey-2 font-medium">
+                <button
+                  class="!py-4 btn btn--block text-grey-2 font-medium"
+                  @click="popup.rate.toggle = false"
+                >
                   LAIN KALI
                 </button>
                 <button class="!py-4 font-bold btn btn--block text-primary">
@@ -1405,55 +1472,6 @@
       </div>
     </transition>
     <!-- End Popup Kirim Ulasan -->
-
-    <!-- Start Popup Preview Image -->
-    <transition name="slide-popup">
-      <div
-        class="fixed bottom-0 flex items-center justify-center w-full h-full"
-        style="
-          max-width: 444px;
-          background-color: rgba(0, 0, 0, 0.5);
-          z-index: 1111;
-        "
-        v-if="previewImage.popup"
-      >
-        <div
-          class="absolute z-0 w-full h-full"
-          @click="previewImage.popup = false"
-        ></div>
-        <div
-          class="z-10 content-center w-full p-4 transition-all duration-1000 top-14 content-popup"
-        >
-          <div class="w-full overflow-auto bg-white rounded-lg">
-            <!-- content -->
-            <div>
-              <div class="p-4">
-                <img
-                  :src="
-                    collect?.data?.collect_wastes?.length > 0
-                      ? collect?.data?.collect_wastes?.image
-                      : '/assets/images/wastes/no-image.svg'
-                  "
-                  alt=""
-                  class="rounded-lg w-full"
-                />
-              </div>
-              <div
-                class="flex items-center border-t border-black border-opacity-10"
-              >
-                <button
-                  class="!py-4 btn btn--block text-grey-2 font-medium uppercase"
-                  @click="previewImage.popup = false"
-                >
-                  Tutup
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-    <!-- End Popup Preview Image -->
   </div>
 </template>
 <script>
@@ -1468,6 +1486,12 @@ export default {
       },
       previewImage: {
         popup: false,
+      },
+      popup: {
+        completed: false,
+        rate: {
+          toggle: false,
+        },
       },
       axiosCancelToken: null,
     }
@@ -1516,6 +1540,7 @@ export default {
         this.collect.loading = false
         if (response.success) {
           this.collect.data = response.data
+          this.checkPopupCompleted()
         }
       } catch (error) {
         this.$store.commit('app/setLoader', false)
@@ -1532,6 +1557,17 @@ export default {
             return Promise.resolve(false)
           }
         }
+      }
+    },
+    checkPopupCompleted() {
+      let collectNumber = this.collect.data?.collect_number
+      if (this.collect.data?.status.toLowerCase() == 'completed') {
+        if (this.$store.dispatch('collect/getPopupCompleted', collectNumber)) {
+          this.popup.completed = true
+          this.$store.commit('collect/removePopupCompleted', collectNumber)
+        }
+      } else {
+        this.$store.commit('collect/setPopupCompleted', collectNumber)
       }
     },
   },
