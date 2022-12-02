@@ -282,13 +282,9 @@
                           }}x,</strong
                         ><br />setiap hari
                         <strong
-                          >{{
-                            temporaryCreateData?.subscription_collect_day
-                          }}
+                          >{{ temporaryCreateData?.subscription_collect_day }}
                           jam
-                          {{
-                            temporaryCreateData?.subscription_collect_time
-                          }}
+                          {{ temporaryCreateData?.subscription_collect_time }}
                           WIB</strong
                         >
                       </p>

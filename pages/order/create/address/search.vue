@@ -86,7 +86,7 @@ export default {
           script: [
             {
               hid: 'maps-googleapis',
-              src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${process.env.MAPS_KEY}`,
+              src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${this.$config.MAPS_KEY}`,
               async: true,
               defer: true,
             },
