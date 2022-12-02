@@ -1100,7 +1100,7 @@ export default {
     async payOrder() {
       try {
         this.$store.commit('app/setLoader', true)
-        let id = this.order.data.payment.id
+        let id = this.order.data.id
 
         var response = await this.$axios.$post(
           `/api/v1/order/${id}/token`,
