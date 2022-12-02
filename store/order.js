@@ -24,6 +24,7 @@ export const state = () => ({
       selected: null,
     },
   },
+  autoPay: false,
 })
 
 export const getters = {
@@ -95,6 +96,9 @@ export const mutations = {
   },
   clearSelectedSearchAddress(state) {
     state.address.search.selected = null
+  },
+  setAutoPay(state, value) {
+    state.autoPay = value
   },
 }
 

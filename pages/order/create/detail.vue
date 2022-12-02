@@ -362,7 +362,10 @@
               </svg>
             </NuxtLink>
           </div>
-          <div class="p-5">
+          <div
+            class="p-5"
+            v-if="order.order_type_2 != 'scheduled-subscription'"
+          >
             <div
               @click="captureImage()"
               class="rounded-lg border bg-white border-black border-opacity-10 text-grey-2 cursor-pointer group hover:text-primary hover:border-primary hover:border-dashed"
@@ -434,7 +437,7 @@ export default {
             },
           },
           subscription: {
-            day: null,
+            day: '',
             time: null,
             count: null,
           },
@@ -450,16 +453,17 @@ export default {
       return this.$store.getters['order/getTemporaryCreateData']
     },
     isFilledAllField() {
-      if (this.temporaryCreateData.wastes.length == 0) return true
-      if (!this.imageDataURL) return true
-
       if (this.order.order_type_1 == 'on-demand') {
+        if (this.temporaryCreateData.wastes.length == 0) return true
+        if (!this.imageDataURL) return true
         return false
       } else if (this.order.order_type_1 == 'scheduled') {
         if (
           this.order.order_type_2 == 'scheduled-onetime' &&
           this.order.scheduled.oneTime.dateTime
         ) {
+          if (this.temporaryCreateData.wastes.length == 0) return true
+          if (!this.imageDataURL) return true
           return false
         } else if (
           this.order.order_type_2 == 'scheduled-subscription' &&

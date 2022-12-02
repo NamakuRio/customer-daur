@@ -160,7 +160,7 @@
                 v-if="collect.scheduled.list.length > 0"
               >
                 <NuxtLink
-                  v-for="item in collect.onDemand.list"
+                  v-for="item in collect.scheduled.list"
                   :key="item.id"
                   :to="`/collect/${item.id}`"
                   class="p-4 border rounded-lg cursor-pointer border-grey-1"
@@ -215,7 +215,11 @@
                         </svg>
                         <p class="ml-3 text-xs font-normal text-grey-3">
                           Jadwal&nbsp;<span class="font-extrabold">
-                            20 Juni 2022, 09:15 WIB</span
+                            {{
+                              `${$moment(item?.date).format(
+                                'DD MMMM YYYY, HH:mm'
+                              )} WIB` || '-'
+                            }}</span
                           >
                         </p>
                       </div>
@@ -265,7 +269,7 @@ export default {
             sortBy: 'created_at',
             search: 'id',
             value: '',
-            type: 'on-demand',
+            type: 'On-demand',
           },
           search: {
             timer: null,
@@ -282,7 +286,7 @@ export default {
             sortBy: 'created_at',
             search: 'id',
             value: '',
-            type: 'scheduled',
+            type: 'Scheduled',
           },
           search: {
             timer: null,

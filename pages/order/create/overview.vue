@@ -238,7 +238,12 @@
                   </div>
                 </div>
                 <div
-                  class="flex items-start justify-start p-3 border rounded border-primary hidden"
+                  v-if="
+                    ['scheduled', 'subscription'].includes(
+                      temporaryCreateData?.order_type
+                    )
+                  "
+                  class="flex items-start justify-start p-3 border rounded border-primary"
                 >
                   <svg
                     width="20"
@@ -254,12 +259,40 @@
                     />
                   </svg>
                   <div class="ml-3">
-                    <p class="text-sm text-primary">
-                      Sampah Anda akan diangkut pada
-                    </p>
-                    <p class="mt-1 text-sm font-extrabold text-primary">
-                      Selasa, 20 Juni 2022, Jam 09:00 WIB
-                    </p>
+                    <template
+                      v-if="temporaryCreateData?.order_type == 'scheduled'"
+                    >
+                      <p class="text-sm text-primary">
+                        Sampah Anda akan diangkut pada
+                      </p>
+                      <p class="mt-1 text-sm font-extrabold text-primary">
+                        {{ pickupSchedule }}
+                      </p>
+                    </template>
+                    <template
+                      v-else-if="
+                        temporaryCreateData?.order_type == 'subscription'
+                      "
+                    >
+                      <p class="text-sm text-primary">
+                        Sampah Anda akan diangkut
+                        <strong
+                          >{{
+                            temporaryCreateData?.subscription_collect_count
+                          }}x,</strong
+                        ><br />setiap hari
+                        <strong
+                          >{{
+                            temporaryCreateData?.subscription_collect_day
+                          }}
+                          jam
+                          {{
+                            temporaryCreateData?.subscription_collect_time
+                          }}
+                          WIB</strong
+                        >
+                      </p>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -286,14 +319,18 @@
                   <p class="text-sm font-extrabold text-black">Total</p>
                   <p class="text-base font-extrabold text-black">
                     Rp.
-                    {{ totalPayment }}
+                    {{
+                      this.$formattingThousand(
+                        this.$changeSeparator(totalPayment)
+                      )
+                    }}
                   </p>
                 </div>
               </div>
               <!-- End Section Detail Payment -->
               <button
                 class="btn btn--block btn--primary btn--rounded"
-                @click="payOrder()"
+                @click="storeOrder()"
               >
                 Ke Pembayaran
               </button>
@@ -338,13 +375,13 @@ export default {
       if (this.temporaryCreateData.order_type == 'on-demand') {
         return 'Sekarang'
       } else if (this.temporaryCreateData.order_type == 'scheduled') {
-        return this.$moment(
-          this.temporaryCreateData.scheduled_collect_dateTime
-        ).format('DD MMMM YYYY, HH:mm')
+        return (
+          this.$moment(
+            this.temporaryCreateData.scheduled_collect_dateTime
+          ).format('DD MMMM YYYY, HH:mm') + ' WIB'
+        )
       } else if (this.temporaryCreateData.order_type == 'subscription') {
-        return this.$moment(
-          this.temporaryCreateData.scheduled_collect_dateTime
-        ).format('DD MMMM YYYY, HH:mm')
+        return `${this.temporaryCreateData?.subscription_collect_count}x setiap hari ${this.temporaryCreateData?.subscription_collect_day}, jam ${this.temporaryCreateData?.subscription_collect_time} WIB`
       } else {
         return 'Nanti'
       }
@@ -355,7 +392,7 @@ export default {
         total = total * this.temporaryCreateData?.subscription_collect_count
       }
 
-      return this.$formattingThousand(this.$changeSeparator(total))
+      return total
     },
     urlGetDropPointList() {
       return `/api/v1/drop-point?limit=${this.dropPoint.params.limit}&page=${this.dropPoint.params.page}&order_by=${this.dropPoint.params.orderBy}&sort_by=${this.dropPoint.params.sortBy}&status=${this.dropPoint.params.status}&latitude=${this.temporaryCreateData.latitude}&longitude=${this.temporaryCreateData.longitude}`
@@ -422,7 +459,7 @@ export default {
         }
       }
     },
-    async payOrder() {
+    async storeOrder() {
       try {
         this.$store.commit('app/setLoader', true)
 
@@ -430,13 +467,15 @@ export default {
         formData.append('order_type', this.temporaryCreateData.order_type)
 
         // wastes
-        this.temporaryCreateData.wastes.forEach((item, index) => {
-          for (var prop in item) {
-            if (prop == 'id' || prop == 'weight' || prop == 'note') {
-              formData.append(`wastes[${index}][${prop}]`, item[prop])
+        if (this.temporaryCreateData.order_type != 'subscription') {
+          this.temporaryCreateData.wastes.forEach((item, index) => {
+            for (var prop in item) {
+              if (prop == 'id' || prop == 'weight' || prop == 'note') {
+                formData.append(`wastes[${index}][${prop}]`, item[prop])
+              }
             }
-          }
-        })
+          })
+        }
 
         // address
         formData.append('latitude', this.temporaryCreateData.latitude)
@@ -445,18 +484,20 @@ export default {
         formData.append('address_note', this.temporaryCreateData.address_note)
 
         // payment
-        formData.append('amount', this.price.data.price.total)
+        formData.append('amount', this.totalPayment)
         formData.append(
           'payment_method',
           this.temporaryCreateData.payment_method
         )
 
         // image
-        let imageDataURL = this.temporaryCreateData.image.split(';')
-        let imageBase64 = imageDataURL[1]
-        let imageType = imageDataURL[0].split(':')[1]
-        let imageBlob = this.$b64ToBlob(imageBase64, imageType)
-        formData.append('image', imageBlob, 'order.jpeg')
+        if (this.temporaryCreateData.order_type != 'subscription') {
+          let imageDataURL = this.temporaryCreateData.image.split(';')
+          let imageBase64 = imageDataURL[1]
+          let imageType = imageDataURL[0].split(':')[1]
+          let imageBlob = this.$b64ToBlob(imageBase64, imageType)
+          formData.append('image', imageBlob, 'order.jpeg')
+        }
 
         // schedules
         if (this.temporaryCreateData.order_type == 'on-demand') {
@@ -520,6 +561,7 @@ export default {
         })
 
         if (response.success) {
+          this.$store.commit('order/setAutoPay', true)
           this.$store.commit('order/clearTemporaryCreateData')
           this.$router.push(`/order/${response.data.id}`)
           this.$store.commit('app/setLoader', false)

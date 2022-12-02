@@ -86,7 +86,7 @@ export default {
           script: [
             {
               hid: 'maps-googleapis',
-              src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${this.maps.apiKey}`,
+              src: `https://maps.googleapis.com/maps/api/js?libraries=places&key=${process.env.MAPS_KEY}`,
               async: true,
               defer: true,
             },
@@ -96,9 +96,6 @@ export default {
   },
   data() {
     return {
-      maps: {
-        apiKey: 'AIzaSyDsBa1b021I8aR_VSRt6cDKeGG2vcSBWao',
-      },
       search: {
         timer: null,
         keyword: null,

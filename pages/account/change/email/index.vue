@@ -51,51 +51,55 @@
                 >
                   <input
                     type="tel"
-                    class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @keypress="$onlyNumber($event)"
+                    @input="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
                     "
                     v-model="code.input1"
                     :disabled="isLoading"
+                    maxlength="1"
                   />
                   <input
                     type="tel"
-                    class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @keypress="$onlyNumber($event)"
+                    @input="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
                     "
                     v-model="code.input2"
                     :disabled="isLoading"
+                    maxlength="1"
                   />
                   <input
                     type="tel"
-                    class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @keypress="$onlyNumber($event)"
+                    @input="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
                     "
                     v-model="code.input3"
                     :disabled="isLoading"
+                    maxlength="1"
                   />
                   <input
                     type="tel"
-                    class="w-full max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
+                    class="w-full text-center max-w-[53px] max-h-[53px] p-4 text-3xl flex items-center justify-center text-black bg-gray-100 rounded focus:outline-none"
                     :class="{ 'border border-danger': errorsField?.code }"
-                    @keypress="$onlyNumber($event)"
+                    @input="$onlyNumber($event)"
                     @keyup="
                       insertCode($event.target)
                       handlingKeyup('code')
                     "
                     v-model="code.input4"
                     :disabled="isLoading"
+                    maxlength="1"
                   />
                 </div>
                 <span
@@ -232,14 +236,9 @@ export default {
       }, 1000)
     },
     insertCode(el) {
-      document.addEventListener('keyup', function (e) {
-        if (e.keyCode != 13) {
-        }
-
-        if (el.value.length > 1) {
-          el.value = el.value[el.value.length - 1]
-        }
-      })
+      if (el.value.length > 1) {
+        el.value = el.value[el.value.length - 1]
+      }
 
       try {
         if (el.value == null || el.value == '') {
