@@ -947,8 +947,6 @@ export default {
           script: [
             {
               src: `${this.$config.MIDTRANS_URL}/snap/snap.js`,
-              async: true,
-              defer: true,
               'data-client-key': this.$config.MIDTRANS_CLIENT_KEY,
             },
           ],

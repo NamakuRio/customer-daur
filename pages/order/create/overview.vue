@@ -340,6 +340,18 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  head() {
+    return !window.snap
+      ? {
+          script: [
+            {
+              src: `${this.$config.MIDTRANS_URL}/snap/snap.js`,
+              'data-client-key': this.$config.MIDTRANS_CLIENT_KEY,
+            },
+          ],
+        }
+      : {}
+  },
   data() {
     return {
       dropPoint: {

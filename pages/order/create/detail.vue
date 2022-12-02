@@ -514,6 +514,7 @@ export default {
     setOrderType(value, level) {
       if (level == 1) {
         this.order.order_type_1 = value
+        this.order.order_type_2 = null
       } else if (level == 2) {
         this.order.order_type_2 = value
       }

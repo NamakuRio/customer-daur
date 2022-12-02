@@ -20,30 +20,13 @@ export default ({ app, store }, inject) => {
     }
   })
   inject('midtransPaymentSuccess', (result) => {
-    console.log(result)
-    store.commit('notification/showNotification', {
-      type: 'error',
-      message: JSON.stringify(result),
-    })
+    window.location.reload()
   })
   inject('midtransPaymentPending', (result) => {
-    console.log(result)
-    store.commit('notification/showNotification', {
-      type: 'error',
-      message: JSON.stringify(result),
-    })
+    window.location.reload()
   })
   inject('midtransPaymentError', (result) => {
-    console.log(result)
-    store.commit('notification/showNotification', {
-      type: 'error',
-      message: JSON.stringify(result),
-    })
+    window.location.reload()
   })
-  inject('midtransPaymentClose', () => {
-    store.commit('notification/showNotification', {
-      type: 'error',
-      message: 'Close',
-    })
-  })
+  inject('midtransPaymentClose', () => {})
 }
