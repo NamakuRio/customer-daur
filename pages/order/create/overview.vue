@@ -557,7 +557,7 @@ export default {
         // other
         if (this.temporaryCreateData.order_type == 'subscription') {
           formData.append('customer_id', this.user.id)
-          formData.append('collector_id', 2)
+          //formData.append('collector_id', 2)
         }
 
         // vehicle
